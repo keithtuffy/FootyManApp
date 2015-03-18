@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="#4CC417"
+        android:endColor="#FFFFFF"
+        android:angle="270" />
+    <corners android:radius="3dp" />
+    <stroke android:width="3px" android:color="#000000" />
+</shape>
+
+
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:state_pressed="true" android:drawable="@drawable/drawable_when_pressed" />
+<item android:drawable="@drawable/default_drawable" />
+</selector>-->
