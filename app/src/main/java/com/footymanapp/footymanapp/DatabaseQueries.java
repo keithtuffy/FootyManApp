@@ -1,45 +1,48 @@
 package com.footymanapp.footymanapp;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
+
+import java.net.MalformedURLException;
 
 /**
  * Created by Keith on 26/02/2015.
  */
-public class DatabaseQueries {
+public class DatabaseQueries extends Activity {
 
     private MobileServiceClient mClient;
     private MobileServiceTable<User> userTable;
 
-
-
-   /* new AsyncTask<Void, Void, Void>() {
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                final MobileServiceList<User> result = userTable.where().field("username").eq("footyman").execute().get();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.clear();
-
-                        for (User item : result) {
-                            mAdapter.add(item);
-                        }
-                    }
-                });
-            } catch (Exception exception) {
-                createAndShowDialog(exception, "Error");
-            }
-            return null;
-        }
-    }.execute();
-*/
-    public DatabaseQueries()
-    {
+    public DatabaseQueries(MobileServiceClient mClient) {
+        this.mClient = mClient;
+        addUser();
 
     }
+
+    public void addUser(){
+
+        User user = new User("pat", "12345678");
+        mClient.getTable(User.class).insert(user, new TableOperationCallback<User>() {
+            public void onCompleted(User entity, Exception exception, ServiceFilterResponse response) {
+                if (exception == null) {
+                    // Insert succeeded..
+                } else {
+                    // Insert failed
+                }
+            }
+        });
+
+    }
+
+
+
+
+
+
 }

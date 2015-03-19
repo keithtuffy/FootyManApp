@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.*;
 
 import java.net.MalformedURLException;
 
@@ -47,9 +47,12 @@ public class Login extends ActionBarActivity {
 
         try {
             MobileServiceClient mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "KliAJkeBhNXIKxiJRqFZFNFjeTfpoI46", this);
+            DatabaseQueries db = new DatabaseQueries(mClient);
         } catch (MalformedURLException e) {
+            System.out.println("error with mobile service connection");
             e.printStackTrace();
         }
+
     }
 
 

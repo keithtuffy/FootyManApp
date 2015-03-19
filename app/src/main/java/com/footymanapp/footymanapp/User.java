@@ -1,16 +1,22 @@
 package com.footymanapp.footymanapp;
 
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+
 
 
 public class User {
+
+    //@com.google.gson.annotations.SerializedName("id")
     private int id;
+
+    //@com.google.gson.annotations.SerializedName("username")
     private String username;
+
+    //@com.google.gson.annotations.SerializedName("password")
     private String password;
 
-    public User(String uname, String pword)
+    public User(String username, String password)
     {
-        username = uname;
-        password = pword;
+        this.username = username;
+        this.password = password;
     }
 }
