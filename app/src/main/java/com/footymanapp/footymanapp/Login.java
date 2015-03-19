@@ -3,6 +3,7 @@ package com.footymanapp.footymanapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.microsoft.windowsazure.mobileservices.*;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 
 import java.net.MalformedURLException;
+import java.util.concurrent.ExecutionException;
 
 
 public class Login extends ActionBarActivity {
@@ -23,17 +26,10 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
 
-    Button loginButton = (Button) findViewById(R.id.loginButton);
-    loginButton.setOnClickListener(new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            startActivity(new Intent(Login.this, AdminHome.class));
-
-
-        }
-
-    });
+    TextView username = (TextView) findViewById(R.id.username);
+    final String logusername = username.getText().toString();
+    TextView password = (TextView) findViewById(R.id.password);
+    final String logpassword = password.getText().toString();
 
     TextView registerButton = (TextView) findViewById(R.id.registerButton);
     registerButton.setOnClickListener(new View.OnClickListener() {
@@ -45,13 +41,30 @@ public class Login extends ActionBarActivity {
         });
 
 
-        try {
-            MobileServiceClient mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "KliAJkeBhNXIKxiJRqFZFNFjeTfpoI46", this);
-            DatabaseQueries db = new DatabaseQueries(mClient);
-        } catch (MalformedURLException e) {
-            System.out.println("error with mobile service connection");
-            e.printStackTrace();
-        }
+
+    final DatabaseQueries db = new DatabaseQueries();
+    db.startConnection();
+
+    Button loginButton = (Button) findViewById(R.id.loginButton);
+    loginButton.setOnClickListener(new View.OnClickListener()
+    {
+
+       @Override
+       public void onClick(View v) {
+           try {
+               if (db.login(logusername, logpassword)) {
+                   startActivity(new Intent(Login.this, AdminHome.class));
+               }
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           } catch (ExecutionException e) {
+               e.printStackTrace();
+           }
+
+
+       }
+
+     });
 
     }
 
