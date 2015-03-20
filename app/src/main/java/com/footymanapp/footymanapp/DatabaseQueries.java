@@ -3,16 +3,15 @@ package com.footymanapp.footymanapp;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
-import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
+
 
 import java.net.MalformedURLException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -20,54 +19,74 @@ import java.util.concurrent.ExecutionException;
  */
 public class DatabaseQueries extends Activity {
 
-    protected static MobileServiceClient mClient;
-    private static MobileServiceTable<User> userTable;
-
-    public void startConnection()
-    {
-        try {
-            if(mClient !=null) {
-                DatabaseQueries.mClient = new MobileServiceClient("https://footyman.azure-mobile.net/", "IcbgNlIXFduHJugOgGwkqmufBMfPaN69", this);
-                Log.i("tag", "connection started ...woohoo");
-            }
-        } catch (MalformedURLException e) {
-            Log.i("tag","error with mobile service connection");
-            e.printStackTrace();
-        }
+    private MobileServiceClient mClient;
+    private MobileServiceTable<User> userTable;
+    private ArrayList<User> users;
 
 
+
+    public DatabaseQueries(MobileServiceClient mClient) {
+        this.mClient = mClient;
+        userTable = mClient.getTable(User.class);
+        Log.i("database", "table worked");
     }
 
-    public boolean login(String username, String password) throws ExecutionException, InterruptedException {
+    public boolean login(final String username, final String password) throws ExecutionException, InterruptedException {
+        final boolean[] confirm = new boolean[1];
+        new AsyncTask<Void, Void, Void>() {
+            boolean confirmDetails;
+            protected Void doInBackground(Void... params) {
+                try {
+                    final User result = userTable.lookUp("keith").get();
+                   if(result == null)
+                       confirmDetails = false;
+                    else if(result.getPassword() == password) {
+                       confirmDetails = true;
+                       Log.i("TAG", "results work.....little daisy");
+                   }
 
-        userTable = mClient.getTable(User.class);
+                } catch (Exception exception) {
+                    Log.i("TAG", "error - dam");
+                    exception.printStackTrace();
+                    confirmDetails = false;
+                }
+                confirm[0] = confirmDetails;
+                return null;
+            }
+        }.execute();
 
 
 
-        userTable.where().field("username").eq(username)
-                .and().field("password").eq(password)
-                .execute().get();
-        if(userTable == null)
-        {
-            return false;
-        }
-
-        return true;
+        return confirm[0];
     }
 
 
     public void addUser(){
 
-        User user = new User("pat", "12345678");
-        mClient.getTable(User.class).insert(user, new TableOperationCallback<User>() {
-            public void onCompleted(User entity, Exception exception, ServiceFilterResponse response) {
-                if (exception == null) {
-                    // Insert succeeded..
-                } else {
-                    // Insert failed
+       final User user = new User("keith", "123456");
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                String done="";
+                try {
+                    userTable.insert(user).get();
+                    done="true";
+                } catch (Exception e) {
+                    done="false";
+                    e.printStackTrace();
+                }
+                return done;
+            }
+            protected void onPostExecute(String done){
+                if(done.equals("true")){
+                    Log.i("add user"," add sucess");
+                }
+                else{
+                    Log.i("add user"," add failed");
                 }
             }
-        });
+        }.execute();
 
     }
 

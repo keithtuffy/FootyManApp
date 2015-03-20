@@ -26,10 +26,16 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
 
-    TextView username = (TextView) findViewById(R.id.username);
-    final String logusername = username.getText().toString();
-    TextView password = (TextView) findViewById(R.id.password);
-    final String logpassword = password.getText().toString();
+
+
+
+        TextView username = (TextView) findViewById(R.id.username);
+
+        final String logusername = username.getText().toString();
+
+        TextView password = (TextView) findViewById(R.id.password);
+
+        final String logpassword = password.getText().toString();
 
     TextView registerButton = (TextView) findViewById(R.id.registerButton);
     registerButton.setOnClickListener(new View.OnClickListener() {
@@ -42,15 +48,31 @@ public class Login extends ActionBarActivity {
 
 
 
-    final DatabaseQueries db = new DatabaseQueries();
-    db.startConnection();
 
-    Button loginButton = (Button) findViewById(R.id.loginButton);
-    loginButton.setOnClickListener(new View.OnClickListener()
-    {
+
+        final DatabaseQueries db;
+        MobileServiceClient mClient = null;
+        try {
+            mClient = new MobileServiceClient("https://footyman.azure-mobile.net/", "IcbgNlIXFduHJugOgGwkqmufBMfPaN69", this);
+            Log.i("tag", "connection started ...woohoo");
+
+            //used to add first user - only needed once
+            //db.addUser();
+
+        }
+        catch (MalformedURLException e) {
+            Log.i("tag","error with mobile service connection");
+            e.printStackTrace();
+        }
+        db = new DatabaseQueries(mClient);
+
+
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener(){
 
        @Override
        public void onClick(View v) {
+           startActivity(new Intent(Login.this, AdminHome.class));
            try {
                if (db.login(logusername, logpassword)) {
                    startActivity(new Intent(Login.this, AdminHome.class));
