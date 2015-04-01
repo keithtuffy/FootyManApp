@@ -84,7 +84,7 @@ public class RegisterTeam extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(RegisterTeam.this, RegisterPlayer.class));
-                finish();
+               // finish();
                 dialog.dismiss();
 
             }
