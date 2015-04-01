@@ -1,12 +1,16 @@
 package com.footymanapp.footymanapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
 
 
 public class RegisterTeam extends ActionBarActivity {
@@ -16,6 +20,46 @@ public class RegisterTeam extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_team);
 
+        // when the register button is pressed
+        Button regTeam = (Button) findViewById(R.id.registerTeam);
+        regTeam.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                TextView tn = (TextView) findViewById(R.id.teamName);
+                final String teamname = tn.getText().toString();
+
+                TextView em = (TextView) findViewById(R.id.email);
+                final String email = em.getText().toString();
+
+                TextView ph = (TextView) findViewById(R.id.phone);
+                final String phone = ph.getText().toString();
+
+                TextView mn = (TextView) findViewById(R.id.managerName);
+                final String managername = tn.getText().toString();
+
+                TextView ag = (TextView) findViewById(R.id.agegroup);
+                final String agegroup = ag.getText().toString();
+
+                final String pitchLocation = null;
+
+                Team team = new Team(teamname, email, phone, pitchLocation, managername, agegroup);
+
+                DatabaseQueries.addTeam(team);
+
+
+                tn.setText("");
+                em.setText("");
+                ph.setText("");
+                mn.setText("");
+                ag.setText("");
+                teamCreationAlert();
+
+            }
+        });
+
+
+
+        // used to search googlemap for pitch location
         TextView pitchLocation = (TextView) findViewById(R.id.pitchlocation);
         pitchLocation.setOnClickListener(new View.OnClickListener() {
 
@@ -24,18 +68,29 @@ public class RegisterTeam extends ActionBarActivity {
                 startActivity(new Intent(RegisterTeam.this, MapsActivity.class));
 
 
-        /*TextView pitchLocation = (TextView) findViewById(R.id.pitchLocation);
-        pitchLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?&daddr="));
-                startActivity(intent);
-            }
-        });*/
             }
         }
+
+
+
+
     );}
+
+
+    public void teamCreationAlert()
+    {
+        AlertDialog.Builder teamAlert = new AlertDialog.Builder(this);
+        teamAlert.setMessage("\tCongratulations,\n Your Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(RegisterTeam.this, RegisterPlayer.class));
+                finish();
+                dialog.dismiss();
+
+            }
+        }).create();
+        teamAlert.show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

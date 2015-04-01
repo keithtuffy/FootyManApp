@@ -65,8 +65,7 @@
                 android:clickable="true"
                 android:padding="10dp"
                 android:background="@drawable/button"
-                android:layout_gravity="top"
-                android:layout_columnSpan="8" />
+                android:layout_gravity="top" />
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"

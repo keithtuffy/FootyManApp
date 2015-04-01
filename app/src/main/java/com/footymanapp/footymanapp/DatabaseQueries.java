@@ -20,24 +20,25 @@ import java.util.concurrent.ExecutionException;
  */
 public class DatabaseQueries extends Activity {
 
-    private MobileServiceClient mClient;
-    private MobileServiceTable<User> userTable;
-    private ArrayList<User> users;
+    private static MobileServiceClient mClient;
+    private static MobileServiceTable<User> userTable;
+    private static MobileServiceTable<Team> teamTable;
 
 
 
     public DatabaseQueries() {
-        this.mClient = mClient;
 
         Log.i("database", "table worked");
     }
 
 
-   public void setupConnection(Context t){
+   public static void setupConnection(Context t){
        try {
            mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
            Log.i("tag", "connection started ...woohoo");
+           teamTable = mClient.getTable(Team.class);
            userTable = mClient.getTable(User.class);
+
 
        }
        catch (MalformedURLException e) {
@@ -46,7 +47,7 @@ public class DatabaseQueries extends Activity {
        }
    }
 
-    public boolean login(final String username, final String password) throws ExecutionException, InterruptedException {
+    public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException {
         final boolean[] confirm = new boolean[1];
         new AsyncTask<Void, Void, Void>() {
             boolean confirmDetails;
@@ -76,9 +77,9 @@ public class DatabaseQueries extends Activity {
     }
 
 
-    public void addUser(){
+    public static void addUser(){
 
-       final User user = new User("keith", "123456");
+       final User user = new User("keith", "keith", "tuffy", "123456", "2000-02-22", "none", true,"0857176955","keith@mail.com", "forward", "Newbridge");
 
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -99,10 +100,39 @@ public class DatabaseQueries extends Activity {
                 }
                 else{
                     Log.i("add user"," add failed");
+
                 }
             }
         }.execute();
 
+    }
+
+
+    public static void addTeam(final Team team){
+
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                String done="";
+                try {
+                    teamTable.insert(team).get();
+                    done="true";
+                } catch (Exception e) {
+                    done="false";
+                    e.printStackTrace();
+                }
+                return done;
+            }
+            protected void onPostExecute(String done){
+                if(done.equals("true")){
+                    Log.i("add team"," add sucess");
+                }
+                else{
+                    Log.i("add team"," add failed");
+                }
+            }
+        }.execute();
     }
 
 

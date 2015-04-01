@@ -70,24 +70,26 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ManagerName"
+        android:id="@+id/managerName"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="Manager Name"
-        android:layout_below="@+id/phone" />
+        android:layout_below="@+id/phone"
+        android:inputType="text" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/agegroup"
-        android:layout_below="@+id/ManagerName"
+        android:layout_below="@+id/managerName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="Age Group"
-        android:layout_alignRight="@+id/ManagerName"
-        android:layout_alignEnd="@+id/ManagerName" />
+        android:layout_alignRight="@+id/managerName"
+        android:layout_alignEnd="@+id/managerName"
+        android:inputType="text" />
 
     <Button
         android:layout_width="fill_parent"
@@ -96,7 +98,8 @@
         android:id="@+id/registerTeam"
         android:background="@drawable/button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true" />
 
     <TextView
         android:layout_width="wrap_content"

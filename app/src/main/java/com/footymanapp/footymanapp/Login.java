@@ -51,8 +51,7 @@ public class Login extends ActionBarActivity {
 
 
         Context context = this;
-        final DatabaseQueries db = new DatabaseQueries();
-        db.setupConnection(context);
+        DatabaseQueries.setupConnection(context);
 
 
         Button loginButton = (Button) findViewById(R.id.loginButton);
@@ -62,7 +61,7 @@ public class Login extends ActionBarActivity {
        public void onClick(View v) {
            startActivity(new Intent(Login.this, AdminHome.class));
            try {
-               if (db.login(logusername, logpassword)) {
+               if (DatabaseQueries.login(logusername, logpassword)) {
                    startActivity(new Intent(Login.this, AdminHome.class));
                }
            } catch (InterruptedException e) {

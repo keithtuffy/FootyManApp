@@ -10,12 +10,13 @@ public class User {
 
    // @com.google.gson.annotations.SerializedName("password")
     private String password;
-
-    private String DOB;
+    private String firstname;
+    private String lastname;
+    private String dob;
     private String position;
-    private boolean isManger;
-    private String phoneNumber;
-    private String medicalCondition;
+    private boolean ismanager;
+    private String phonenumber;
+    private String medicalcondition;
     private String email;
     private String teamid;
 
@@ -24,14 +25,16 @@ public class User {
         this.password = password;
     }
 
-    public User (String id, String password,String DOB, String position, boolean isManager, String phoneNumber, String medicalCondition, String email, String teamid ){
+    public User (String id,String firstname, String lastname, String password,String DOB,String medicalCondition, boolean isManager, String phoneNumber, String email, String position, String teamid ){
         this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.password = password;
-        this.DOB= DOB;
+        this.dob= DOB;
         this.position = position;
-        this.isManger = isManager;
-        this.phoneNumber = phoneNumber;
-        this.medicalCondition = medicalCondition;
+        this.ismanager = isManager;
+        this.phonenumber = phoneNumber;
+        this.medicalcondition = medicalCondition;
         this.email= email;
         this.teamid = teamid;
     }
