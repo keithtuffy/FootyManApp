@@ -15,7 +15,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="473dp"
+    android:layout_height="360dp"
     android:id="@+id/map"
     android:clickable="true"
     tools:context="com.footymanapp.footymanapp.MapsActivity"
@@ -30,7 +30,7 @@
             android:layout_width="174dp"
             android:layout_height="wrap_content"
             android:text="Save Location"
-            android:background="@drawable/button"
+            android:background="@drawable/custombutton"
             android:id="@+id/savePitchLocation"
             android:layout_gravity="center"
             android:onClick="buttonOnClickSaveLocation" />
