@@ -1,5 +1,7 @@
 package com.footymanapp.footymanapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.location.Criteria;
@@ -8,7 +10,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,13 +19,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Marker;
 
-public class MapsActivity extends FragmentActivity implements LocationListener
+public class MapsActivity extends FragmentActivity implements LocationListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener
 {
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    LocationManager locationManager;
-    LatLng position;
-    Marker marker;
-    Criteria criteria = new Criteria();// Create a criteria object needed to retrieve the provider
+    private GoogleMap mMap;// Might be null if Google Play services APK is not available
+    LatLng markerPos;
     double latitude;
     double longitude;
     /*public void onLocationChanged(Location location)
@@ -40,9 +38,9 @@ public class MapsActivity extends FragmentActivity implements LocationListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
-        //getCoords();
-        //buttonOnClick();
-        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+        mMap.setOnMapClickListener(this);
+        mMap.setOnMapLongClickListener((GoogleMap.OnMapLongClickListener) this);
+        mMap.setOnMarkerDragListener(this);
     }
 
     @Override
@@ -83,60 +81,41 @@ public class MapsActivity extends FragmentActivity implements LocationListener
     {
         // Enable MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
-
-        // Get LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
+        showAlert();
+        LocationManager locationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
         // Create a criteria object to retrieve provider
         Criteria criteria = new Criteria();
-
         // Get the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
-
+        String provider = String.valueOf(locationManager.getBestProvider(criteria, true));
         // Get Current Location
         Location myLocation = locationManager.getLastKnownLocation(provider);
+        //Create a LatLng object for the current location
+        LatLng myCoordinates = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
+        mMap.animateCamera(yourLocation);
+        //Show the current location in Google Map
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates));
 
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setIndoorEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        //Get latitude of the current location
-        //latitude = myLocation.getLatitude();
-
-        // Get longitude of the current location
-        //longitude = myLocation.getLongitude();
-
-        //Create a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
-        LatLng myCoordinates = new LatLng(latitude, longitude);
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
-        mMap.animateCamera(yourLocation);
-        // Show the current location in Google Map
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
         // Zoom in the Google Map
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
-                .title("You Are Here!!").draggable(true));
     }
-
-    public void buttonOnClick(View v)
+    public void showAlert()
     {
-        //Button button = (Button) v;
-        //((Button)v).setText(Log.i("myTag", "Your position is " + getLatitude() + ", " + getLongitude()));
-        Log.i("myTag", "Your position is " + getLatitude() + ", " + getLongitude());
+        AlertDialog.Builder mapAlert = new AlertDialog.Builder(this);
+        mapAlert.setMessage("Scroll to pitch location.\nHold to drop pin.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create();
+        mapAlert.show();
     }
-
-    public double getLatitude()
-    {
-       return latitude;
-    }
-    public double getLongitude() {
-        return longitude;
-    }
-
     @Override
     public void onLocationChanged(Location location) {
 
@@ -156,4 +135,32 @@ public class MapsActivity extends FragmentActivity implements LocationListener
     public void onProviderDisabled(String provider) {
 
     }
+
+    public void onMapLongClick(LatLng markerPos)
+    {
+        mMap.addMarker(new MarkerOptions()
+                .position(markerPos)
+                .draggable(true));
+        latitude = markerPos.latitude;
+        longitude = markerPos.longitude;
+    }
+    @Override
+    public void onMarkerDragStart(Marker marker){}
+
+    @Override
+    public void onMarkerDrag(Marker marker) {}
+
+    //@Override
+    public void onMarkerDragEnd(Marker marker)
+    {
+        markerPos = marker.getPosition();
+        latitude = markerPos.latitude;
+        longitude = markerPos.longitude;
+    }
+    public void buttonOnClickSaveLocation(View v)
+    {
+        Log.i("myTag2", "Your new position is " + latitude + ", " + longitude);
+    }
+    @Override
+    public void onMapClick(LatLng latLng){}
 }

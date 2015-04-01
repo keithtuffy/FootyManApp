@@ -33,6 +33,6 @@
             android:background="@drawable/button"
             android:id="@+id/savePitchLocation"
             android:layout_gravity="center"
-            android:onClick="buttonOnClick" />
+            android:onClick="buttonOnClickSaveLocation" />
     </FrameLayout>
 </FrameLayout>
