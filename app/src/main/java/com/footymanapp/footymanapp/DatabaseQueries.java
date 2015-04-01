@@ -35,7 +35,7 @@ public class DatabaseQueries extends Activity {
 
    public void setupConnection(Context t){
        try {
-           mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "AdqIapvZMXQWSBeEDsEqVLsEQXHrdp97", t);
+           mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
            Log.i("tag", "connection started ...woohoo");
            userTable = mClient.getTable(User.class);
 
