@@ -5,10 +5,10 @@ package com.footymanapp.footymanapp;
 
 public class User {
 
-    @com.google.gson.annotations.SerializedName("id")
+   // @com.google.gson.annotations.SerializedName("id")
     private String id;
 
-    @com.google.gson.annotations.SerializedName("password")
+   // @com.google.gson.annotations.SerializedName("password")
     private String password;
 
     private String DOB;

@@ -16,7 +16,7 @@ public class RegisterTeam extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_team);
 
-        TextView pitchLocation = (TextView) findViewById(R.id.pitchLocation);
+        TextView pitchLocation = (TextView) findViewById(R.id.pitchlocation);
         pitchLocation.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -9,13 +9,15 @@ public class Team {
     private String phonenumber;
     private String pitchlocation;
     private String managername;
+    private String ageGroup;
 
-    public Team(String id, String email, String phonenumber, String pitchlocation, String managername) {
+    public Team(String id, String email, String phonenumber, String pitchlocation, String managername, String ageGroup) {
         this.id=id;
         this.email = email;
         this.phonenumber = phonenumber;
         this.pitchlocation = pitchlocation;
         this.managername = managername;
+        this.ageGroup = ageGroup;
 
 
     }

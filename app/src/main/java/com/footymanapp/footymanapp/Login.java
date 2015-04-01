@@ -1,5 +1,6 @@
 package com.footymanapp.footymanapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -49,22 +50,9 @@ public class Login extends ActionBarActivity {
 
 
 
-
-        final DatabaseQueries db;
-        MobileServiceClient mClient = null;
-        try {
-            mClient = new MobileServiceClient("https://footyman.azure-mobile.net/", "IcbgNlIXFduHJugOgGwkqmufBMfPaN69", this);
-            Log.i("tag", "connection started ...woohoo");
-
-            //used to add first user - only needed once
-            //db.addUser();
-
-        }
-        catch (MalformedURLException e) {
-            Log.i("tag","error with mobile service connection");
-            e.printStackTrace();
-        }
-        db = new DatabaseQueries(mClient);
+        Context context = this;
+        final DatabaseQueries db = new DatabaseQueries();
+        db.setupConnection(context);
 
 
         Button loginButton = (Button) findViewById(R.id.loginButton);

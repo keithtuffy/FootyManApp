@@ -1,6 +1,7 @@
 package com.footymanapp.footymanapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,11 +26,25 @@ public class DatabaseQueries extends Activity {
 
 
 
-    public DatabaseQueries(MobileServiceClient mClient) {
+    public DatabaseQueries() {
         this.mClient = mClient;
-        userTable = mClient.getTable(User.class);
+
         Log.i("database", "table worked");
     }
+
+
+   public void setupConnection(Context t){
+       try {
+           mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "AdqIapvZMXQWSBeEDsEqVLsEQXHrdp97", t);
+           Log.i("tag", "connection started ...woohoo");
+           userTable = mClient.getTable(User.class);
+
+       }
+       catch (MalformedURLException e) {
+           Log.i("tag","error with mobile service connection");
+           e.printStackTrace();
+       }
+   }
 
     public boolean login(final String username, final String password) throws ExecutionException, InterruptedException {
         final boolean[] confirm = new boolean[1];

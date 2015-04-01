@@ -14,12 +14,13 @@
         android:ems="10"
         android:id="@+id/teamName"
         android:singleLine="false"
-        android:layout_centerVertical="true"
+        android:hint="First Name"
+        android:layout_below="@+id/Header"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
-        android:hint="First Name" />
+        android:layout_marginTop="24dp"
+        android:layout_alignRight="@+id/password"
+        android:layout_alignEnd="@+id/password" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -29,12 +30,12 @@
         android:id="@+id/email"
         android:editable="false"
         android:clickable="false"
-        android:layout_below="@+id/phone"
+        android:hint="Email"
+        android:layout_below="@+id/DOB"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/phone"
-        android:layout_alignEnd="@+id/phone"
-        android:hint="Email" />
+        android:layout_alignRight="@+id/DOB"
+        android:layout_alignEnd="@+id/DOB" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -42,12 +43,12 @@
         android:inputType="phone"
         android:ems="10"
         android:id="@+id/phone"
+        android:hint="Phone"
         android:layout_below="@+id/password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
-        android:hint="Phone" />
+        android:layout_alignRight="@+id/DOB"
+        android:layout_alignEnd="@+id/DOB" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,17 +60,6 @@
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:textSize="22sp" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:cropToPadding="false"
-        android:layout_gravity="top"
-        android:src="@drawable/footymanlogo"
-        android:layout_above="@+id/teamName"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/Header" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -85,7 +75,7 @@
         android:hint="Second Name" />
 
     <Button
-        android:layout_width="140dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/register_player"
         android:id="@+id/button9"
@@ -95,5 +85,38 @@
         android:layout_gravity="center_horizontal|bottom"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/DOB"
+        android:layout_below="@+id/phone"
+        android:layout_alignLeft="@+id/Header"
+        android:layout_alignStart="@+id/Header"
+        android:layout_alignRight="@+id/MedicalCondition"
+        android:layout_alignEnd="@+id/MedicalCondition"
+        android:hint="DOB" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/MedicalCondition"
+        android:layout_below="@+id/email"
+        android:layout_alignLeft="@+id/Header"
+        android:layout_alignStart="@+id/Header"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="Medical Condition" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Position"
+        android:layout_below="@+id/MedicalCondition"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/MedicalCondition"
+        android:layout_alignEnd="@+id/MedicalCondition"
+        android:hint="Position" />
 
 </RelativeLayout>
