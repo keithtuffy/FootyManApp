@@ -9,7 +9,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="90dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/register_header"
         android:textStyle="bold"
@@ -29,8 +29,7 @@
         android:layout_alignParentStart="false"
         android:hint="@string/teamNameText"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/Header"
-        android:paddingTop="50dp" />
+        android:layout_below="@+id/Header" />
 
     <EditText
         android:layout_width="wrap_content"
