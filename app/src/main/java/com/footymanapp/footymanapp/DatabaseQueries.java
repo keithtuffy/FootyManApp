@@ -107,7 +107,6 @@ public class DatabaseQueries extends Activity {
 
     }
 
-
     public static void addTeam(final Team team){
 
 

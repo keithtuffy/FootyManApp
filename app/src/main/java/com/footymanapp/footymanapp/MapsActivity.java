@@ -10,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,8 +24,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 {
     private GoogleMap mMap;// Might be null if Google Play services APK is not available
     LatLng markerPos;
-    double latitude;
-    double longitude;
+    static double latitude;
+    static double longitude;
     /*public void onLocationChanged(Location location)
     {
         if (mMap != null)
@@ -160,6 +161,25 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     public void buttonOnClickSaveLocation(View v)
     {
         Log.i("myTag2", "Your new position is " + latitude + ", " + longitude);
+        setLatitude(latitude);
+        super.onBackPressed();
+    }
+
+    public void setLatitude(double latitude)
+    {
+        this.latitude = latitude;
+    }
+    public static double getLatitude()
+    {
+        return latitude;
+    }
+    public void setLongitude(double longitude)
+    {
+        this.longitude = longitude;
+    }
+    public static double getLongitude()
+    {
+        return longitude;
     }
     @Override
     public void onMapClick(LatLng latLng){}

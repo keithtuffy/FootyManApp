@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,7 @@ public class RegisterTeam extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_team);
 
-        // when the register button is pressed
+        // when the register team button is pressed
         Button regTeam = (Button) findViewById(R.id.registerTeam);
         regTeam.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -40,7 +41,9 @@ public class RegisterTeam extends ActionBarActivity {
                 TextView ag = (TextView) findViewById(R.id.agegroup);
                 final String agegroup = ag.getText().toString();
 
-                final String pitchLocation = null;
+
+                final String pitchLocation = String.valueOf(MapsActivity.getLatitude()) + ", " + String.valueOf(MapsActivity.getLongitude());
+                //Log.i("tag69", "Pitch location is " + MapsActivity.getLatitude() + ", " + MapsActivity.getLongitude());
 
                 Team team = new Team(teamname, email, phone, pitchLocation, managername, agegroup);
 
@@ -80,7 +83,7 @@ public class RegisterTeam extends ActionBarActivity {
     public void teamCreationAlert()
     {
         AlertDialog.Builder teamAlert = new AlertDialog.Builder(this);
-        teamAlert.setMessage("\tCongratulations,\n Your Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        teamAlert.setMessage("\tCongratulations,\nYour Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(RegisterTeam.this, RegisterPlayer.class));
