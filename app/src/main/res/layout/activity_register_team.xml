@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:text="@string/register_team"
         android:id="@+id/registerTeam"
-        android:background="@drawable/custombutton"
+        android:background="@drawable/button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:clickable="true" />

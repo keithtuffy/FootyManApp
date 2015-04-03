@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -80,30 +81,36 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
     private void setUpMap()
     {
-        // Enable MyLocation Layer of Google Map
-        mMap.setMyLocationEnabled(true);
-        showAlert();
-        LocationManager locationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
-        // Create a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
-        // Get the name of the best provider
-        String provider = String.valueOf(locationManager.getBestProvider(criteria, true));
-        // Get Current Location
-        Location myLocation = locationManager.getLastKnownLocation(provider);
-        //Create a LatLng object for the current location
-        LatLng myCoordinates = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
-        mMap.animateCamera(yourLocation);
-        //Show the current location in Google Map
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates));
+        try {
+            // Enable MyLocation Layer of Google Map
+            mMap.setMyLocationEnabled(true);
+            showAlert();
+            LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+            // Create a criteria object to retrieve provider
+            Criteria criteria = new Criteria();
+            // Get the name of the best provider
+            String provider = String.valueOf(locationManager.getBestProvider(criteria, true));
+            // Get Current Location
+            Location myLocation = locationManager.getLastKnownLocation(provider);
+            //Create a LatLng object for the current location
+            LatLng myCoordinates = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
+            mMap.animateCamera(yourLocation);
+            //Show the current location in Google Map
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates));
 
-        // set map type
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.setIndoorEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+            // set map type
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.setIndoorEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        // Zoom in the Google Map
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+            // Zoom in the Google Map
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+        }
+        catch(Exception e){
+            Toast toast = Toast.makeText(this, "Please turn on location settings", Toast.LENGTH_SHORT);
+            toast.show();
+        }
 
     }
     public void showAlert()

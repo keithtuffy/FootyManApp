@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 public class RegisterTeam extends ActionBarActivity {
@@ -68,8 +68,7 @@ public class RegisterTeam extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterTeam.this, MapsActivity.class));
-
+                   startActivity(new Intent(RegisterTeam.this, MapsActivity.class));
 
             }
         }

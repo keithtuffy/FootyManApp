@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:text="@string/register_player"
         android:id="@+id/button9"
-        android:background="@drawable/custombutton"
+        android:background="@drawable/button"
         android:clickable="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_gravity="center_horizontal|bottom"
