@@ -30,7 +30,7 @@
             android:layout_width="174dp"
             android:layout_height="wrap_content"
             android:text="Save Location"
-            android:background="@drawable/custombutton"
+            android:background="@drawable/button"
             android:id="@+id/savePitchLocation"
             android:layout_gravity="center"
             android:onClick="buttonOnClickSaveLocation" />
