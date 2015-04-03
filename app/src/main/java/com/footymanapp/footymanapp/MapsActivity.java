@@ -27,13 +27,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     LatLng markerPos;
     static double latitude;
     static double longitude;
-    /*public void onLocationChanged(Location location)
-    {
-        if (mMap != null)
-        {
-            drawMarker(location);
-        }
-    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,18 +45,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         super.onResume();
         setUpMapIfNeeded();
     }
-    /*private void drawMarker(Location location)
-    {
-        mMap.clear();
-        //  convert the location object to a LatLng object that can be used by the map API
-        LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-        // zoom to the current location
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 16));
-        // add a marker to the map indicating our current position
-        mMap.addMarker(new MarkerOptions()
-                .position(currentPosition)
-                .snippet("Lat:" + location.getLatitude() + "Lng:"+ location.getLongitude()));
-    }*/
+
     private void setUpMapIfNeeded()
     {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -124,6 +107,29 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         }).create();
         mapAlert.show();
     }
+
+    public void onMapLongClick(LatLng markerPos)
+    {
+        mMap.addMarker(new MarkerOptions()
+                .position(markerPos)
+                .draggable(true));
+        latitude = markerPos.latitude;
+        longitude = markerPos.longitude;
+    }
+
+    public void onMarkerDragEnd(Marker marker)
+    {
+        markerPos = marker.getPosition();
+        latitude = markerPos.latitude;
+        longitude = markerPos.longitude;
+    }
+
+    public void buttonOnClickSaveLocation(View v)
+    {
+        Log.i("myTag2", "Your new position is " + latitude + ", " + longitude);
+        setLatitude(latitude);
+        super.onBackPressed();
+    }
     @Override
     public void onLocationChanged(Location location) {
 
@@ -144,33 +150,11 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
     }
 
-    public void onMapLongClick(LatLng markerPos)
-    {
-        mMap.addMarker(new MarkerOptions()
-                .position(markerPos)
-                .draggable(true));
-        latitude = markerPos.latitude;
-        longitude = markerPos.longitude;
-    }
     @Override
     public void onMarkerDragStart(Marker marker){}
 
     @Override
     public void onMarkerDrag(Marker marker) {}
-
-    //@Override
-    public void onMarkerDragEnd(Marker marker)
-    {
-        markerPos = marker.getPosition();
-        latitude = markerPos.latitude;
-        longitude = markerPos.longitude;
-    }
-    public void buttonOnClickSaveLocation(View v)
-    {
-        Log.i("myTag2", "Your new position is " + latitude + ", " + longitude);
-        setLatitude(latitude);
-        super.onBackPressed();
-    }
 
     public void setLatitude(double latitude)
     {

@@ -11,7 +11,7 @@ public class User {
    // @com.google.gson.annotations.SerializedName("password")
     private String password;
     private String firstname;
-    private String lastname;
+    public String lastname;
     private String dob;
     private String position;
     private boolean ismanager;
