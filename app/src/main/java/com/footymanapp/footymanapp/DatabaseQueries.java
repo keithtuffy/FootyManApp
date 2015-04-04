@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -77,14 +74,12 @@ public class DatabaseQueries extends Activity {
     }
 
 
-    public static void addUser(){
-
-       final User user = new User("keith", "keith", "tuffy", "123456", "2000-02-22", "none", true,"0857176955","keith@mail.com", "forward", "Newbridge");
+    public static void addUser(final User user){
 
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
-                String done="";
+                String done;
                 try {
                     userTable.insert(user).get();
                     done="true";

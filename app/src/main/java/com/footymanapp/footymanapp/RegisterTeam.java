@@ -5,13 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class RegisterTeam extends ActionBarActivity {
@@ -26,7 +24,7 @@ public class RegisterTeam extends ActionBarActivity {
         regTeam.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                TextView tn = (TextView) findViewById(R.id.teamName);
+                TextView tn = (TextView) findViewById(R.id.firstname);
                 final String teamname = tn.getText().toString();
 
                 TextView em = (TextView) findViewById(R.id.email);
@@ -36,7 +34,7 @@ public class RegisterTeam extends ActionBarActivity {
                 final String phone = ph.getText().toString();
 
                 TextView mn = (TextView) findViewById(R.id.managerName);
-                final String managername = tn.getText().toString();
+                final String managername = mn.getText().toString();
 
                 TextView ag = (TextView) findViewById(R.id.agegroup);
                 final String agegroup = ag.getText().toString();
@@ -82,7 +80,7 @@ public class RegisterTeam extends ActionBarActivity {
     public void teamCreationAlert()
     {
         AlertDialog.Builder teamAlert = new AlertDialog.Builder(this);
-        teamAlert.setMessage("\tCongratulations,\nYour Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        teamAlert.setMessage("\t\tCongratulations!!\nYour Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(RegisterTeam.this, RegisterPlayer.class));

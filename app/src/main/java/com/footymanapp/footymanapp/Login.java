@@ -4,17 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.microsoft.windowsazure.mobileservices.*;
-import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
-
-import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
 
@@ -34,7 +29,7 @@ public class Login extends ActionBarActivity {
 
         final String logusername = username.getText().toString();
 
-        TextView password = (TextView) findViewById(R.id.password);
+        TextView password = (TextView) findViewById(R.id.lastname);
 
         final String logpassword = password.getText().toString();
 
