@@ -26,10 +26,6 @@ public class Login extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
-
-
         TextView username = (TextView) findViewById(R.id.username);
 
         final String logusername = username.getText().toString();
@@ -52,7 +48,6 @@ public class Login extends ActionBarActivity {
 
         Context context = this;
         DatabaseQueries.setupConnection(context);
-
 
         Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener(){

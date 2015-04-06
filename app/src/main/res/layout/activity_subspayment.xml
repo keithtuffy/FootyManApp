@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
-android:orientation="vertical" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/subsLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#4CC417"
+    tools:context="${com.footymanapp.footymanapp}.${SubsPayment}"
+    android:weightSum="1">
 
 <ListView
     android:id="@+id/subspaymentList"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:dividerHeight="1dp" />
+    android:layout_width="match_parent"
+    android:layout_height="369dp"
+    android:dividerHeight="1dp"
+    android:layout_weight="0.64"
+    android:paddingBottom="2dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/subsSaveButton"
+        android:background="@drawable/custombutton"
+        android:layout_margin="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:paddingStart="0dp"
+        android:paddingTop="0dp" />
 
 </LinearLayout>
