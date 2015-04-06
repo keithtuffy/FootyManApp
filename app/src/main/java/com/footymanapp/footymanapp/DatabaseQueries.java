@@ -4,18 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,6 +20,8 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceClient mClient;
     private static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
+
+
 
     public DatabaseQueries() {
 
@@ -39,6 +35,7 @@ public class DatabaseQueries extends Activity {
            Log.i("tag", "connection started ...woohoo");
            teamTable = mClient.getTable(Team.class);
            userTable = mClient.getTable(User.class);
+
 
        }
        catch (MalformedURLException e) {
@@ -77,14 +74,12 @@ public class DatabaseQueries extends Activity {
     }
 
 
-    public static void addUser(){
-
-       final User user = new User("keith", "keith", "tuffy", "123456", "2000-02-22", "none", true,"0857176955","keith@mail.com", "forward", "Newbridge");
+    public static void addUser(final User user){
 
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
-                String done="";
+                String done;
                 try {
                     userTable.insert(user).get();
                     done="true";
@@ -133,29 +128,10 @@ public class DatabaseQueries extends Activity {
             }
         }.execute();
     }
-    public void showAll(View view)
-    {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    final MobileServiceList<User> result = userTable.select("lastName").execute().get();
-
-                    //Log.i("TAG123", "YES");
-                    //cAdapter.clear();
-                    for (User item : result)
-                     {
-                        //cAdapter.add(item);
-                        Log.i("TAG123", "YES" + item);
-                     }
 
 
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
-    }
+
+
+
+
 }
-
