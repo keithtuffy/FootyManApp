@@ -1,5 +1,6 @@
 package com.footymanapp.footymanapp;
 
+import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,29 +14,31 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-class CustomAdapter extends ArrayAdapter<PlayerSubs>
-{
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+
+class CustomAdapter extends ArrayAdapter<User> {
     private Context mContext;
-    public CustomAdapter(Context context, ArrayList<PlayerSubs> names)
+
+    CustomAdapter(Context context, ArrayList<User> user)
     {
-        super(context, R.layout.listviewlayout, names);
+        super(context, R.layout.listviewlayout,user);
         this.mContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final PlayerSubs users = getItem(position);
+        final User users = getItem(position);
         View rowView = convertView;
 
-        if(rowView==null)
-        {
+        if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(R.layout.listviewlayout, parent, false);
         }
         final TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
         // Put the next lastname into the TextView
-        textViewName.setText(users.getName());
+        textViewName.setText(users.getLastname());
         return rowView;
     }
 

@@ -28,52 +28,21 @@ import java.util.List;
 
 public class SubsPayment extends ActionBarActivity {
 
+    DatabaseQueries db = new DatabaseQueries();
+    private ArrayList<User> lastNames = new ArrayList<>(db.getUser());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subspayment);
-        DatabaseQueries.readLastName();
-        //ArrayList<String> names = PlayerSubs.getUsers();
-       // names = PlayerSubs.getUsers();
-        //String[] names = {"dave", "alan","keith","andy","frank","bob","ian","wendy","bren"};
-        ArrayList<PlayerSubs> names = PlayerSubs.getUsers();
-        ListAdapter cAdapter = new CustomAdapter(this, names);
+
         ListView listView = (ListView) findViewById(R.id.subspaymentList);
-        //Log.i("TAG LIST Contents", "HELLO" + names.get(0));
+
+        for(int i = 0;i < lastNames.size();i++)
+        {
+            Log.i("TAG", "SUCCESS " + lastNames.get(i).getLastname());
+        }
+        CustomAdapter cAdapter = new CustomAdapter(this, lastNames);
         listView.setAdapter(cAdapter);
+        }
     }
-}
-    class PlayerSubs
-    {
-        public String name;
-        public PlayerSubs(String name)
-        {
-            this.name = name;
-        }
-        public String getName() {
-            return name;
-        }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public static ArrayList<PlayerSubs> getUsers()
-        {
-            ArrayList<PlayerSubs> users = new ArrayList<PlayerSubs>();
-            users.add(new PlayerSubs("Harry"));
-            users.add(new PlayerSubs("Marla"));
-            users.add(new PlayerSubs("Sarah"));
-            users.add(new PlayerSubs("Keith"));
-            users.add(new PlayerSubs("Dave"));
-            users.add(new PlayerSubs("Ian"));
-            users.add(new PlayerSubs("John"));
-            users.add(new PlayerSubs("Denis"));
-            users.add(new PlayerSubs("Wanker"));
-            users.add(new PlayerSubs("Al"));
-            users.add(new PlayerSubs("Andy"));
-            users.add(new PlayerSubs("John"));
-            return users;
-        }
-
-    }
