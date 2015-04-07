@@ -2,6 +2,7 @@ package com.footymanapp.footymanapp;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -44,12 +46,12 @@ public class NextGame extends ActionBarActivity
                 EditText awayTeam = (EditText) findViewById(R.id.awayTeamEditText);
                 String at = awayTeam.getText().toString();
 
-                EditText koTime = (EditText) findViewById(R.id.kickOffEditText);
+                TextView koTime = (TextView) findViewById(R.id.kickOffEditText);
                 String kot = koTime.getText().toString();
 
                 NextGameData ngd = new NextGameData(d, ht, at, kot);
                 DatabaseQueries.addNextGame(ngd);
-                //nextGameAddedAlert();
+                nextGameAddedAlert();
 
                 dateText.setText("");
                 homeTeam.setText("");
@@ -58,10 +60,7 @@ public class NextGame extends ActionBarActivity
             }
         });
 
-
         final TextView dateEdit = (TextView) findViewById(R.id.editTextDate);
-        //dateEdit.setOnClickListener(new View.OnClickListener() {
-
             dateEdit.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -79,14 +78,50 @@ public class NextGame extends ActionBarActivity
                             // TODO Auto-generated method stub
                     /*      Your code   to get date and time    */
                             selectedmonth = selectedmonth + 1;
-                            dateEdit.setText("" + selectedday + "/" + selectedmonth + "/" + selectedyear);
+                            dateEdit.setText("" + selectedday + "-" + selectedmonth + "-" + selectedyear);
                         }
                     }, mYear, mMonth, mDay);
                     mDatePicker.setTitle("Select Date");
                     mDatePicker.show();
                 }
             });
+
+        final TextView timeEdit = (TextView) findViewById(R.id.kickOffEditText);
+        timeEdit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(NextGame.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        timeEdit.setText(String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute));
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
         }
+    public void nextGameAddedAlert()
+    {
+        AlertDialog.Builder playerAlert = new AlertDialog.Builder(this);
+        playerAlert.setMessage("Your next game has been saved.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                startActivity(new Intent(NextGame.this, AdminHome.class));
+                finish();
+
+            }
+        }).create();
+        playerAlert.show();
+    }
 }
 
 
