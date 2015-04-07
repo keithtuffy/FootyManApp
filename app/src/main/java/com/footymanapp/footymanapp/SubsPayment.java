@@ -29,12 +29,12 @@ import java.util.List;
 public class SubsPayment extends ActionBarActivity {
 
     DatabaseQueries db = new DatabaseQueries();
-    private ArrayList<User> lastNames = new ArrayList<>(db.getUser());
+    private ArrayList<User> lastNames;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subspayment);
-
+        lastNames = db.getUser();
         ListView listView = (ListView) findViewById(R.id.subspaymentList);
 
         for(int i = 0;i < lastNames.size();i++)

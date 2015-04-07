@@ -30,6 +30,13 @@ public class AdminHome extends ActionBarActivity {
                 startActivity(new Intent(AdminHome.this, SubsPayment.class));
             }
         });
+
+        Button nextGame = (Button) findViewById(R.id.nextGame);
+        nextGame.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(AdminHome.this, NextGame.class));
+            }
+        });
     }
 
 

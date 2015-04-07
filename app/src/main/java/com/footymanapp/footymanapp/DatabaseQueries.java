@@ -27,6 +27,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceClient mClient;
     private static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
+    private static MobileServiceTable<NextGameData> nextGameTable;
     private static ArrayList<User> lastNames = new ArrayList<User>();
 
     public DatabaseQueries() {
@@ -41,7 +42,7 @@ public class DatabaseQueries extends Activity {
             Log.i("tag", "connection started ...woohoo");
             teamTable = mClient.getTable(Team.class);
             userTable = mClient.getTable(User.class);
-
+            nextGameTable = mClient.getTable("NextGame", NextGameData.class);
 
         } catch (MalformedURLException e) {
             Log.i("tag", "error with mobile service connection");
@@ -134,8 +135,31 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    public static ArrayList<User> getLastNames() {
-        return lastNames;
+    public static void addNextGame(final NextGameData ngd) {
+
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                String done = "";
+                try {
+                    nextGameTable.insert(ngd).get();
+                    done = "true";
+                } catch (Exception e) {
+                    done = "false";
+                    e.printStackTrace();
+                }
+                return done;
+            }
+
+            protected void onPostExecute(String done) {
+                if (done.equals("true")) {
+                    Log.i("Next Game TAG ", "Game Added");
+                } else {
+                    Log.i("Next Game TAG ", "Game Failed");
+                }
+            }
+        }.execute();
     }
 
     public ArrayList<User> getUser()

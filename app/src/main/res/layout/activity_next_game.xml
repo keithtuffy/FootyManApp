@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="match_parent"
+    android:background="#41A317">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:hint="Date"
+        android:id="@+id/editTextDate"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:gravity="center_horizontal" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/homeTeamEditText"
+        android:hint="Home Team"
+        android:editable="true"
+        android:layout_below="@+id/editTextDate"
+        android:layout_alignStart="@+id/awayTeamEditText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VS"
+        android:id="@+id/vsTextview"
+        android:layout_below="@+id/homeTeamEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/awayTeamEditText"
+        android:hint="Away Team"
+        android:editable="true"
+        android:gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pitch Location"
+        android:background="@drawable/custombutton"
+        android:id="@+id/nextGamePitchLocation"
+        android:layout_marginBottom="44dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/vsTextview"
+        android:layout_marginLeft="30dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:id="@+id/kickOffEditText"
+        android:layout_below="@+id/awayTeamEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:editable="true"
+        android:hint="Kick-Off"
+        android:gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Next Game"
+        android:id="@+id/addNextGame"
+        android:background="@drawable/custombutton"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_marginRight="30dp"
+        android:layout_alignTop="@+id/nextGamePitchLocation"
+        android:layout_toEndOf="@+id/vsTextview" />
+
+</RelativeLayout>
