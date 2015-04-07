@@ -20,7 +20,13 @@ public class AdminHome extends ActionBarActivity {
         Button addPlayer = (Button) findViewById(R.id.addPlayer);
         addPlayer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(AdminHome.this, RegisterPlayer.class));
+                Intent addPlayer = new Intent(AdminHome.this, RegisterPlayer.class);
+                addPlayer.putExtra("ismanager", "false");
+                // will get team nme from screen - to be done
+                addPlayer.putExtra("teamname","Newbridge");
+                startActivity(addPlayer);
+
+
             }
         });
 
