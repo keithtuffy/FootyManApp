@@ -53,7 +53,7 @@ public class RegisterTeam extends ActionBarActivity {
                 ph.setText("");
                 mn.setText("");
                 ag.setText("");
-                teamCreationAlert();
+                teamCreationAlert(teamname);
 
             }
         });
@@ -77,13 +77,16 @@ public class RegisterTeam extends ActionBarActivity {
     );}
 
 
-    public void teamCreationAlert()
+    public void teamCreationAlert(final String teamname)
     {
         AlertDialog.Builder teamAlert = new AlertDialog.Builder(this);
         teamAlert.setMessage("\t\tCongratulations!!\nYour Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(RegisterTeam.this, RegisterPlayer.class));
+                Intent intent = new Intent(RegisterTeam.this,RegisterPlayer.class);
+                intent.putExtra("ismanager", "true");
+                intent.putExtra("teamname",teamname);
+                startActivity(intent);
                // finish();
                 dialog.dismiss();
 

@@ -2,6 +2,7 @@ package com.footymanapp.footymanapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -16,6 +17,8 @@ public class RegisterPlayer extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
+
+
 
         Button regPlayer = (Button) findViewById(R.id.registerPlayer);
         regPlayer.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +51,12 @@ public class RegisterPlayer extends ActionBarActivity {
                 TextView pw = (TextView) findViewById(R.id.password);
                 String password = pw.getText().toString();
 
-                User user = new User(username, firstname, lastname, password, DOB, medicalcondition, true, phone, email, position, "Newbridge" );
+
+                final boolean ismanager = Boolean.valueOf(getIntent().getExtras().getString("ismanager"));
+                final String teamname =  getIntent().getExtras().getString("teamname");
+
+
+                User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname );
                 DatabaseQueries.addUser(user);
                 playerCreationAlert();
 
@@ -71,8 +79,9 @@ public class RegisterPlayer extends ActionBarActivity {
         playerAlert.setMessage("\tCongratulations,\nYour Profile has been created").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
                 dialog.dismiss();
+                startActivity(new Intent(RegisterPlayer.this, AdminHome.class));
+                finish();
 
             }
         }).create();
