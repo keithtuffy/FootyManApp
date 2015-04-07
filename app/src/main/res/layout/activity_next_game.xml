@@ -6,7 +6,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
+        android:editable="false"
+        android:clickable="true"
         android:hint="Date"
         android:id="@+id/editTextDate"
         android:layout_alignParentTop="true"

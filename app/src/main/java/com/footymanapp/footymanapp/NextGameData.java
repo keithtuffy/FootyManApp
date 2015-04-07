@@ -1,27 +1,32 @@
 package com.footymanapp.footymanapp;
 
+import android.app.DatePickerDialog;
+import android.view.View;
+import android.widget.DatePicker;
+
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by prend_000 on 07/04/2015.
  */
-public class NextGameData
-{
+public class NextGameData {
     @com.google.gson.annotations.SerializedName("id")
     private String id;
 
-    public NextGameData(String id)
-    {
+    public NextGameData(String id) {
         this.id = id;
     }
+
     private String date;
     private String homeTeam;
     private String awayTeam;
     private String time;
 
-    public NextGameData(String date, String homeTeam, String awayTeam, String time)
-    {
+    public NextGameData(String date, String homeTeam, String awayTeam, String time) {
         this.date = date;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -59,4 +64,5 @@ public class NextGameData
     public void setTime(String time) {
         this.time = time;
     }
+
 }

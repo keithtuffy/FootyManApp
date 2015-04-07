@@ -23,7 +23,8 @@ public class RegisterTeam extends ActionBarActivity {
         Button regTeam = (Button) findViewById(R.id.registerTeam);
         regTeam.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 TextView tn = (TextView) findViewById(R.id.firstname);
                 final String teamname = tn.getText().toString();
 
@@ -65,7 +66,8 @@ public class RegisterTeam extends ActionBarActivity {
         pitchLocation.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                    startActivity(new Intent(RegisterTeam.this, MapsActivity.class));
 
             }
