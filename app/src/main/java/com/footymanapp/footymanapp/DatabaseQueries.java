@@ -28,6 +28,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
+    private static ArrayList<NextGameData> nextGameData;
     private static ArrayList<User> lastNames = new ArrayList<User>();
 
     public DatabaseQueries() {
@@ -43,6 +44,7 @@ public class DatabaseQueries extends Activity {
             teamTable = mClient.getTable(Team.class);
             userTable = mClient.getTable(User.class);
             nextGameTable = mClient.getTable("NextGame", NextGameData.class);
+            nextGameData = new ArrayList<>();
 
         } catch (MalformedURLException e) {
             Log.i("tag", "error with mobile service connection");
@@ -162,8 +164,7 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    public ArrayList<User> getUser()
-    {
+    public static ArrayList<User> getUser() {
         try {
             userTable.execute(new TableQueryCallback<User>() {
                 public void onCompleted(List<User> result, int count,
@@ -187,4 +188,51 @@ public class DatabaseQueries extends Activity {
         return lastNames;
     }
 
+    public static ArrayList<NextGameData> getNextGame()
+    {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+
+                    final MobileServiceList<NextGameData> result = nextGameTable.execute().get();
+                    for(NextGameData item : result)
+                    {
+                        nextGameData.add(item);
+                        //Log.i("NextGameData", "Date is " + item.getDate());
+                    }
+
+                } catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+        return nextGameData;
+    }
+    /*public static ArrayList<NextGameData> getNextGame() {
+        try {
+            nextGameTable.execute(new TableQueryCallback<NextGameData>() {
+                public void onCompleted(List<NextGameData> result, int count,
+                                        Exception exception, ServiceFilterResponse response) {
+                    if (exception == null)//it found something in the db
+                    {
+                        nextGameData.clear();
+                        for (NextGameData item : result) {
+                            nextGameData.add(item);
+                            Log.i("NextGameData", "Date is " + item.getDate());
+                        }
+
+                    } else {
+                        exception.printStackTrace();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return nextGameData;
+    }*/
 }

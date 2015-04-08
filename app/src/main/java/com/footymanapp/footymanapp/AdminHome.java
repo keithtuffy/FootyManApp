@@ -29,6 +29,7 @@ public class AdminHome extends ActionBarActivity {
 
             }
         });
+        DatabaseQueries.getNextGame();
 
         Button subs = (Button) findViewById(R.id.subs);
         subs.setOnClickListener(new View.OnClickListener() {
