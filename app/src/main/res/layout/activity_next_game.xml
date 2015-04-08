@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
+        android:inputType="textCapSentences"
+        android:imeOptions="actionNext"
         android:id="@+id/homeTeamEditText"
         android:hint="Home Team"
         android:editable="true"
@@ -42,10 +44,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
+        android:inputType="textCapSentences"
+        android:imeOptions="actionDone"
         android:id="@+id/awayTeamEditText"
         android:hint="Away Team"
         android:editable="true"
-        android:gravity="center_horizontal"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
