@@ -22,23 +22,23 @@ public class NextGameData {
     }
 
     private String date;
-    private String homeTeam;
-    private String awayTeam;
+    private String hometeam;
+    private String awayteam;
     private String time;
 
-    public NextGameData(String date, String homeTeam, String awayTeam, String time) {
+    public NextGameData(String date, String hometeam, String awayteam, String time) {
         this.date = date;
-        this.homeTeam = homeTeam;
-        this.awayTeam = awayTeam;
+        this.hometeam = hometeam;
+        this.awayteam = awayteam;
         this.time = time;
     }
 
     public String getHomeTeam() {
-        return homeTeam;
+        return hometeam;
     }
 
     public void setHomeTeam(String homeTeam) {
-        this.homeTeam = homeTeam;
+        this.hometeam = homeTeam;
     }
 
     public String getDate() {
@@ -50,11 +50,11 @@ public class NextGameData {
     }
 
     public String getAwayTeam() {
-        return awayTeam;
+        return awayteam;
     }
 
     public void setAwayTeam(String awayTeam) {
-        this.awayTeam = awayTeam;
+        this.awayteam = awayTeam;
     }
 
     public String getTime() {

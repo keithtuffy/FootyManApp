@@ -10,7 +10,7 @@
     android:weightSum="1">
 
 <ListView
-    android:id="@+id/subspaymentList"
+    android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="369dp"
     android:dividerHeight="1dp"

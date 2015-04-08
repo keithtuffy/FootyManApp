@@ -80,7 +80,7 @@ public class NextGame extends ActionBarActivity
                             // TODO Auto-generated method stub
                     /*      Your code   to get date and time    */
                             selectedmonth = selectedmonth + 1;
-                            dateEdit.setText("" + selectedday + "-" + selectedmonth + "-" + selectedyear);
+                            dateEdit.setText(String.format("%02d", selectedday) + "-" + String.format("%02d", selectedmonth) + "-" + selectedyear);
                         }
                     }, mYear, mMonth, mDay);
                     mDatePicker.setTitle("Select Date");

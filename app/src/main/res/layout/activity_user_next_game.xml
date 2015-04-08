@@ -4,32 +4,25 @@
     android:background="#41A317">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:editable="false"
-        android:clickable="true"
-        android:focusable="true"
-        android:enabled="true"
-        android:hint="Date"
         android:textSize="26sp"
         android:id="@+id/userTextViewDate"
+        android:gravity="center_horizontal"
+        android:paddingTop="0dp"
+        android:layout_marginTop="74dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:gravity="center_horizontal" />
+        android:layout_alignParentStart="true" />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text=""
-        android:inputType="textCapSentences"
-        android:imeOptions="actionNext"
         android:textSize="30sp"
         android:id="@+id/userHomeTeamEditText"
-        android:hint="Home Team"
-        android:editable="true"
+        android:gravity="center_vertical|center_horizontal"
         android:layout_below="@+id/userTextViewDate"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="25dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,39 +31,29 @@
         android:text="VS"
         android:textSize="26sp"
         android:id="@+id/userVsTextview"
-        android:layout_above="@+id/userAwayTeamEditText"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="25dp"
-        android:paddingTop="25dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text=""
-        android:inputType="textCapSentences"
-        android:imeOptions="actionDone"
-        android:textSize="30sp"
-        android:id="@+id/userAwayTeamEditText"
-        android:hint="Away Team"
-        android:editable="true"
-        android:layout_centerVertical="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_below="@+id/userHomeTeamEditText"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:editable="false"
-        android:focusable="false"
-        android:clickable="true"
-        android:enabled="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30sp"
+        android:id="@+id/userAwayTeamEditText"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/userVsTextview"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="26sp"
         android:id="@+id/userKickOffEditText"
+        android:gravity="center_horizontal"
         android:layout_below="@+id/userAwayTeamEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:hint="Kick-Off"
-        android:gravity="center_horizontal" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
