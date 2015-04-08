@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -30,6 +31,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<NextGameData> nextGameTable;
     private static ArrayList<NextGameData> nextGameData;
     private static ArrayList<User> lastNames = new ArrayList<User>();
+    private CustomAdapter cAdapter;
 
     public DatabaseQueries() {
 
@@ -137,7 +139,7 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    public static void addNextGame(final NextGameData ngd) {
+    /*public static void addNextGame(final NextGameData ngd) {
 
 
         new AsyncTask<Void, Void, String>() {
@@ -162,29 +164,51 @@ public class DatabaseQueries extends Activity {
                 }
             }
         }.execute();
+    }*/
+
+        public void showAll()
+        {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    final MobileServiceList<User> result = userTable.execute().get();
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            cAdapter.clear();
+                            for (User item : result) {
+                                cAdapter.add(item);
+                            }
+                        }
+                    });
+                } catch (Exception exception)
+                {
+                 exception.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
     }
 
     public static ArrayList<User> getUser() {
-        try {
-            userTable.execute(new TableQueryCallback<User>() {
-                public void onCompleted(List<User> result, int count,
-                                        Exception exception, ServiceFilterResponse response) {
-                    if (exception == null)//it found something in the db
-                    {
-                        lastNames.clear();
-                        for (User item : result) {
-                            lastNames.add(item);
-                            Log.i("TAG", "SUCCESS " + item.getLastname());
-                        }
-
-                    } else {
-                        exception.printStackTrace();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    final MobileServiceList<User> result = userTable.execute().get();
+                    lastNames.clear();
+                    for (User item : result) {
+                        lastNames.add(item);
+                        Log.i("UserTable", "First Name: " + item.getFirstname());
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                return null;
+            }
+        }.execute();
         return lastNames;
     }
 
