@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class RegisterTeam extends ActionBarActivity {
@@ -26,36 +28,80 @@ public class RegisterTeam extends ActionBarActivity {
             public void onClick(View v)
             {
                 TextView tn = (TextView) findViewById(R.id.firstname);
-                final String teamname = tn.getText().toString();
+                String teamname = tn.getText().toString();
 
                 TextView em = (TextView) findViewById(R.id.email);
-                final String email = em.getText().toString();
+                String email = em.getText().toString();
 
                 TextView ph = (TextView) findViewById(R.id.phone);
-                final String phone = ph.getText().toString();
+                String phone = ph.getText().toString();
 
                 TextView mn = (TextView) findViewById(R.id.managerName);
-                final String managername = mn.getText().toString();
+                String managername = mn.getText().toString();
 
                 TextView ag = (TextView) findViewById(R.id.agegroup);
-                final String agegroup = ag.getText().toString();
+                String agegroup = ag.getText().toString();
 
 
-                final String pitchLocation = String.valueOf(MapsActivity.getLatitude()) + ", " + String.valueOf(MapsActivity.getLongitude());
+                String pitchLocation = String.valueOf(MapsActivity.getLatitude()) + ", " + String.valueOf(MapsActivity.getLongitude());
                 //Log.i("tag69", "Pitch location is " + MapsActivity.getLatitude() + ", " + MapsActivity.getLongitude());
 
-                Team team = new Team(teamname, email, phone, pitchLocation, managername, agegroup);
+                //validtion
+                if(teamname.length() == 0){
+                    tn.setError("Please enter a team name");
+                }
+                else if(email.length() == 0){
+                    em.setError("Please enter an email");
+                    tn.setError(null);
+                    ph.setError(null);
+                    mn.setError(null);
+                    ag.setError(null);
+                }
+                else if(phone.length() == 0){
+                    ph.setError("Please enter a phone number");
+                    tn.setError(null);
+                    em.setError(null);
+                    mn.setError(null);
+                    ag.setError(null);
+                }
+                else if(managername.length() == 0){
+                    mn.setError("Please enter a manager name");
+                    tn.setError(null);
+                    em.setError(null);
+                    ph.setError(null);
+                    ag.setError(null);
+                }
+                else if(agegroup.length() == 0){
+                    ag.setError("Please enter an age group");
+                    tn.setError(null);
+                    em.setError(null);
+                    ph.setError(null);
+                    mn.setError(null);
+                }
+                else if(pitchLocation.length() == 0){
+                    Toast toast = Toast.makeText(RegisterTeam.this, "Please set a location", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
 
-                DatabaseQueries.addTeam(team);
+                    Team team = new Team(teamname, email, phone, pitchLocation, managername, agegroup);
+                    Log.i("teamname", tn.getText().toString());
+                    DatabaseQueries.addTeam(team);
+
+                    tn.setError(null);
+                    em.setError(null);
+                    ph.setError(null);
+                    mn.setError(null);
+                    ag.setError(null);
 
 
-                tn.setText("");
-                em.setText("");
-                ph.setText("");
-                mn.setText("");
-                ag.setText("");
-                teamCreationAlert(teamname);
-
+                    tn.setText("");
+                    em.setText("");
+                    ph.setText("");
+                    mn.setText("");
+                    ag.setText("");
+                    teamCreationAlert(teamname);
+                }
             }
         });
 
@@ -89,7 +135,7 @@ public class RegisterTeam extends ActionBarActivity {
                 intent.putExtra("ismanager", "true");
                 intent.putExtra("teamname",teamname);
                 startActivity(intent);
-               // finish();
+                finish();
                 dialog.dismiss();
 
             }

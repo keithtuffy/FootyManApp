@@ -55,6 +55,34 @@ public class RegisterPlayer extends ActionBarActivity {
                 final boolean ismanager = Boolean.valueOf(getIntent().getExtras().getString("ismanager"));
                 final String teamname =  getIntent().getExtras().getString("teamname");
 
+                if(username.length() == 0){
+                    un.setError("Please enter a username");
+                }
+                else if(firstname.length() == 0){
+                    fn.setError("Please enter a first name");
+                }
+                else if(lastname.length() == 0){
+                    ln.setError("Please enter a last name");
+                }
+                else if(phone.length() == 0){
+                    ph.setError("Please enter a phone number");
+                }
+                else if(DOB.length()== 0){
+                    date.setError("Please enter DOB");
+                }
+                else if(email.length() == 0){
+                    em.setError("Please enter an email address");
+                }
+                else if(medicalcondition.length() == 0){
+                    mc.setError("Please enter medical condition");
+                }
+                else if(position.length() == 0){
+                    pos.setError("Please enter a position");
+                }
+                else if(password.length() == 0){
+                    pw.setError("Please enter a password");
+                }
+
 
                 User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname );
                 DatabaseQueries.addUser(user);
