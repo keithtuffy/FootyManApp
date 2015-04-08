@@ -20,17 +20,16 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 class CustomAdapter extends ArrayAdapter<User> {
     private Context mContext;
 
-    CustomAdapter(Context context, ArrayList<User> user)
+    public CustomAdapter(Context context)
     {
-        super(context, R.layout.listviewlayout,user);
+        super(context, R.layout.listviewlayout);
         this.mContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final User users = getItem(position);
         View rowView = convertView;
-
+        final User users = getItem(position);
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

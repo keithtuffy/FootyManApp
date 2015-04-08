@@ -27,21 +27,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubsPayment extends ActionBarActivity {
-
-    DatabaseQueries db = new DatabaseQueries();
-    private ArrayList<User> lastNames;
+    private DatabaseQueries db = new DatabaseQueries();
+    private CustomAdapter cAdapter;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subspayment);
-        lastNames = db.getUser();
-        ListView listView = (ListView) findViewById(R.id.subspaymentList);
-
-        for(int i = 0;i < lastNames.size();i++)
-        {
-            Log.i("TAG", "SUCCESS " + lastNames.get(i).getLastname());
-        }
-        CustomAdapter cAdapter = new CustomAdapter(this, lastNames);
+        //lastNames = new ArrayList<>(DatabaseQueries.getUser());
+        cAdapter = new CustomAdapter(SubsPayment.this);
+        listView = (ListView) findViewById(R.id.subspaymentList);
+        //CustomAdapter cAdapter = new CustomAdapter(this);
         listView.setAdapter(cAdapter);
         }
     }
