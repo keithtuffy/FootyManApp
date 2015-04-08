@@ -80,7 +80,11 @@ public class RegisterPlayer extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                startActivity(new Intent(RegisterPlayer.this, AdminHome.class));
+                Intent addPlayer = new Intent(RegisterPlayer.this, AdminHome.class);
+                addPlayer.putExtra("ismanager", "false");
+                addPlayer.putExtra("teamname","Newbridge");
+                startActivity(addPlayer);
+
                 finish();
 
             }
