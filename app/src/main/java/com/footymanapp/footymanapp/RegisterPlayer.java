@@ -57,46 +57,129 @@ public class RegisterPlayer extends ActionBarActivity {
 
                 if(username.length() == 0){
                     un.setError("Please enter a username");
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
                 }
                 else if(firstname.length() == 0){
                     fn.setError("Please enter a first name");
+                    un.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
                 }
                 else if(lastname.length() == 0){
                     ln.setError("Please enter a last name");
+                    un.setError(null);
+                    fn.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
                 }
                 else if(phone.length() == 0){
                     ph.setError("Please enter a phone number");
-                }
-                else if(DOB.length()== 0){
-                    date.setError("Please enter DOB");
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
                 }
                 else if(email.length() == 0){
                     em.setError("Please enter an email address");
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
                 }
+                else if(DOB.length()== 0){
+                    date.setError("Please enter DOB");
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
+                }
+
                 else if(medicalcondition.length() == 0){
                     mc.setError("Please enter medical condition");
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
                 }
                 else if(position.length() == 0){
                     pos.setError("Please enter a position");
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pw.setError(null);
                 }
                 else if(password.length() == 0){
                     pw.setError("Please enter a password");
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
                 }
+                else {
+                    User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname);
+                    DatabaseQueries.addUser(user);
+                    playerCreationAlert();
 
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
 
-                User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname );
-                DatabaseQueries.addUser(user);
-                playerCreationAlert();
-
-                un.setText("");
-                fn.setText("");
-                ln.setText("");
-                ph.setText("");
-                date.setText("");
-                em.setText("");
-                mc.setText("");
-                pos.setText("");
-                pw.setText("");
+                    un.setText("");
+                    fn.setText("");
+                    ln.setText("");
+                    ph.setText("");
+                    date.setText("");
+                    em.setText("");
+                    mc.setText("");
+                    pos.setText("");
+                    pw.setText("");
+                }
             }
         });
     }

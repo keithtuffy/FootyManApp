@@ -41,8 +41,6 @@
         <activity android:name=".RegisterPlayer" />
         <activity android:name=".SubsPayment" />
         <activity android:name=".NextGame" />
-        <activity android:name=".UserHome" />
-        <activity android:name=".UserNextGame" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBlK0Jv179jC1r6G9xxJPCjbwgIGMCJ8xk" />
