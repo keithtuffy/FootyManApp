@@ -99,17 +99,6 @@ public class RegisterPlayer extends ActionBarActivity {
                     pos.setError(null);
                     pw.setError(null);
                 }
-                else if(DOB.length()== 0){
-                    date.setError("Please enter DOB");
-                    un.setError(null);
-                    fn.setError(null);
-                    ln.setError(null);
-                    ph.setError(null);
-                    em.setError(null);
-                    mc.setError(null);
-                    pos.setError(null);
-                    pw.setError(null);
-                }
                 else if(email.length() == 0){
                     em.setError("Please enter an email address");
                     un.setError(null);
@@ -121,6 +110,18 @@ public class RegisterPlayer extends ActionBarActivity {
                     pos.setError(null);
                     pw.setError(null);
                 }
+                else if(DOB.length()== 0){
+                    date.setError("Please enter DOB");
+                    un.setError(null);
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
+                }
+
                 else if(medicalcondition.length() == 0){
                     mc.setError("Please enter medical condition");
                     un.setError(null);

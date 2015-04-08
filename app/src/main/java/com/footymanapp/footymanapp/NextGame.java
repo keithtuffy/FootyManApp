@@ -52,7 +52,7 @@ public class NextGame extends ActionBarActivity
                 String kot = koTime.getText().toString();
 
                 NextGameData ngd = new NextGameData(d, ht, at, kot);
-                DatabaseQueries.addNextGame(ngd);
+                //DatabaseQueries.addNextGame(ngd);
                 nextGameAddedAlert();
 
                 dateText.setText("");
