@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -14,16 +15,30 @@ import android.widget.TextView;
  */
 public class RegisterPlayer extends ActionBarActivity {
 
+
+    ImageView profilePic;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
 
+        profilePic = (ImageView) findViewById(R.id.profilepic);
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pic = new Intent();
+                pic.setType("image/*");
+                pic.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(pic,"Select Profile Picture"),1);
+            }
+        });
 
 
         Button regPlayer = (Button) findViewById(R.id.registerPlayer);
         regPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 TextView un = (TextView) findViewById(R.id.username);
                 String username = un.getText().toString();
 
@@ -99,8 +114,8 @@ public class RegisterPlayer extends ActionBarActivity {
                     pos.setError(null);
                     pw.setError(null);
                 }
-                else if(email.length() == 0){
-                    em.setError("Please enter an email address");
+                else if(email.length() == 0 || !email.contains("@") ){
+                    em.setError("Please enter a valid email address");
                     un.setError(null);
                     fn.setError(null);
                     ln.setError(null);
@@ -183,6 +198,15 @@ public class RegisterPlayer extends ActionBarActivity {
             }
         });
     }
+
+    public void onActivityResult(int reqCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK){
+            if(reqCode == 1){
+                profilePic.setImageURI(data.getData());
+            }
+        }
+    }
+
 
     public void playerCreationAlert()
     {

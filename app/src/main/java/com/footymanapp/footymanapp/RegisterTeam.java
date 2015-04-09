@@ -50,8 +50,8 @@ public class RegisterTeam extends ActionBarActivity {
                 if(teamname.length() == 0){
                     tn.setError("Please enter a team name");
                 }
-                else if(email.length() == 0){
-                    em.setError("Please enter an email");
+                else if(email.length() == 0|| !email.contains("@")){
+                    em.setError("Please enter a valid email");
                     tn.setError(null);
                     ph.setError(null);
                     mn.setError(null);
