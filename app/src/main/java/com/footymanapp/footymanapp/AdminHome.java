@@ -29,7 +29,7 @@ public class AdminHome extends ActionBarActivity {
 
             }
         });
-        DatabaseQueries.getNextGame();
+        //DatabaseQueries.getNextGame();
 
         Button subs = (Button) findViewById(R.id.subs);
         subs.setOnClickListener(new View.OnClickListener() {
@@ -41,9 +41,11 @@ public class AdminHome extends ActionBarActivity {
         Button nextGame = (Button) findViewById(R.id.nextGame);
         nextGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(AdminHome.this, NextGame.class));
+                startActivity(new Intent(AdminHome.this, UserNextGame.class));
             }
         });
+
+
     }
 
 

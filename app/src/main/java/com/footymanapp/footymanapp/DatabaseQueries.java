@@ -199,12 +199,14 @@ public class DatabaseQueries extends Activity {
             protected Void doInBackground(Void... params) {
                 try {
                     final MobileServiceList<User> result = userTable.execute().get();
-                    lastNames.clear();
-                    for (User item : result) {
+                    //lastNames.clear();
+                    for (User item : result)
+                    {
                         lastNames.add(item);
                         Log.i("UserTable", "First Name: " + item.getFirstname());
                     }
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
                 return null;
@@ -237,27 +239,4 @@ public class DatabaseQueries extends Activity {
         }.execute();
         return nextGameData;
     }
-    /*public static ArrayList<NextGameData> getNextGame() {
-        try {
-            nextGameTable.execute(new TableQueryCallback<NextGameData>() {
-                public void onCompleted(List<NextGameData> result, int count,
-                                        Exception exception, ServiceFilterResponse response) {
-                    if (exception == null)//it found something in the db
-                    {
-                        nextGameData.clear();
-                        for (NextGameData item : result) {
-                            nextGameData.add(item);
-                            Log.i("NextGameData", "Date is " + item.getDate());
-                        }
-
-                    } else {
-                        exception.printStackTrace();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return nextGameData;
-    }*/
 }

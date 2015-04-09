@@ -1,15 +1,5 @@
 package com.footymanapp.footymanapp;
 
-import android.app.DatePickerDialog;
-import android.view.View;
-import android.widget.DatePicker;
-
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * Created by prend_000 on 07/04/2015.
  */
