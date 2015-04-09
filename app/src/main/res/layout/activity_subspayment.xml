@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/subsLayout"
     android:layout_width="fill_parent"
@@ -15,9 +15,10 @@
     android:layout_height="369dp"
     android:dividerHeight="1dp"
     android:layout_weight="0.64"
-    android:paddingBottom="2dp" />
+    android:paddingBottom="2dp" >
+</ListView>
 
-    <Button
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
@@ -27,6 +28,6 @@
         android:layout_gravity="center"
         android:layout_weight="0"
         android:paddingStart="0dp"
-        android:paddingTop="0dp" />
+        android:paddingTop="0dp" />-->
 
-</LinearLayout>
+</RelativeLayout>

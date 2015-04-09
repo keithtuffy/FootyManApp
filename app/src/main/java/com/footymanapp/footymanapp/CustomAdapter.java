@@ -17,33 +17,56 @@ import android.widget.TextView;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
+import org.w3c.dom.Text;
+
 class CustomAdapter extends ArrayAdapter<User> {
-    private ArrayList<User> array;
+    private List<User> lastnames;
     private Context mContext;
 
-    public CustomAdapter(Context context, ArrayList<User> array)
-    {
-        super(context, R.layout.listviewlayout);
-        this.array = array;
+    public CustomAdapter(Context context, List<User> array) {
+        super(context, R.layout.listviewlayout, array);
+        this.mContext = context;
+        this.lastnames = array;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = convertView;
-        if (rowView == null)
+        //View rowView = convertView;
+        ViewHolder holder;
+        if (convertView == null)
         {
-            LayoutInflater inflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.listviewlayout, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.listviewlayout, null);
+            holder = new ViewHolder();
+            holder.lname = (TextView) convertView.findViewById(R.id.textViewName);
+            convertView.setTag(holder);
         }
-        User users = getItem(position);
+        else
+        {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        User userObj = lastnames.get(position);
+
+        String lastname = userObj.getLastname();
+        // Put the next lastname into the TextView
+        holder.lname.setText(lastname);
+
+        return convertView;
+    }
+
+
+    public static class ViewHolder{
+        TextView lname;
+    }
+
+}
+
+/*
+* User users = getItem(position);
         if(users != null)
         {
             final TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
             // Put the next lastname into the TextView
             textViewName.setText(users.getLastname());
         }
-        return rowView;
-    }
-
-}
+        return rowView;*/
