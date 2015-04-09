@@ -34,7 +34,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
     private static ArrayList<NextGameData> nextGameData;
-    private static ArrayList<User> lastNames = new ArrayList<User>();
+    private static ArrayList<User> lastNames;
     private CustomAdapter cAdapter;
 
     public DatabaseQueries() {
@@ -51,7 +51,7 @@ public class DatabaseQueries extends Activity {
             userTable = mClient.getTable(User.class);
             nextGameTable = mClient.getTable("NextGame", NextGameData.class);
             nextGameData = new ArrayList<>();
-
+            lastNames = new ArrayList<>();
         } catch (MalformedURLException e) {
             Log.i("tag", "error with mobile service connection");
             e.printStackTrace();
@@ -143,7 +143,7 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    /*public static void addNextGame(final NextGameData ngd) {
+    public static void addNextGame(final NextGameData ngd) {
 
 
         new AsyncTask<Void, Void, String>() {
@@ -168,7 +168,7 @@ public class DatabaseQueries extends Activity {
                 }
             }
         }.execute();
-    }*/
+    }
 
         public void showAll()
         {
@@ -196,18 +196,21 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    public static ArrayList<User> getUser() {
+    public static ArrayList<User> getUser()
+    {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
                     final MobileServiceList<User> result = userTable.execute().get();
-                    lastNames.clear();
-                    for (User item : result) {
+                    //lastNames.clear();
+                    for (User item : result)
+                    {
                         lastNames.add(item);
                         Log.i("UserTable", "First Name: " + item.getFirstname());
                     }
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
                 return null;
@@ -240,27 +243,4 @@ public class DatabaseQueries extends Activity {
         }.execute();
         return nextGameData;
     }
-    /*public static ArrayList<NextGameData> getNextGame() {
-        try {
-            nextGameTable.execute(new TableQueryCallback<NextGameData>() {
-                public void onCompleted(List<NextGameData> result, int count,
-                                        Exception exception, ServiceFilterResponse response) {
-                    if (exception == null)//it found something in the db
-                    {
-                        nextGameData.clear();
-                        for (NextGameData item : result) {
-                            nextGameData.add(item);
-                            Log.i("NextGameData", "Date is " + item.getDate());
-                        }
-
-                    } else {
-                        exception.printStackTrace();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return nextGameData;
-    }*/
 }

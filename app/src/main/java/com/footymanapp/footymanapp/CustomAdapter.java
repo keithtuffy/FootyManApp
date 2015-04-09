@@ -18,26 +18,31 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 class CustomAdapter extends ArrayAdapter<User> {
+    private ArrayList<User> array;
     private Context mContext;
 
-    public CustomAdapter(Context context)
+    public CustomAdapter(Context context, ArrayList<User> array)
     {
         super(context, R.layout.listviewlayout);
-        this.mContext = context;
+        this.array = array;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
-        final User users = getItem(position);
-        if (rowView == null) {
+        if (rowView == null)
+        {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(R.layout.listviewlayout, parent, false);
         }
-        final TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
-        // Put the next lastname into the TextView
-        textViewName.setText(users.getLastname());
+        User users = getItem(position);
+        if(users != null)
+        {
+            final TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
+            // Put the next lastname into the TextView
+            textViewName.setText(users.getLastname());
+        }
         return rowView;
     }
 
