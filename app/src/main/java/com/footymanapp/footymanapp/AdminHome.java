@@ -41,10 +41,15 @@ public class AdminHome extends ActionBarActivity {
         Button nextGame = (Button) findViewById(R.id.nextGame);
         nextGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(AdminHome.this, UserNextGame.class));
+                startActivity(new Intent(AdminHome.this, NextGame.class));
             }
         });
-
+        Button addDelete = (Button) findViewById(R.id.editDeleteButton);
+        addDelete.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(AdminHome.this, EditDeletePlayer.class));
+            }
+        });
 
     }
 

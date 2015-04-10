@@ -9,53 +9,58 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 
 public class SubsPayment extends ListActivity {
-    private ArrayList<User> names;
+    public ArrayList<User> userList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subspayment);
 
-        //String[] name = {"a","s","d","f","g","h","j","y","r","e","w","q"};
+        userList = new ArrayList<>();
+        userList.add(new User("1", "Dave", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
 
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), R.layout.listviewlayout, name);
-        //getListView().setAdapter(adapter);
+        ListAdapter theAdapter = new ArrayAdapter<User>(this, R.layout.listviewlayout,R.id.textViewName, userList);
 
-        names = new ArrayList<>(DatabaseQueries.getUser());
 
-        //userListView = (ListView) findViewById(android.R.id.list);
-        //userListView.setAdapter (new InnerCustomAdapter(this, name));
+        //Log.i("Tag", "TEST" + userList.get(0).getLastname());
+        ListView userListView = (ListView) findViewById(android.R.id.list);
+        userListView.setAdapter(theAdapter);
         }
     }
 
-/*class InnerCustomAdapter  {
-    private String[] array;
-    private Context mContext;
+class InnerCustomAdapter extends ArrayAdapter<User> {
+//    private ArrayList<User> array;
+//    private Context mContext;
 
-    public InnerCustomAdapter(Context context, String[] array)
-    {
-        super(context, R.layout.listviewlayout);
-        this.array = array;
+    public InnerCustomAdapter(Context context, ArrayList<User> names) {
+        super(context, R.layout.listviewlayout, names);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = convertView;
-        if (rowView == null)
-        {
-            LayoutInflater inflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.listviewlayout, parent, false);
-        }
-        String currentUser = toString();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View rowView = inflater.inflate(R.layout.listviewlayout,parent,false);
+
+        User currentUser = getItem(position);
         TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
-            // Put the next lastname into the TextView
-        textViewName.setText(currentUser);
+        // Put the next lastname into the TextView
+        textViewName.setText(currentUser.getLastname());
 
         return rowView;
-    }*/
+    }
+}
 

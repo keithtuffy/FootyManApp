@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 
 public class Login extends ActionBarActivity {
-
+    static ArrayList<User> userList;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,6 +36,7 @@ public class Login extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, RegisterTeam.class));
+
           }
         });
 

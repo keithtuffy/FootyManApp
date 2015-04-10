@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#4CC417"
-    tools:context="${com.footymanapp.footymanapp}.${SubsPayment}"
+
     android:weightSum="1">
 
 <ListView

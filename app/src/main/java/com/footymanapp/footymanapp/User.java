@@ -7,10 +7,10 @@ public class User {
 
     @com.google.gson.annotations.SerializedName("password")
     private String password;
-    public User(String id, String password){
-        this.id = id;
-        this.password = password;
-    }
+//    public User(String id, String password){
+//        this.id = id;
+//        this.password = password;
+//    }
 
     private String firstname;
     private String lastname;
@@ -39,7 +39,9 @@ public class User {
     public String getPassword(){
         return password;
     }
+
     public void setLastname(String name){this.lastname = lastname;}
+
     public String getLastname(){return lastname;}
 
     public String getDob() {

@@ -18,10 +18,10 @@ public class UserNextGame extends ActionBarActivity {
 
         ngdList = new ArrayList<NextGameData>(DatabaseQueries.getNextGame());
 
-        Log.i("DATE", "Date is "+ngdList.get(0).getDate());
-        Log.i("HOME", "Home is "+ngdList.get(0).getHomeTeam());
-        Log.i("AWAY", "Away is "+ngdList.get(0).getAwayTeam());
-        Log.i("TIME", "Time is "+ngdList.get(0).getTime());
+//        Log.i("DATE", "Date is "+ngdList.get(0).getDate());
+//        Log.i("HOME", "Home is "+ngdList.get(0).getHomeTeam());
+//        Log.i("AWAY", "Away is "+ngdList.get(0).getAwayTeam());
+//        Log.i("TIME", "Time is "+ngdList.get(0).getTime());
 
         for(int i = 0;i < ngdList.size();i++)
         {
