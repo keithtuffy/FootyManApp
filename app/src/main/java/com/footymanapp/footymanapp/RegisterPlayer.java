@@ -69,6 +69,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
                 Intent pic = new Intent();
                 pic.setType("image/*");
+                setResult(RESULT_OK,pic);
                 pic.setAction(Intent.ACTION_GET_CONTENT);
                 Intent chooser = Intent.createChooser(pic, "Select Profile Picture");
                 chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));

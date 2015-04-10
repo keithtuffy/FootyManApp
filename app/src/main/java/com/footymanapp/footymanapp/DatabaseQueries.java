@@ -33,7 +33,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
-    protected static ArrayList<NextGameData> nextGameData;
+    static ArrayList<NextGameData> nextGameData;
     private static ArrayList<User> lastNames;
     private CustomAdapter cAdapter;
 
@@ -230,7 +230,7 @@ public class DatabaseQueries extends Activity {
                     final MobileServiceList<NextGameData> result = nextGameTable.execute().get();
                     for(NextGameData item : result)
                     {
-                        nextGameData.add(item);
+                        DatabaseQueries.nextGameData.add(item);
                         Log.i("NextGameData", "Date is " + nextGameData.get(0).getDate());
                     }
 

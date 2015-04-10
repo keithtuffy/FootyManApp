@@ -18,7 +18,7 @@ public class UserNextGame extends ActionBarActivity {
 
         DatabaseQueries.getNextGame();
 
-        //Log.i("DATE", "Date is "+DatabaseQueries.nextGameData.get(0).getDate());
+        Log.i("DATE", "Date is "+DatabaseQueries.nextGameData.get(0).getDate());
        // Log.i("HOME", "Home is "+ngdList.get(0).getHomeTeam());
        // Log.i("AWAY", "Away is "+ngdList.get(0).getAwayTeam());
         //Log.i("TIME", "Time is "+ngdList.get(0).getTime());
