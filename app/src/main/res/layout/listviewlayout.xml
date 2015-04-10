@@ -26,7 +26,6 @@
         android:layout_height="60dp"
         android:textColor="#343434"
         android:textSize="16sp"
-
         android:checked="false"
         android:layout_weight="0"
         android:layout_alignParentRight="true"
