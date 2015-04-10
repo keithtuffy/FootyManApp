@@ -13,12 +13,10 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +33,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
     ImageView profilePic;
     Uri outputFileUri;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
@@ -264,10 +263,27 @@ public class RegisterPlayer extends ActionBarActivity {
         });
     }
 
-    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (reqCode == 1) {
-                profilePic.setImageURI(data.getData());
+            if (requestCode == 1) {
+                final boolean isCamera;
+                if (data == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = false;
+                    } else {
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+                if (isCamera) {
+                    profilePic.setImageURI(outputFileUri);
+                    Log.i("camera", outputFileUri.toString());
+
+                } else {
+                    profilePic.setImageURI(data.getData());
+                }
             }
         }
     }
