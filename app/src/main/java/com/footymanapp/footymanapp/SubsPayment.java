@@ -33,7 +33,7 @@ public class SubsPayment extends ListActivity {
         userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
         userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
 
-        ListAdapter theAdapter = new ArrayAdapter<User>(this, R.layout.listviewlayout,R.id.textViewName, userList);
+        ListAdapter theAdapter = new InnerCustomAdapter(this, userList);
 
 
         //Log.i("Tag", "TEST" + userList.get(0).getLastname());
