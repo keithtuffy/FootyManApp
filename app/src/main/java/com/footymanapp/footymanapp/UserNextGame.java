@@ -16,7 +16,7 @@ public class UserNextGame extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_next_game);
 
-        ngdList = new ArrayList<NextGameData>(DatabaseQueries.getNextGame());
+        //ngdList = new ArrayList<NextGameData>(DatabaseQueries.getNextGame());
 
 //        Log.i("DATE", "Date is "+ngdList.get(0).getDate());
 //        Log.i("HOME", "Home is "+ngdList.get(0).getHomeTeam());
