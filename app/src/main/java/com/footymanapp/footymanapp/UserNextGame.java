@@ -16,17 +16,18 @@ public class UserNextGame extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_next_game);
 
-        ngdList = new ArrayList<NextGameData>(DatabaseQueries.getNextGame());
+        DatabaseQueries.getNextGame();
 
-        Log.i("DATE", "Date is "+ngdList.get(0).getDate());
-        Log.i("HOME", "Home is "+ngdList.get(0).getHomeTeam());
-        Log.i("AWAY", "Away is "+ngdList.get(0).getAwayTeam());
-        Log.i("TIME", "Time is "+ngdList.get(0).getTime());
+        //Log.i("DATE", "Date is "+DatabaseQueries.nextGameData.get(0).getDate());
+       // Log.i("HOME", "Home is "+ngdList.get(0).getHomeTeam());
+       // Log.i("AWAY", "Away is "+ngdList.get(0).getAwayTeam());
+        //Log.i("TIME", "Time is "+ngdList.get(0).getTime());
 
-        for(int i = 0;i < ngdList.size();i++)
+        for(int i = 0;i < DatabaseQueries.nextGameData.size();i++)
         {
+            Log.i("loop", "blah blah blah");
             TextView d = (TextView) findViewById(R.id.userTextViewDate);
-            d.setText(ngdList.get(i).getDate());
+            d.setText(DatabaseQueries.nextGameData.get(i).getDate());
             //String date = d.getText().toString();
 
             TextView ht = (TextView) findViewById(R.id.userHomeTeamEditText);
