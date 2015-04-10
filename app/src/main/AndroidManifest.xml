@@ -36,15 +36,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AdminHome" />
-        <activity android:name=".RegisterTeam" />
-        <activity android:name=".MapsActivity" />
-        <activity android:name=".RegisterPlayer" />
-        <activity android:name=".SubsPayment" />
-        <activity android:name=".NextGame" />
-        <activity android:name=".UserNextGame" />
-        <activity android:name=".UserHome" />
-        <activity android:name=".EditDeletePlayer"/>
+        <activity android:name=".AdminHome" android:screenOrientation="portrait" />
+        <activity android:name=".RegisterTeam" android:screenOrientation="portrait" />
+        <activity android:name=".MapsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".RegisterPlayer" android:screenOrientation="portrait" />
+        <activity android:name=".SubsPayment" android:screenOrientation="portrait" />
+        <activity android:name=".NextGame" android:screenOrientation="portrait" />
+        <activity android:name=".UserNextGame" android:screenOrientation="portrait" />
+        <activity android:name=".UserHome" android:screenOrientation="portrait" />
+        <activity android:name=".EditDeletePlayer" android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
