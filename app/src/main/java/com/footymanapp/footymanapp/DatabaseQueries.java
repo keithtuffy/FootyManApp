@@ -33,7 +33,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
-    private static ArrayList<NextGameData> nextGameData;
+    static ArrayList<NextGameData> nextGameData;
     private static ArrayList<User> lastNames;
     private CustomAdapter cAdapter;
 
@@ -50,7 +50,6 @@ public class DatabaseQueries extends Activity {
             teamTable = mClient.getTable(Team.class);
             userTable = mClient.getTable(User.class);
             nextGameTable = mClient.getTable("NextGame", NextGameData.class);
-            nextGameData = new ArrayList<>();
             lastNames = new ArrayList<>();
         } catch (MalformedURLException e) {
             Log.i("tag", "error with mobile service connection");
@@ -219,8 +218,9 @@ public class DatabaseQueries extends Activity {
         return lastNames;
     }
 
-    public static ArrayList<NextGameData> getNextGame()
+    public static void getNextGame()
     {
+        nextGameData = new ArrayList<>();
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -230,17 +230,18 @@ public class DatabaseQueries extends Activity {
                     final MobileServiceList<NextGameData> result = nextGameTable.execute().get();
                     for(NextGameData item : result)
                     {
-                        nextGameData.add(item);
-                        //Log.i("NextGameData", "Date is " + item.getDate());
+                        DatabaseQueries.nextGameData.add(item);
+                        Log.i("NextGameData", "Date is " + nextGameData.get(0).getDate());
                     }
 
                 } catch (Exception exception)
                 {
                     exception.printStackTrace();
                 }
+
                 return null;
             }
         }.execute();
-        return nextGameData;
+
     }
 }
