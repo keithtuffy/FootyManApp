@@ -23,44 +23,20 @@ public class SubsPayment extends ListActivity {
 
         userList = new ArrayList<>();
         userList.add(new User("1", "Dave", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
-        userList.add(new User("1","Dave","Prendy", "password","30-08-1986","none",false,"12345","prendy@fuckyou.com","Striker","Newbridge"));
+        userList.add(new User("1", "Keith", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "Kevin", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "John", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "Andy", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "Alan", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "Joe", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "Pete", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "Ian", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
+        userList.add(new User("1", "Denis", "Prendy", "password", "30-08-1986", "none", false, "12345", "prendy@fuckyou.com", "Striker", "Newbridge"));
 
-        ListAdapter theAdapter = new InnerCustomAdapter(this, userList);
+        ListAdapter theAdapter = new CustomAdapter(this, userList);
 
-
-        //Log.i("Tag", "TEST" + userList.get(0).getLastname());
         ListView userListView = (ListView) findViewById(android.R.id.list);
         userListView.setAdapter(theAdapter);
-        }
-    }
-
-class InnerCustomAdapter extends ArrayAdapter<User> {
-//    private ArrayList<User> array;
-//    private Context mContext;
-
-    public InnerCustomAdapter(Context context, ArrayList<User> names) {
-        super(context, R.layout.listviewlayout, names);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View rowView = inflater.inflate(R.layout.listviewlayout,parent,false);
-
-        User currentUser = getItem(position);
-        TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
-        // Put the next lastname into the TextView
-        textViewName.setText(currentUser.getLastname());
-
-        return rowView;
     }
 }
 

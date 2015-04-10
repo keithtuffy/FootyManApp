@@ -7,7 +7,7 @@
     android:weightSum="1">
 
     <ListView
-        android:id="@+id/editList"
+        android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="362dp"
         android:layout_weight="0.50">
