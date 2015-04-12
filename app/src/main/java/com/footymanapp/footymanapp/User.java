@@ -21,6 +21,7 @@ public class User {
     private String medicalcondition;
     private String email;
     private String teamid;
+    private boolean selected;
 
     public User (String id, String firstname, String lastname, String password, String DOB, String medicalCondition, boolean isManager, String phoneNumber, String email, String position, String teamid ){
         this.id = id;
@@ -34,6 +35,7 @@ public class User {
         this.medicalcondition = medicalCondition;
         this.email= email;
         this.teamid = teamid;
+        selected = false;
     }
 
     public String getPassword(){
@@ -106,5 +108,12 @@ public class User {
 
     public void setTeamid(String teamid) {
         this.teamid = teamid;
+    }
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

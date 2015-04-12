@@ -4,20 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
-import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 //import com.microsoft.azure.storage.*;
@@ -33,12 +27,8 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
-    static ArrayList<NextGameData> nextGameData;
-    private static ArrayList<User> lastNames;
-    private CustomAdapter cAdapter;
 
     public DatabaseQueries() {
-
         Log.i("database", "table worked");
     }
 
@@ -50,13 +40,11 @@ public class DatabaseQueries extends Activity {
             teamTable = mClient.getTable(Team.class);
             userTable = mClient.getTable(User.class);
             nextGameTable = mClient.getTable("NextGame", NextGameData.class);
-            lastNames = new ArrayList<>();
         } catch (MalformedURLException e) {
             Log.i("tag", "error with mobile service connection");
             e.printStackTrace();
         }
     }
-
     public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException {
         final boolean[] confirm = new boolean[1];
         new AsyncTask<Void, Void, Void>() {
@@ -167,81 +155,5 @@ public class DatabaseQueries extends Activity {
                 }
             }
         }.execute();
-    }
-
-        public void showAll()
-        {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    final MobileServiceList<User> result = userTable.execute().get();
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            cAdapter.clear();
-                            for (User item : result) {
-                                cAdapter.add(item);
-                            }
-                        }
-                    });
-                } catch (Exception exception)
-                {
-                 exception.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
-    }
-
-    public static ArrayList<User> getUser()
-    {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    final MobileServiceList<User> result = userTable.execute().get();
-                    //lastNames.clear();
-                    for (User item : result)
-                    {
-                        lastNames.add(item);
-                        Log.i("UserTable", "First Name: " + item.getFirstname());
-                    }
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
-        return lastNames;
-    }
-
-    public static void getNextGame()
-    {
-        nextGameData = new ArrayList<>();
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-
-                    final MobileServiceList<NextGameData> result = nextGameTable.execute().get();
-                    for(NextGameData item : result)
-                    {
-                        DatabaseQueries.nextGameData.add(item);
-                        Log.i("NextGameData", "Date is " + nextGameData.get(0).getDate());
-                    }
-
-                } catch (Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-
-                return null;
-            }
-        }.execute();
-
     }
 }

@@ -27,8 +27,6 @@ import java.util.Locale;
 public class NextGame extends ActionBarActivity
 
 {
-    TextView dateText;
-    int mYear, mMonth, mDay;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +37,7 @@ public class NextGame extends ActionBarActivity
             public void onClick(View v) {
                 TextView dateText = (TextView) findViewById(R.id.editTextDate);
 
-                EditText date = (EditText) findViewById(R.id.editTextDate);
+                //EditText date = (EditText) findViewById(R.id.editTextDate);
                 String d = dateText.getText().toString();
 
                 EditText homeTeam = (EditText) findViewById(R.id.homeTeamEditText);
@@ -52,7 +50,7 @@ public class NextGame extends ActionBarActivity
                 String kot = koTime.getText().toString();
 
                 NextGameData ngd = new NextGameData(d, ht, at, kot);
-                //DatabaseQueries.addNextGame(ngd);
+                DatabaseQueries.addNextGame(ngd);
                 nextGameAddedAlert();
 
                 dateText.setText("");
