@@ -156,4 +156,32 @@ public class DatabaseQueries extends Activity {
             }
         }.execute();
     }
+//    private static void refreshItemsFromTable() {
+//
+//        // Get the items that weren't marked as completed and add them in the
+//        // adapter
+//        new AsyncTask<Void, Void, Void>() {
+//
+//            @Override
+//            protected Void doInBackground(Void... params) {
+//                try {
+//                    final MobileServiceList<User> result = userTable.where().field("selected").eq(false).execute().get();
+//                    runOnUiThread(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            mAdapter.clear();
+//
+//                            for (ToDoItem item : result) {
+//                                mAdapter.add(item);
+//                            }
+//                        }
+//                    });
+//                } catch (Exception exception) {
+//                    createAndShowDialog(exception, "Error");
+//                }
+//                return null;
+//            }
+//        }.execute();
+//    }
 }

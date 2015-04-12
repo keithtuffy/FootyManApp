@@ -233,7 +233,9 @@ public class RegisterPlayer extends ActionBarActivity {
                     em.setError(null);
                     mc.setError(null);
                     pos.setError(null);
-                } else {
+                }
+                else
+                {
                     User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname);
                     DatabaseQueries.addUser(user);
                     playerCreationAlert();
@@ -259,7 +261,6 @@ public class RegisterPlayer extends ActionBarActivity {
                     pw.setText("");
                 }
             }
-
         });
     }
 
@@ -291,7 +292,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
     public void playerCreationAlert() {
         AlertDialog.Builder playerAlert = new AlertDialog.Builder(this);
-        playerAlert.setMessage("\tCongratulations,\nYour Profile has been created").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        playerAlert.setMessage("Congratulations,\nYour Profile has been created").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
