@@ -2,6 +2,7 @@ package com.footymanapp.footymanapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,12 +11,14 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-//import com.microsoft.azure.storage.*;
-//import com.microsoft.azure.storage.blob.*;
+import com.microsoft.azure.storage.*;
+import com.microsoft.azure.storage.blob.*;
 
 
 /**
@@ -27,6 +30,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
+    private static String storageConnectionString;
 
     public DatabaseQueries() {
         Log.i("database", "table worked");
@@ -156,32 +160,61 @@ public class DatabaseQueries extends Activity {
             }
         }.execute();
     }
-//    private static void refreshItemsFromTable() {
-//
-//        // Get the items that weren't marked as completed and add them in the
-//        // adapter
-//        new AsyncTask<Void, Void, Void>() {
-//
-//            @Override
-//            protected Void doInBackground(Void... params) {
-//                try {
-//                    final MobileServiceList<User> result = userTable.where().field("selected").eq(false).execute().get();
-//                    runOnUiThread(new Runnable() {
-//
-//                        @Override
-//                        public void run() {
-//                            mAdapter.clear();
-//
-//                            for (ToDoItem item : result) {
-//                                mAdapter.add(item);
-//                            }
-//                        }
-//                    });
-//                } catch (Exception exception) {
-//                    createAndShowDialog(exception, "Error");
-//                }
-//                return null;
-//            }
-//        }.execute();
-//    }
+
+    public static void getStorageConnecton(){
+        // Define the connection-string with your values
+        storageConnectionString =
+                "DefaultEndpointsProtocol=http;" +
+                        "AccountName=footymanapp;" +
+                        "AccountKey=dh3Mh8Yz3ue1St4sx4QMv8tBb4nzb8OiemxfBkbvtx7EeDeTqBxTSHREcGkwhIIuJUvpmklZxV0jvFFD13I7QA==";
+
+        try
+        {
+            // Retrieve storage account from connection-string.
+            CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+
+            // Create the blob client.
+            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+
+            // Get a reference to a container.
+            // The container name must be lower case
+            CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+
+            // Create the container if it does not exist.
+            container.createIfNotExists();
+        }
+        catch (Exception e)
+        {
+            // Output the stack trace.
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void addProfilePic(Uri path, String imgName){
+        try
+        {
+            // Retrieve storage account from connection-string.
+            CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+
+            // Create the blob client.
+            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+
+            // Retrieve reference to a previously created container.
+            CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+
+            // Define the path to a local file.
+            final String filePath = path.toString();
+
+            // Create or overwrite the "myimage.jpg" blob with contents from a local file.
+            CloudBlockBlob blob = container.getBlockBlobReference(imgName);
+            File source = new File(filePath);
+            blob.upload(new FileInputStream(source), source.length());
+        }
+        catch (Exception e)
+        {
+            // Output the stack trace.
+            e.printStackTrace();
+        }
+    }
 }
