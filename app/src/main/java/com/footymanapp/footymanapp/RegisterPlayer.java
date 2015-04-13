@@ -52,7 +52,7 @@ public class RegisterPlayer extends ActionBarActivity {
                 final String fname = "img_" + System.currentTimeMillis() + ".jpg";
                 final File sdImageMainDirectory = new File(root, fname);
                 fix[0] = Uri.fromFile(sdImageMainDirectory);
-                Log.i("output", RegisterPlayer.this.outputFileUri.toString());
+                //Log.i("output", RegisterPlayer.this.outputFileUri.toString());
 
                 // Camera.
                 final List<Intent> cameraIntents = new ArrayList<Intent>();
@@ -102,6 +102,7 @@ public class RegisterPlayer extends ActionBarActivity {
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");
                 mDatePicker.show();
+
             }
         });
 
