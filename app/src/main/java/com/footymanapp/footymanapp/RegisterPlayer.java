@@ -314,7 +314,7 @@ public class RegisterPlayer extends ActionBarActivity {
         playerAlert.show();
     }
 
-    public void onDateSet(DatePicker view)
+    //public void onDateSet(DatePicker view)
     {
         if(mD)
     }
