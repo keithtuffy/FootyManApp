@@ -282,6 +282,7 @@ public class RegisterPlayer extends ActionBarActivity {
                     }
                 }
                 if (isCamera) {
+
                     profilePic.setImageURI(outputFileUri);
                     Log.i("camera", outputFileUri.toString());
 
