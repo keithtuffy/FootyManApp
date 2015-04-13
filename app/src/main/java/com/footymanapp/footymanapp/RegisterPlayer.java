@@ -95,17 +95,18 @@ public class RegisterPlayer extends ActionBarActivity {
                 mDatePicker = new DatePickerDialog(RegisterPlayer.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         // TODO Auto-generated method stub
-                    /*      Your code   to get date and time    */
                         selectedmonth = selectedmonth + 1;
                         dateEdit.setText(String.format("%02d", selectedday) + "-" + String.format("%02d", selectedmonth) + "-" + selectedyear);
+                    }
+                    public void onDateSelectedButtonClick()
+                    {
+
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");
                 mDatePicker.show();
-
             }
         });
-
 
         Button regPlayer = (Button) findViewById(R.id.registerPlayer);
         regPlayer.setOnClickListener(new View.OnClickListener() {
@@ -284,6 +285,7 @@ public class RegisterPlayer extends ActionBarActivity {
                 if (isCamera) {
 
                     profilePic.setImageURI(outputFileUri);
+
                     Log.i("camera", outputFileUri.toString());
 
                 } else {
@@ -310,5 +312,10 @@ public class RegisterPlayer extends ActionBarActivity {
             }
         }).create();
         playerAlert.show();
+    }
+
+    public void onDateSet(DatePicker view)
+    {
+        if(mD)
     }
 }
