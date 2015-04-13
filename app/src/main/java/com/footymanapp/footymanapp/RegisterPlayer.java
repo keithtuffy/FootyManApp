@@ -37,7 +37,7 @@ public class RegisterPlayer extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
-
+        final Uri[] fix = new Uri[1];
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +51,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
                 final String fname = "img_" + System.currentTimeMillis() + ".jpg";
                 final File sdImageMainDirectory = new File(root, fname);
-                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+                fix[0] = Uri.fromFile(sdImageMainDirectory);
                 Log.i("output", RegisterPlayer.this.outputFileUri.toString());
 
                 // Camera.
@@ -72,12 +72,12 @@ public class RegisterPlayer extends ActionBarActivity {
                 Intent pic = new Intent();
                 pic.setType("image/*");
                 pic.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(pic, "Select Profile Picture"), 1);
                 Intent chooser = Intent.createChooser(pic, "Select Profile Picture");
                 chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
                 startActivityForResult(chooser, 1);
 
             }
+
         });
         final TextView dateEdit = (TextView) findViewById(R.id.DOB);
         dateEdit.setOnClickListener(new View.OnClickListener() {
@@ -261,6 +261,8 @@ public class RegisterPlayer extends ActionBarActivity {
             }
 
         });
+
+        outputFileUri = fix[0];
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
