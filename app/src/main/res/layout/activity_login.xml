@@ -44,7 +44,7 @@
             android:inputType="textPassword"
             android:hint="Password"
             android:ems="10"
-            android:id="@+id/lastname" />
+            android:id="@+id/password" />
 
         <Button
             android:layout_width="100dp"

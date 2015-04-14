@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,20 +16,11 @@ import java.util.concurrent.ExecutionException;
 
 
 public class Login extends ActionBarActivity {
-    static ArrayList<User> userList;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        TextView username = (TextView) findViewById(R.id.username);
-
-        final String logusername = username.getText().toString();
-
-        TextView password = (TextView) findViewById(R.id.lastname);
-
-        final String logpassword = password.getText().toString();
 
     TextView registerButton = (TextView) findViewById(R.id.registerButton);
     registerButton.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +43,29 @@ public class Login extends ActionBarActivity {
 
        @Override
        public void onClick(View v) {
-           startActivity(new Intent(Login.this, AdminHome.class));
+
+           TextView username = (TextView) findViewById(R.id.username);
+           final String logusername = username.getText().toString();
+
+           TextView password = (TextView) findViewById(R.id.password);
+           final String logpassword = password.getText().toString();
+
+           try {
+               if(DatabaseQueries.login(logusername, logpassword))
+               {
+                   startActivity(new Intent(Login.this, AdminHome.class));
+               }
+               else
+               {
+                   Log.i("LOGUSER", logusername);
+                   Log.i("LOGPass", logpassword);
+                   Log.i("LOGIN", "Error");
+               }
+           } catch (ExecutionException e) {
+               e.printStackTrace();
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           }
 
 
 

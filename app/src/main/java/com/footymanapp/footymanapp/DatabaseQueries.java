@@ -54,30 +54,32 @@ public class DatabaseQueries extends Activity {
         final boolean[] confirm = new boolean[1];
         new AsyncTask<Void, Void, Void>()
         {
-            boolean confirmDetails;
+            boolean confirmDetails = false;
 
             protected Void doInBackground(Void... params) {
                 try {
-//                    //final User result = userTable.select("id").execute();
-//                    if(username == result.)
-//                    if (result == null)
-//                        confirmDetails = false;
-//                    else if (result.getPassword() == password) {
-//                        confirmDetails = true;
-//                        Log.i("TAG", "results work.....little daisy");
-//                    }
-
+                    MobileServiceList<User> result = userTable.select("id", "password").execute().get();
+                    for (User item : result)
+                    {
+                        if (item.getId() == username && item.getPassword() == password ) {
+                            confirm[0] = true;
+                            Log.i("LOGIN WORKING", item.getId() + item.getPassword());
+                        } else {
+                            confirm[0] = false;
+                            Log.i("LOGIN NOT WORKING", item.getId() + item.getPassword());
+                        }
+                    }
                 } catch (Exception exception) {
                     Log.i("TAG", "error - dam");
                     exception.printStackTrace();
-                    confirmDetails = false;
+                   // confirmDetails = false;
                 }
-                confirm[0] = confirmDetails;
+                //confirm[0] = confirmDetails;
                 return null;
             }
         }.execute();
 
-
+        //return true;
         return confirm[0];
     }
 
