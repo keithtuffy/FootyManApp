@@ -49,6 +49,7 @@ public class DatabaseQueries extends Activity {
             e.printStackTrace();
         }
     }
+    //fix
     static boolean confirm;
     public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
     {
