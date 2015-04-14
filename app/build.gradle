@@ -28,4 +28,5 @@ dependencies {
     compile 'com.microsoft.azure:azure-mobile-services-android-sdk:2.0.2-beta'
     compile 'com.google.android.gms:play-services:7.0.0'
     compile 'com.microsoft.azure.android:azure-storage-android:0.5.0@aar'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

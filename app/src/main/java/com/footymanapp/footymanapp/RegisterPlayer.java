@@ -21,6 +21,8 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,20 +35,24 @@ public class RegisterPlayer extends ActionBarActivity {
 
 
     private ImageView profilePic;
-    private static Uri outputFileUri;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
+
+       //image
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pic = new Intent();
+                /*Intent pic = new Intent();
                 pic.setType("image/*");
                 pic.setAction(Intent.ACTION_GET_CONTENT);
                 Intent chooser = Intent.createChooser(pic, "Select Profile Picture");
-                startActivityForResult(chooser, 1);
+                startActivityForResult(chooser, 1);*/
+                openImageIntent();
+
 
             }
 
@@ -244,14 +250,70 @@ public class RegisterPlayer extends ActionBarActivity {
         //Log.i("camera set", fix[0].toString());
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        profilePic.setImageURI(null);
-        if(data.getData() != null) {
-            profilePic.setImageURI(data.getData());
-            Log.i("gallery", data.getData().toString());
+    private Uri outputFileUri;
+
+    private void openImageIntent() {
+
+// Determine Uri of camera image to save.
+        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "footyman" + File.separator);
+        root.mkdirs();
+        final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
+        final File sdImageMainDirectory = new File(root, fname);
+        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for(ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            cameraIntents.add(intent);
         }
 
+        // Filesystem.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+        startActivityForResult(chooserIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                final boolean isCamera;
+                if (data == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = false;
+                    } else {
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+
+
+                if (isCamera) {
+                    profilePic.setImageURI(outputFileUri);
+                } else {
+                    profilePic.setImageURI(data.getData());
+                }
+            }
+        }
     }
 
 
