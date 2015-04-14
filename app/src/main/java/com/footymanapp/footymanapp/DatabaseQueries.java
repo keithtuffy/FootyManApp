@@ -49,20 +49,23 @@ public class DatabaseQueries extends Activity {
             e.printStackTrace();
         }
     }
-    /*public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException {
+    public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
+    {
         final boolean[] confirm = new boolean[1];
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, Void>()
+        {
             boolean confirmDetails;
 
             protected Void doInBackground(Void... params) {
                 try {
-                    final User result = userTable.lookUp("keith").get();
-                    if (result == null)
-                        confirmDetails = false;
-                    else if (result.getPassword() == password) {
-                        confirmDetails = true;
-                        Log.i("TAG", "results work.....little daisy");
-                    }
+//                    //final User result = userTable.select("id").execute();
+//                    if(username == result.)
+//                    if (result == null)
+//                        confirmDetails = false;
+//                    else if (result.getPassword() == password) {
+//                        confirmDetails = true;
+//                        Log.i("TAG", "results work.....little daisy");
+//                    }
 
                 } catch (Exception exception) {
                     Log.i("TAG", "error - dam");
@@ -76,7 +79,7 @@ public class DatabaseQueries extends Activity {
 
 
         return confirm[0];
-    }*/
+    }
 
 
     public static void addUser(final User user) {
