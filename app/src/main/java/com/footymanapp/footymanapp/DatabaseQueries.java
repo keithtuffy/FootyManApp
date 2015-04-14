@@ -49,23 +49,24 @@ public class DatabaseQueries extends Activity {
             e.printStackTrace();
         }
     }
+    static boolean confirm;
     public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
     {
-        final boolean[] confirm = new boolean[1];
+
         new AsyncTask<Void, Void, Void>()
         {
-            boolean confirmDetails = false;
+            boolean confirmDetail;
 
             protected Void doInBackground(Void... params) {
                 try {
-                    MobileServiceList<User> result = userTable.select("id", "password").execute().get();
+                    MobileServiceList<User> result = userTable.where().field("id").eq(username).execute().get();
                     for (User item : result)
                     {
-                        if (item.getId() == username && item.getPassword() == password ) {
-                            confirm[0] = true;
+                        if (item.getId().equals(username) && item.getPassword().equals(password) ) {
+                            confirm = true;
                             Log.i("LOGIN WORKING", item.getId() + item.getPassword());
                         } else {
-                            confirm[0] = false;
+                            confirm = false;
                             Log.i("LOGIN NOT WORKING", item.getId() + item.getPassword());
                         }
                     }
@@ -74,13 +75,14 @@ public class DatabaseQueries extends Activity {
                     exception.printStackTrace();
                    // confirmDetails = false;
                 }
-                //confirm[0] = confirmDetails;
+
                 return null;
             }
+
         }.execute();
 
         //return true;
-        return confirm[0];
+        return confirm;
     }
 
 
