@@ -74,7 +74,8 @@ public class RegisterPlayer extends ActionBarActivity {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         // TODO Auto-generated method stub
                         selectedmonth = selectedmonth + 1;
-                        dateEdit.setText(String.format("%02d", selectedday) + "-" + String.format("%02d", selectedmonth) + "-" + selectedyear);
+                        //dateEdit.setText(String.format("%02d", selectedday) + "-" + String.format("%02d", selectedmonth) + "-" + selectedyear);
+                        dateEdit.setText(selectedyear + "-" + String.format("%02d", selectedmonth) + "-" + String.format("%02d", selectedday));
                     }
                     public void onDateSelectedButtonClick()
                     {
@@ -240,14 +241,12 @@ public class RegisterPlayer extends ActionBarActivity {
                     pos.setText("");
                     pw.setText("");
 
-                     // save picture
-                    //DatabaseQueries.setStorageConnecton();
+                     // save picture in azure
+                    DatabaseQueries.setStorageConnecton();
                 }
             }
         });
 
-        //outputFileUri = fix[0];
-        //Log.i("camera set", fix[0].toString());
     }
 
 

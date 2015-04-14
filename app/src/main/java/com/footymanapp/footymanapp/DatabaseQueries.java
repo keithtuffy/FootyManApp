@@ -163,31 +163,42 @@ public class DatabaseQueries extends Activity {
 
     public static void setStorageConnecton(){
         // Define the connection-string with your values
-        storageConnectionString =
-                "DefaultEndpointsProtocol=http;" +
-                        "AccountName=footymanapp;" +
-                        "AccountKey=dh3Mh8Yz3ue1St4sx4QMv8tBb4nzb8OiemxfBkbvtx7EeDeTqBxTSHREcGkwhIIuJUvpmklZxV0jvFFD13I7QA==";
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                String done;
+                try {
+                    storageConnectionString ="DefaultEndpointsProtocol=http;" + "AccountName=footymanapp;" + "AccountKey=dh3Mh8Yz3ue1St4sx4QMv8tBb4nzb8OiemxfBkbvtx7EeDeTqBxTSHREcGkwhIIuJUvpmklZxV0jvFFD13I7QA==";
 
-        try
-        {
-            // Retrieve storage account from connection-string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+                    CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
 
-            // Create the blob client.
-            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+                    // Create the blob client.
+                    CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
-            // Get a reference to a container.
-            // The container name must be lower case
-            CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+                    // Get a reference to a container.
+                    // The container name must be lower case
+                    CloudBlobContainer container = blobClient.getContainerReference("profilepics");
 
-            // Create the container if it does not exist.
-            container.createIfNotExists();
-        }
-        catch (Exception e)
-        {
-            // Output the stack trace.
-            e.printStackTrace();
-        }
+                    // Create the container if it does not exist.
+                    container.createIfNotExists();
+                    done = "true";
+                } catch (Exception e) {
+                    done = "false";
+                    e.printStackTrace();
+                }
+                return done;
+            }
+
+            protected void onPostExecute(String done) {
+                if (done.equals("true")) {
+                    Log.i("storage connection", "success");
+                } else {
+                    Log.i("storage connection", "failed");
+
+                }
+            }
+        }.execute();
+
 
     }
 
