@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,49 +32,20 @@ import java.util.List;
 public class RegisterPlayer extends ActionBarActivity {
 
 
-    ImageView profilePic;
-    Uri outputFileUri;
+    private ImageView profilePic;
+    private static Uri outputFileUri;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
-        final Uri[] fix = new Uri[1];
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures/" + "Footyman" + File.separator);
-                Log.i("root", root.toString());
-                if (!root.exists()) {
-                    root.mkdirs();
-                    Log.i("root", root.toString());
-                }
-
-                final String fname = "img_" + System.currentTimeMillis() + ".jpg";
-                final File sdImageMainDirectory = new File(root, fname);
-                fix[0] = Uri.fromFile(sdImageMainDirectory);
-                //Log.i("output", RegisterPlayer.this.outputFileUri.toString());
-
-                // Camera.
-                final List<Intent> cameraIntents = new ArrayList<Intent>();
-                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                final PackageManager packageManager = getPackageManager();
-                final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-                for (ResolveInfo res : listCam) {
-                    final String packageName = res.activityInfo.packageName;
-                    final Intent intent = new Intent(captureIntent);
-                    intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                    intent.setPackage(packageName);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    cameraIntents.add(intent);
-                }
-
-
                 Intent pic = new Intent();
                 pic.setType("image/*");
                 pic.setAction(Intent.ACTION_GET_CONTENT);
                 Intent chooser = Intent.createChooser(pic, "Select Profile Picture");
-                chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
                 startActivityForResult(chooser, 1);
 
             }
@@ -261,38 +233,25 @@ public class RegisterPlayer extends ActionBarActivity {
                     mc.setText("");
                     pos.setText("");
                     pw.setText("");
+
+                     // save picture
+                    //DatabaseQueries.setStorageConnecton();
                 }
             }
         });
 
-        outputFileUri = fix[0];
+        //outputFileUri = fix[0];
+        //Log.i("camera set", fix[0].toString());
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                final boolean isCamera;
-                if (data == null) {
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    if (action == null) {
-                        isCamera = false;
-                    } else {
-                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    }
-                }
-                if (isCamera) {
 
-                    profilePic.setImageURI(outputFileUri);
-
-                    Log.i("camera", outputFileUri.toString());
-
-                } else {
-                    profilePic.setImageURI(data.getData());
-                }
-            }
+        profilePic.setImageURI(null);
+        if(data.getData() != null) {
+            profilePic.setImageURI(data.getData());
+            Log.i("gallery", data.getData().toString());
         }
+
     }
 
 

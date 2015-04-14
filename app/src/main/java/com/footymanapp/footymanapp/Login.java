@@ -52,15 +52,8 @@ public class Login extends ActionBarActivity {
        @Override
        public void onClick(View v) {
            startActivity(new Intent(Login.this, AdminHome.class));
-           try {
-               if (DatabaseQueries.login(logusername, logpassword)) {
-                   startActivity(new Intent(Login.this, AdminHome.class));
-               }
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           } catch (ExecutionException e) {
-               e.printStackTrace();
-           }
+
+
 
 
        }
