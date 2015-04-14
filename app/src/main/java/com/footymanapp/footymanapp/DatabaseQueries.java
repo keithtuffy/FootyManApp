@@ -207,30 +207,46 @@ public class DatabaseQueries extends Activity {
 
     }
 
-    public static void addProfilePic(Uri path, String imgName){
-        try
-        {
-            // Retrieve storage account from connection-string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+    public static void addProfilePic(final Uri path,final String imgName) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                String done;
 
-            // Create the blob client.
-            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+                try {
+                    // Retrieve storage account from connection-string.
+                    CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
 
-            // Retrieve reference to a previously created container.
-            CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+                    // Create the blob client.
+                    CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
-            // Define the path to a local file.
-            final String filePath = path.toString();
+                    // Retrieve reference to a previously created container.
+                    CloudBlobContainer container = blobClient.getContainerReference("profilepics");
 
-            // Create or overwrite the "myimage.jpg" blob with contents from a local file.
-            CloudBlockBlob blob = container.getBlockBlobReference(imgName);
-            File source = new File(filePath);
-            blob.upload(new FileInputStream(source), source.length());
-        }
-        catch (Exception e)
-        {
-            // Output the stack trace.
-            e.printStackTrace();
-        }
+                    // Define the path to a local file.
+                    final String filePath = path.toString();
+
+                    // Create or overwrite the "myimage.jpg" blob with contents from a local file.
+                    CloudBlockBlob blob = container.getBlockBlobReference(imgName);
+                    File source = new File(filePath);
+                    blob.upload(new FileInputStream(source), source.length());
+                    done = "true";
+                } catch (Exception e) {
+                    // Output the stack trace.
+                    done = "false";
+                    e.printStackTrace();
+                }
+                return done;
+            }
+            protected void onPostExecute(String done) {
+                if (done.equals("true")) {
+                    Log.i("add pic", "success");
+                } else {
+                    Log.i("add pic", "failed");
+
+                }
+            }
+        }.execute();
     }
+
 }
