@@ -15,4 +15,10 @@
     <string name="teamNameText">Team Name</string>
     <string name="title_activity_maps">Map</string>
 
+    <string-array name="positions">
+        <item>Goalkeeper</item>
+        <item>Defender</item>
+        <item>Midfield</item>
+        <item>Forward</item>
+    </string-array>
 </resources>
