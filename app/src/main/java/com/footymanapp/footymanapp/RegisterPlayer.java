@@ -2,14 +2,12 @@ package com.footymanapp.footymanapp;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,11 +16,12 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,56 +34,32 @@ import java.util.List;
 public class RegisterPlayer extends ActionBarActivity {
 
 
-    ImageView profilePic;
-    Uri outputFileUri;
+    private ImageView profilePic;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
-        final Uri[] fix = new Uri[1];
+
+       //image
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures/" + "Footyman" + File.separator);
-                Log.i("root", root.toString());
-                if (!root.exists()) {
-                    root.mkdirs();
-                    Log.i("root", root.toString());
-                }
-
-                final String fname = "img_" + System.currentTimeMillis() + ".jpg";
-                final File sdImageMainDirectory = new File(root, fname);
-                fix[0] = Uri.fromFile(sdImageMainDirectory);
-                //Log.i("output", RegisterPlayer.this.outputFileUri.toString());
-
-                // Camera.
-                final List<Intent> cameraIntents = new ArrayList<Intent>();
-                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                final PackageManager packageManager = getPackageManager();
-                final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-                for (ResolveInfo res : listCam) {
-                    final String packageName = res.activityInfo.packageName;
-                    final Intent intent = new Intent(captureIntent);
-                    intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                    intent.setPackage(packageName);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    cameraIntents.add(intent);
-                }
-
-
-                Intent pic = new Intent();
+                /*Intent pic = new Intent();
                 pic.setType("image/*");
                 pic.setAction(Intent.ACTION_GET_CONTENT);
                 Intent chooser = Intent.createChooser(pic, "Select Profile Picture");
-                chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-                startActivityForResult(chooser, 1);
+                startActivityForResult(chooser, 1);*/
+                openImageIntent();
+
 
             }
 
         });
         final TextView dateEdit = (TextView) findViewById(R.id.DOB);
         dateEdit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -99,32 +74,16 @@ public class RegisterPlayer extends ActionBarActivity {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         // TODO Auto-generated method stub
                         selectedmonth = selectedmonth + 1;
-                        dateEdit.setText(String.format("%02d", selectedday) + "-" + String.format("%02d", selectedmonth) + "-" + selectedyear);
-                        Log.i("TEST", "WORKED");
+                        //dateEdit.setText(String.format("%02d", selectedday) + "-" + String.format("%02d", selectedmonth) + "-" + selectedyear);
+                        dateEdit.setText(selectedyear + "-" + String.format("%02d", selectedmonth) + "-" + String.format("%02d", selectedday));
                     }
+                    public void onDateSelectedButtonClick()
+                    {
 
+                    }
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");
                 mDatePicker.show();
-//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.showSoftInput(dateEdit, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
-
-        TextView pos = (TextView)findViewById(R.id.position);
-        final String[] positions = {"Goalkeeper","Defender","Midfield","Forward"};
-        pos.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(RegisterPlayer.this);
-                builder.setTitle("Choose Position")
-                        .setItems(positions, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                TextView position = (TextView) findViewById(R.id.position);
-                                position.setText(positions[which]);
-                                // Create the AlertDialog object and return it
-                            }
-                        });
-                builder.show();
             }
         });
 
@@ -255,7 +214,9 @@ public class RegisterPlayer extends ActionBarActivity {
                     em.setError(null);
                     mc.setError(null);
                     pos.setError(null);
-                } else {
+                }
+                else
+                {
                     User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname);
                     DatabaseQueries.addUser(user);
                     playerCreationAlert();
@@ -279,14 +240,58 @@ public class RegisterPlayer extends ActionBarActivity {
                     mc.setText("");
                     pos.setText("");
                     pw.setText("");
+
+                     // save picture in azure
+                    DatabaseQueries.setStorageConnecton();
+                    DatabaseQueries.addProfilePic(outputFileUri, username);
                 }
             }
         });
 
-        outputFileUri = fix[0];
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    private Uri outputFileUri;
+
+    private void openImageIntent() {
+
+// Determine Uri of camera image to save.
+        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "footyman" + File.separator);
+        root.mkdirs();
+        final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
+        final File sdImageMainDirectory = new File(root, fname);
+        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for(ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            cameraIntents.add(intent);
+        }
+
+        // Filesystem.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+        startActivityForResult(chooserIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 final boolean isCamera;
@@ -300,13 +305,12 @@ public class RegisterPlayer extends ActionBarActivity {
                         isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     }
                 }
+
+
                 if (isCamera) {
-
                     profilePic.setImageURI(outputFileUri);
-
-                    Log.i("camera", outputFileUri.toString());
-
                 } else {
+                    outputFileUri = data.getData();
                     profilePic.setImageURI(data.getData());
                 }
             }
@@ -331,4 +335,5 @@ public class RegisterPlayer extends ActionBarActivity {
         }).create();
         playerAlert.show();
     }
+
 }
