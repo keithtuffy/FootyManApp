@@ -48,10 +48,10 @@ public class DatabaseQueries extends Activity {
             e.printStackTrace();
         }
     }
-    static boolean[] confirm;
+
     public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
     {
-        //confirm = new boolean[1];
+        final boolean[] confirm = new boolean[1];
         new AsyncTask<Void, Void, Void>()
         {
             boolean confirmDetails;
@@ -73,14 +73,10 @@ public class DatabaseQueries extends Activity {
                 } catch (Exception exception) {
                     Log.i("TAG", "error - dam");
                     exception.printStackTrace();
-                   // confirmDetails = false;
                 }
-                //confirm[0] = confirmDetails;
                 return null;
             }
         }.execute();
-
-        //return true;
         return confirm[0];
     }
 
