@@ -2,7 +2,10 @@ package com.footymanapp.footymanapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -10,73 +13,88 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import android.widget.Toast;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
 
 public class Login extends ActionBarActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+
+    TextView username;
+    TextView password;
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-    TextView registerButton = (TextView) findViewById(R.id.registerButton);
-    registerButton.setOnClickListener(new View.OnClickListener() {
+        TextView registerButton = (TextView) findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, RegisterTeam.class));
 
-          }
+            }
         });
-
-
 
 
         Context context = this;
         DatabaseQueries.setupConnection(context);
 
         Button loginButton = (Button) findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        loginButton.setOnClickListener(new View.OnClickListener() {
 
-       @Override
-       public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-           TextView username = (TextView) findViewById(R.id.username);
-           final String logusername = username.getText().toString();
+                username = (TextView) findViewById(R.id.username);
+                final String logusername = username.getText().toString();
 
-           TextView password = (TextView) findViewById(R.id.password);
-           final String logpassword = password.getText().toString();
-           startActivity(new Intent(Login.this, AdminHome.class));
-//           try {
-//               //if(DatabaseQueries.login(logusername, logpassword))
-//               {
-//                   startActivity(new Intent(Login.this, AdminHome.class));
-//               }
-//               else
-//               {
-//                   Log.i("LOGUSER", logusername);
-//                   Log.i("LOGPass", logpassword);
-//                   Log.i("LOGIN", "Error");
-//               }
-//           } catch (ExecutionException e) {
-//               e.printStackTrace();
-//           } catch (InterruptedException e) {
-//               e.printStackTrace();
-//           }
+                password = (TextView) findViewById(R.id.password);
+                final String logpassword = password.getText().toString();
 
+                new AsyncTask<Void, Void, Void>() {
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            MobileServiceList<User> result = DatabaseQueries.userTable.where().field("id").eq(logusername).execute().get();
+                            if(result.size() < 1)
+                            {
+                                Handler handler = new Handler(Looper.getMainLooper());
+                                handler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        displayToast();
+                                    }
+                                }, 50);
+                            }
+                            for (User item : result)
+                            {
+                                if (logusername.equals(item.getId()) && logpassword.equals(item.getPassword()) && item.isIsmanager() == false)
+                                {
+                                    startActivity(new Intent(Login.this, UserHome.class));
+                                    Log.i("LOGIN WORKING", item.getId() + item.getPassword());
+                                }
+                                else if(logusername.equals(item.getId()) && logpassword.equals(item.getPassword()) && item.isIsmanager() == true)
+                                {
+                                    startActivity(new Intent(Login.this, AdminHome.class));
+                                }
+                            }
+                        } catch (Exception exception) {
+                            Log.i("TAG", "error - dam");
+                            exception.printStackTrace();
+                        }
+                        return null;
+                    }
+                }.execute();
+            }
 
-
-
-       }
-
-     });
+        });
 
     }
-
-
+    public void displayToast()
+    {
+        username.setText("");
+        password.setText("");
+        Toast toast = Toast.makeText(this, "Invalid login details!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

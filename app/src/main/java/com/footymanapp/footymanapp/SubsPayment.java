@@ -54,7 +54,7 @@ public class SubsPayment extends ListActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<User> result = userTable.execute().get();
+                    final MobileServiceList<User> result = userTable.where().field("ismanager").eq(false).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override

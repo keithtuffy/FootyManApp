@@ -23,5 +23,13 @@ public class UserHome extends ActionBarActivity
             startActivity(new Intent(UserHome.this, UserNextGame.class));
                     }
                 });
+
+
+        Button manDetails = (Button) findViewById(R.id.manDetails);
+        manDetails.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(UserHome.this, ManagerContact.class));
+            }
+        });
             }
 }

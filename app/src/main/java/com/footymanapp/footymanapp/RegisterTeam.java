@@ -131,7 +131,7 @@ public class RegisterTeam extends ActionBarActivity {
         teamAlert.setMessage("\t\tCongratulations!!\nYour Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(RegisterTeam.this,RegisterPlayer.class);
+                Intent intent = new Intent(RegisterTeam.this,AdminHome.class);
                 intent.putExtra("ismanager", "true");
                 intent.putExtra("teamname",teamname);
                 startActivity(intent);

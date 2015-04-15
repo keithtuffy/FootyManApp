@@ -2,9 +2,12 @@ package com.footymanapp.footymanapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
@@ -27,10 +30,11 @@ import com.microsoft.azure.storage.blob.*;
 public class DatabaseQueries extends Activity {
 
     private static MobileServiceClient mClient;
-    private static MobileServiceTable<User> userTable;
+    protected static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
     private static String storageConnectionString;
+    public static boolean[] confirm = new boolean[1];
 
     public DatabaseQueries() {
         Log.i("database", "table worked");
@@ -49,36 +53,36 @@ public class DatabaseQueries extends Activity {
         }
     }
 
-    public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
-    {
-        final boolean[] confirm = new boolean[1];
-        new AsyncTask<Void, Void, Void>()
-        {
-            boolean confirmDetails;
-
-            protected Void doInBackground(Void... params) {
-                try {
-                    MobileServiceList<User> result = userTable.where().field("id").eq(username).execute().get();
-                    for (User item : result)
-                    {
-                        if (username.equals(item.getId()) && password.equals(item.getPassword())) {
-                            confirm[0] = true;
-                            Log.i("LOGIN WORKING", item.getId() + item.getPassword());
-                        } else
-                        {
-                            confirm[0] = false;
-                            Log.i("LOGIN NOT WORKING", item.getId() + item.getPassword());
-                        }
-                    }
-                } catch (Exception exception) {
-                    Log.i("TAG", "error - dam");
-                    exception.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
-        return confirm[0];
-    }
+//    public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
+//    {
+//        final boolean[] confirm = new boolean[1];
+//        new AsyncTask<Void, Void, Void>()
+//        {
+//            boolean confirmDetails;
+//            boolean[] confirm = new boolean[1];
+//            protected Void doInBackground(Void... params) {
+//                try {
+//                    MobileServiceList<User> result = userTable.where().field("id").eq(username).execute().get();
+//                    for (User item : result)
+//                    {
+//                        if (username.equals(item.getId()) && password.equals(item.getPassword())) {
+//                            confirm[0] = true;
+//                            Log.i("LOGIN WORKING", item.getId() + item.getPassword());
+//                        } else
+//                        {
+//                            confirm[0] = false;
+//                            Log.i("LOGIN NOT WORKING", item.getId() + item.getPassword());
+//                        }
+//                    }
+//                } catch (Exception exception) {
+//                    Log.i("TAG", "error - dam");
+//                    exception.printStackTrace();
+//                }
+//                return null;
+//            }
+//        }.execute();
+//        return confirm[0];
+//    }
 
 
     public static void addUser(final User user) {
@@ -248,3 +252,18 @@ public class DatabaseQueries extends Activity {
     }
 
 }
+//final TextView position = (TextView) findViewById(R.id.position);
+//position.setOnClickListener(new View.OnClickListener() {
+//@Override
+//public void onClick(View v) {
+//final String[] pos = {"Goalkeeper", "Defender", "Midfield", "Forward"};
+//        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterPlayer.this);
+//        builder.setTitle("Choose Position")
+//        .setItems(pos, new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int which) {
+//        position.setText(pos[which]);
+//        }
+//        });
+//        builder.show();
+//        }
+//        });
