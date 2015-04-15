@@ -20,7 +20,6 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -251,7 +250,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
                      // save picture in azure
                     DatabaseQueries.setStorageConnecton();
-                    DatabaseQueries.addProfilePic(outputFileUri, username+".jpg");
+                    DatabaseQueries.addProfilePic(picPath, username+".jpg");
                 }
             }
         });
@@ -260,15 +259,21 @@ public class RegisterPlayer extends ActionBarActivity {
 
 
     private Uri outputFileUri;
+    private String picPath;
 
     private void openImageIntent() {
 
 // Determine Uri of camera image to save.
+
         final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "footyman" + File.separator);
         root.mkdirs();
         final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
         final File sdImageMainDirectory = new File(root, fname);
         outputFileUri = Uri.fromFile(sdImageMainDirectory);
+       // outputFileUri = sdImageMainDirectory.getPath();
+        Log.i("testsd", sdImageMainDirectory.getPath());
+        picPath = Environment.getExternalStorageDirectory() + File.separator + "footyman" + File.separator + fname;
+
 
         // Camera.
         final List<Intent> cameraIntents = new ArrayList<Intent>();
@@ -317,8 +322,12 @@ public class RegisterPlayer extends ActionBarActivity {
 
                 if (isCamera) {
                     profilePic.setImageURI(outputFileUri);
+
                 } else {
-                    outputFileUri = data.getData();
+                    picPath = data.getData().getPath();
+                    //picPath = FileUtils.getPath(this, data.getData());
+                    Log.i("test data",data.getData().toString());
+                    Log.i("test output", outputFileUri.getPath());
                     profilePic.setImageURI(data.getData());
                 }
             }
