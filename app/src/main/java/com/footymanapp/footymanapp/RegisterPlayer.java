@@ -251,7 +251,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
                      // save picture in azure
                     DatabaseQueries.setStorageConnecton();
-                    //DatabaseQueries.addProfilePic(outputFileUri, username+".jpg");
+                    DatabaseQueries.addProfilePic(outputFileUri, username+".jpg");
                 }
             }
         });

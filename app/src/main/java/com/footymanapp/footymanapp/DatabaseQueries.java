@@ -227,7 +227,7 @@ public class DatabaseQueries extends Activity {
                     // Create or overwrite the "myimage.jpg" blob with contents from a local file.
                     CloudBlockBlob blob = container.getBlockBlobReference(imgName);
                     File source = new File(path.toString());
-                    blob.upload(new FileInputStream(source.toURI().getPath()), source.length());
+                    blob.upload(new FileInputStream("/storage/emulated/0/footyman/img_1429035461315.jpg"), source.length());
                     done = "true";
                 } catch (Exception e) {
                     // Output the stack trace.
