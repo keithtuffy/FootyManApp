@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -86,7 +85,21 @@ public class RegisterPlayer extends ActionBarActivity {
                 mDatePicker.show();
             }
         });
-
+        final TextView position = (TextView) findViewById(R.id.position);
+        position.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] pos = {"Goalkeeper", "Defender", "Midfield", "Forward"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterPlayer.this);
+                builder.setTitle("Choose Position")
+                        .setItems(pos, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                position.setText(pos[which]);
+                            }
+                        });
+                builder.show();
+            }
+        });
         Button regPlayer = (Button) findViewById(R.id.registerPlayer);
         regPlayer.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -49,23 +49,23 @@ public class Login extends ActionBarActivity {
 
            TextView password = (TextView) findViewById(R.id.password);
            final String logpassword = password.getText().toString();
-
-           try {
-               if(DatabaseQueries.login(logusername, logpassword))
-               {
-                   startActivity(new Intent(Login.this, AdminHome.class));
-               }
-               else
-               {
-                   Log.i("LOGUSER", logusername);
-                   Log.i("LOGPass", logpassword);
-                   Log.i("LOGIN", "Error");
-               }
-           } catch (ExecutionException e) {
-               e.printStackTrace();
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
+           startActivity(new Intent(Login.this, AdminHome.class));
+//           try {
+//               //if(DatabaseQueries.login(logusername, logpassword))
+//               {
+//                   startActivity(new Intent(Login.this, AdminHome.class));
+//               }
+//               else
+//               {
+//                   Log.i("LOGUSER", logusername);
+//                   Log.i("LOGPass", logpassword);
+//                   Log.i("LOGIN", "Error");
+//               }
+//           } catch (ExecutionException e) {
+//               e.printStackTrace();
+//           } catch (InterruptedException e) {
+//               e.printStackTrace();
+//           }
 
 
 

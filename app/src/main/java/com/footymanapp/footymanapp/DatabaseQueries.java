@@ -36,7 +36,6 @@ public class DatabaseQueries extends Activity {
         Log.i("database", "table worked");
     }
 
-
     public static void setupConnection(Context t) {
         try {
             mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
@@ -49,25 +48,25 @@ public class DatabaseQueries extends Activity {
             e.printStackTrace();
         }
     }
-    //fix
-    static boolean confirm;
+    static boolean[] confirm;
     public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
     {
-
+        //confirm = new boolean[1];
         new AsyncTask<Void, Void, Void>()
         {
-            boolean confirmDetail;
+            boolean confirmDetails;
 
             protected Void doInBackground(Void... params) {
                 try {
                     MobileServiceList<User> result = userTable.where().field("id").eq(username).execute().get();
                     for (User item : result)
                     {
-                        if (item.getId().equals(username) && item.getPassword().equals(password) ) {
-                            confirm = true;
+                        if (username.equals(item.getId()) && password.equals(item.getPassword())) {
+                            confirm[0] = true;
                             Log.i("LOGIN WORKING", item.getId() + item.getPassword());
-                        } else {
-                            confirm = false;
+                        } else
+                        {
+                            confirm[0] = false;
                             Log.i("LOGIN NOT WORKING", item.getId() + item.getPassword());
                         }
                     }
@@ -76,14 +75,13 @@ public class DatabaseQueries extends Activity {
                     exception.printStackTrace();
                    // confirmDetails = false;
                 }
-
+                //confirm[0] = confirmDetails;
                 return null;
             }
-
         }.execute();
 
         //return true;
-        return confirm;
+        return confirm[0];
     }
 
 
