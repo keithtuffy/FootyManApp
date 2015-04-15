@@ -226,11 +226,12 @@ public class DatabaseQueries extends Activity {
 
                     // Define the path to a local file.
                     final String filePath = path.toString();
+                    Log.i("filepath", filePath);
 
                     // Create or overwrite the "myimage.jpg" blob with contents from a local file.
                     CloudBlockBlob blob = container.getBlockBlobReference(imgName);
-                    File source = new File(filePath);
-                    blob.upload(new FileInputStream(source), source.length());
+                    File source = new File(path.toString());
+                    blob.upload(new FileInputStream(source.toURI().getPath()), source.length());
                     done = "true";
                 } catch (Exception e) {
                     // Output the stack trace.

@@ -45,11 +45,6 @@ public class RegisterPlayer extends ActionBarActivity {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent pic = new Intent();
-                pic.setType("image/*");
-                pic.setAction(Intent.ACTION_GET_CONTENT);
-                Intent chooser = Intent.createChooser(pic, "Select Profile Picture");
-                startActivityForResult(chooser, 1);*/
                 openImageIntent();
 
 
@@ -256,7 +251,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
                      // save picture in azure
                     DatabaseQueries.setStorageConnecton();
-                    DatabaseQueries.addProfilePic(outputFileUri, username);
+                    //DatabaseQueries.addProfilePic(outputFileUri, username+".jpg");
                 }
             }
         });
