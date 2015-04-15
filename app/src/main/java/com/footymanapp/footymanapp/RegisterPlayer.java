@@ -94,7 +94,7 @@ public class RegisterPlayer extends ActionBarActivity {
                         });
                 builder.show();
             }
-        });
+        });//Keith is bent
         Button regPlayer = (Button) findViewById(R.id.registerPlayer);
         regPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
