@@ -204,7 +204,7 @@ public class DatabaseQueries extends Activity {
 
     }
 
-    public static void addProfilePic(final Uri path,final String imgName) {
+    public static void addProfilePic(final String filePath,final String imgName) {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
@@ -221,13 +221,15 @@ public class DatabaseQueries extends Activity {
                     CloudBlobContainer container = blobClient.getContainerReference("profilepics");
 
                     // Define the path to a local file.
-                    final String filePath = path.toString();
                     Log.i("filepath", filePath);
 
                     // Create or overwrite the "myimage.jpg" blob with contents from a local file.
                     CloudBlockBlob blob = container.getBlockBlobReference(imgName);
-                    File source = new File(path.toString());
-                    blob.upload(new FileInputStream("/storage/emulated/0/footyman/img_1429035461315.jpg"), source.length());
+
+                    File source = new File(filePath);
+
+                    blob.upload(new FileInputStream(filePath),source.length());
+                    //blob.upload(new FileInputStream("/storage/emulated/0/footyman/img_1429035461315.jpg"), source.length());
                     done = "true";
                 } catch (Exception e) {
                     // Output the stack trace.
