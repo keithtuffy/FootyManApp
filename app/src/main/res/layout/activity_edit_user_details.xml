@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#4CC417"
+    android:gravity="bottom"
+    android:weightSum="1">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_weight="0.97">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="top">
+
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/register_player_header"
+                android:id="@+id/Header"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textSize="22sp" />
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/profilepic"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_below="@+id/Header"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/default_person_image"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:ems="10"
+                android:id="@+id/username"
+                android:layout_above="@+id/firstname"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/firstname"
+                android:hint="Username" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:ems="10"
+                android:id="@+id/firstname"
+                android:hint="First Name"
+                android:layout_above="@+id/lastname"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/lastname" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:ems="10"
+                android:id="@+id/lastname"
+                android:hint="Last Name"
+                android:layout_above="@+id/phone"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/phone" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/phone"
+                android:hint="Phone"
+                android:layout_above="@+id/email"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/email" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/DOB"
+                android:editable="false"
+                android:clickable="false"
+                android:focusable="true"
+                android:hint="Click to add DOB"
+                android:layout_above="@+id/medicalcondition"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/medicalcondition" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences|textEmailAddress"
+                android:ems="10"
+                android:id="@+id/email"
+                android:editable="false"
+                android:clickable="false"
+                android:hint="Email"
+                android:layout_above="@+id/DOB"
+                android:layout_alignEnd="@+id/DOB"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/medicalcondition"
+                android:hint="Medical Condition"
+                android:inputType="textCapSentences"
+                android:layout_above="@+id/position"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/position" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/position"
+                android:editable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Click to select Position"
+                android:layout_above="@+id/password"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/password" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/password"
+                android:hint="Password"
+                android:layout_above="@+id/registerPlayer"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true" />
+
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:id="@+id/registerPlayer"
+                android:layout_gravity="center"
+                android:background="@drawable/custombutton"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
