@@ -8,18 +8,6 @@
     android:clickable="true"
     android:id="@+id/Login">
 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="false"
-        android:background="#4CC417"
-        android:baselineAligned="false"
-        android:weightSum="1"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout">
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="180dp"

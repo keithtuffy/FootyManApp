@@ -1,36 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#4CC417"
     android:orientation="vertical"
     android:weightSum="1">
-
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
-        android:layout_height="362dp"
-        android:layout_weight="0.50"
-        android:layout_marginBottom="20dp">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01"
+        android:layout_above="@+id/deleteButton"
+        android:layout_marginBottom="10dp">
 
-        </ListView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <Button
-      android:id="@+id/editButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Edit Player"
-        android:background="@drawable/custombutton"
-        android:padding="5dp"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="35dp"
-        android:clickable="true"
-        android:gravity="center_vertical" />
+    </ListView>
 
     <Button
         android:id="@+id/deleteButton"
@@ -39,11 +28,23 @@
         android:text="Delete Player"
         android:padding="5dp"
         android:background="@drawable/custombutton"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="35dp"
         android:singleLine="false"
-        android:layout_centerInParent="true"
-        android:clickable="true" />
-    </RelativeLayout>
-</LinearLayout>
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="40dp" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Player"
+        android:background="@drawable/custombutton"
+        android:padding="5dp"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:layout_alignTop="@+id/deleteButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="40dp" />
+</RelativeLayout>

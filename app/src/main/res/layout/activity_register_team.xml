@@ -1,116 +1,125 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".RegisterTeam"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".RegisterTeam"
     android:background="#4CC417"
     android:id="@+id/RegisterTeam">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:background="#4CC417">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="90dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/register_header"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:id="@+id/Header"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/register_header"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:id="@+id/Header"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:id="@+id/crestpic"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/default_person_image"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/crestpic"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/default_person_image"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/firstname"
-        android:singleLine="false"
-        android:hint="@string/teamNameText"
-        android:layout_below="@+id/crestpic"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/email"
-        android:inputType="textCapSentences" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/firstname"
+                android:singleLine="false"
+                android:hint="@string/teamNameText"
+                android:layout_below="@+id/crestpic"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/email"
+                android:inputType="textCapSentences" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/email"
-        android:editable="false"
-        android:clickable="false"
-        android:hint="Email"
-        android:layout_below="@+id/firstname"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/email"
+                android:editable="false"
+                android:clickable="false"
+                android:hint="Email"
+                android:layout_below="@+id/firstname"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/phone"
-        android:hint="Phone"
-        android:layout_below="@+id/email"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/phone"
+                android:hint="Phone"
+                android:layout_below="@+id/email"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/managerName"
-        android:hint="Manager Name"
-        android:inputType="text"
-        android:layout_below="@+id/phone"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/phone" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/managerName"
+                android:hint="Manager Name"
+                android:inputType="text"
+                android:layout_below="@+id/phone"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/phone" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/agegroup"
-        android:hint="Age Group"
-        android:inputType="text"
-        android:layout_below="@+id/managerName"
-        android:layout_alignEnd="@+id/managerName"
-        android:layout_alignParentStart="true" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/agegroup"
+                android:hint="Age Group"
+                android:inputType="text"
+                android:layout_below="@+id/managerName"
+                android:layout_alignEnd="@+id/managerName"
+                android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="@string/register_team"
-        android:id="@+id/registerTeam"
-        android:background="@drawable/custombutton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:clickable="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:editable="false"
+                android:id="@+id/pitchlocation"
+                android:hint="Pitch Location"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:clickable="true"
+                android:enabled="true"
+                android:inputType="none"
+                android:paddingTop="5dp"
+                android:singleLine="false"
+                android:layout_below="@+id/agegroup"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:editable="false"
-        android:id="@+id/pitchlocation"
-        android:hint="Pitch Location"
-        android:paddingLeft="3dp"
-        android:textSize="18dp"
-        android:clickable="true"
-        android:enabled="true"
-        android:inputType="none"
-        android:paddingTop="5dp"
-        android:singleLine="false"
-        android:layout_below="@+id/agegroup"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-</RelativeLayout>
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="@string/register_team"
+                android:id="@+id/registerTeam"
+                android:background="@drawable/custombutton"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:layout_gravity="center" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
