@@ -39,7 +39,7 @@ public class RegisterTeam extends ActionBarActivity {
 
 
         // team crest pic
-        teamPic = (ImageView) findViewById(R.id.profilepic);
+        teamPic = (ImageView) findViewById(R.id.crestpic);
         teamPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,6 +255,37 @@ public class RegisterTeam extends ActionBarActivity {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
 
         startActivityForResult(chooserIntent, 1);
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                final boolean isCamera;
+                if (data == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = false;
+                    } else {
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+
+
+                if (isCamera) {
+                    teamPic.setImageURI(outputFileUri);
+                    fromCamera = true;
+                } else {
+
+                    picPath = data.getData().toString();
+                    Log.i("test data",picPath);
+                    Log.i("test output", outputFileUri.getPath());
+                    teamPic.setImageURI(data.getData());
+                }
+            }
+        }
     }
 }
 
