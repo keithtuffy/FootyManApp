@@ -72,8 +72,8 @@ public class RegisterTeam extends ActionBarActivity {
                 String agegroup = ag.getText().toString();
 
 
-                String pitchLocation = String.valueOf(MapsActivity.getLatitude()) + ", " + String.valueOf(MapsActivity.getLongitude());
-                //Log.i("tag69", "Pitch location is " + MapsActivity.getLatitude() + ", " + MapsActivity.getLongitude());
+                String latitude = String.valueOf(MapsActivity.getLatitude());
+                String longitude = String.valueOf(MapsActivity.getLongitude());
 
                 //validtion
                 if(teamname.length() == 0){
@@ -107,13 +107,13 @@ public class RegisterTeam extends ActionBarActivity {
                     ph.setError(null);
                     mn.setError(null);
                 }
-                else if(pitchLocation.length() == 0){
+                else if(latitude.length() == 0){
                     Toast toast = Toast.makeText(RegisterTeam.this, "Please set a location", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 else {
 
-                    Team team = new Team(teamname, email, phone, pitchLocation, managername, agegroup);
+                    Team team = new Team(teamname, email, phone, managername, agegroup, latitude, longitude);
                     Log.i("teamname", tn.getText().toString());
                     DatabaseQueries.addTeam(team);
 

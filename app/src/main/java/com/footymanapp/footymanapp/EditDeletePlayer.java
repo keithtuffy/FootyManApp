@@ -22,12 +22,18 @@ import java.util.ArrayList;
  * Created by prend_000 on 10/04/2015.
  */
 public class EditDeletePlayer extends ActionBarActivity {
-    public ArrayList<User> userList;
+    public static ArrayList<User> userList;
     private ArrayList<User> editList;
+
+    public static int getResult() {
+        return result;
+    }
+
+    static int result;
     public UserCustomAdapter theAdapter;
     private static MobileServiceClient mClient;
     private static MobileServiceTable<User> userTable;
-
+    public static User updateUser;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_delete);
@@ -50,57 +56,10 @@ public class EditDeletePlayer extends ActionBarActivity {
             public void onClick(View v) {
                 for (int i = 0; i < userList.size(); i++) {
                     if (userList.get(i).isSelected()) {
-                        new AsyncTask<Void, Void, Void>() {
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                try {
-                                    final MobileServiceList<User> result = DatabaseQueries.userTable.where().field("ismanager").eq(false).execute().get();
-                                    runOnUiThread(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            for (User item : result) {
-                                                editList.add(item);
-                                            }
-                                        }
-                                    });
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-                        }.execute();
-
-                        TextView un = (TextView) findViewById(R.id.username);
-                        un.setText(editList.get(i).getId());
-
-                        TextView fn = (TextView) findViewById(R.id.firstname);
-                        fn.setText(editList.get(i).getFirstname());
-
-                        TextView ln = (TextView) findViewById(R.id.lastname);
-                        ln.setText(editList.get(i).getLastname());
-
-                        TextView ph = (TextView) findViewById(R.id.phone);
-                        ph.setText(editList.get(i).getPhonenumber());
-
-                        TextView date = (TextView) findViewById(R.id.DOB);
-                        date.setText(editList.get(i).getDob());
-
-                        TextView em = (TextView) findViewById(R.id.email);
-                        em.setText(editList.get(i).getEmail());
-
-                        TextView mc = (TextView) findViewById(R.id.medicalcondition);
-                        mc.setText(editList.get(i).getMedicalcondition());
-
-                        TextView pos = (TextView) findViewById(R.id.position);
-                        pos.setText(editList.get(i).getPosition());
-
-                        TextView pw = (TextView) findViewById(R.id.password);
-                        pw.setText(editList.get(i).getPassword());
-
-                        //Log.i("CheckBox Test", userList.get(i).getFirstname());
+                        result = i;
+                        updateUser = userList.get(i);
+                        startActivity(new Intent(EditDeletePlayer.this, EditPlayerDetails.class));
                     }
-                    startActivity(new Intent(EditDeletePlayer.this, EditPlayerDetails.class));
                 }
             }
         });
