@@ -10,7 +10,8 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="362dp"
-        android:layout_weight="0.50">
+        android:layout_weight="0.50"
+        android:layout_marginBottom="20dp">
 
         </ListView>
 
@@ -25,7 +26,7 @@
       android:text="Edit Player"
         android:background="@drawable/custombutton"
         android:padding="5dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:layout_marginStart="35dp"
         android:clickable="true"
@@ -38,7 +39,7 @@
         android:text="Delete Player"
         android:padding="5dp"
         android:background="@drawable/custombutton"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="35dp"
         android:singleLine="false"

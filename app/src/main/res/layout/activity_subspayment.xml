@@ -6,8 +6,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#4CC417"
-
     android:weightSum="1">
+
 
 <ListView
     android:id="@android:id/list"

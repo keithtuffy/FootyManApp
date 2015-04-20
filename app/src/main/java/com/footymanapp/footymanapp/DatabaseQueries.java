@@ -8,10 +8,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.http.NextServiceFilterCallback;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilter;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 
@@ -32,6 +39,7 @@ import com.microsoft.azure.storage.blob.*;
  */
 public class DatabaseQueries extends Activity {
 
+    private ProgressBar mProgressBar;
     private static MobileServiceClient mClient;
     protected static MobileServiceTable<User> userTable;
     private static MobileServiceTable<Team> teamTable;
@@ -39,7 +47,8 @@ public class DatabaseQueries extends Activity {
     private static String storageConnectionString;
     public static boolean[] confirm = new boolean[1];
 
-    public DatabaseQueries() {
+    public DatabaseQueries()
+    {
         Log.i("database", "table worked");
     }
 
