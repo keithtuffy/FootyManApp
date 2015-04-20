@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,7 +118,11 @@ public class RegisterTeam extends ActionBarActivity {
                     Log.i("teamname", tn.getText().toString());
 
 
-                    DatabaseQueries.addTeam(team);
+                    try {
+                        DatabaseQueries.addTeam(team, RegisterTeam.this);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
 
                     tn.setError(null);
                     em.setError(null);
@@ -134,7 +139,7 @@ public class RegisterTeam extends ActionBarActivity {
                     teamCreationAlert(teamname);
 
                     DatabaseQueries.setStorageConnecton(picType);
-                    DatabaseQueries.addPic(picPath,"image.jpg", fromCamera, RegisterTeam.this, picType);
+                    DatabaseQueries.addPic(picPath,teamname+".jpg", fromCamera, RegisterTeam.this, picType);
                 }
             }
         });
