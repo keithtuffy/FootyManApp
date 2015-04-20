@@ -31,7 +31,7 @@ public class RegisterTeam extends ActionBarActivity {
 
     private ImageView teamPic;
     private boolean fromCamera = false;
-    private final String picType = "teamPic";
+    private final String picType = "teamPics";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,7 +163,7 @@ public class RegisterTeam extends ActionBarActivity {
         teamAlert.setMessage("\t\tCongratulations!!\nYour Team has been created. Press 'OK' to create your profile").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(RegisterTeam.this,AdminHome.class);
+                Intent intent = new Intent(RegisterTeam.this,RegisterPlayer.class);
                 intent.putExtra("ismanager", "true");
                 intent.putExtra("teamname",teamname);
                 startActivity(intent);
