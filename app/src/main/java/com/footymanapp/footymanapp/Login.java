@@ -99,6 +99,7 @@ public class Login extends ActionBarActivity {
                                 {
                                     Intent intent = new Intent(Login.this, UserHome.class);
                                     intent.putExtra("teamName", item.getTeamid() );
+                                    finish();
                                     startActivity(intent);
                                     Log.i("LOGIN WORKING", item.getId() + item.getPassword());
                                 }
@@ -106,6 +107,7 @@ public class Login extends ActionBarActivity {
                                 {
                                     Intent intent = new Intent(Login.this, AdminHome.class);
                                     intent.putExtra("teamName", item.getTeamid() );
+                                    finish();
                                     startActivity(intent);
                                 }
                             }
