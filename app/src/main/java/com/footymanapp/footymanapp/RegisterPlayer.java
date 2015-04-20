@@ -3,10 +3,14 @@ package com.footymanapp.footymanapp;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,9 +23,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,7 +41,8 @@ public class RegisterPlayer extends ActionBarActivity {
 
 
     private ImageView profilePic;
-
+    private boolean fromCamera = false;
+    private final String picType = "profilepics";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -250,7 +259,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
                      // save picture in azure
                     DatabaseQueries.setStorageConnecton();
-                    DatabaseQueries.addProfilePic(picPath, username+".jpg");
+                    DatabaseQueries.addPic(picPath, username+".jpg", fromCamera, RegisterPlayer.this, picType);
                 }
             }
         });
@@ -293,7 +302,6 @@ public class RegisterPlayer extends ActionBarActivity {
         final Intent galleryIntent = new Intent();
         galleryIntent.setType("image/*");
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
         // Chooser of filesystem options.
         final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
 
@@ -304,6 +312,7 @@ public class RegisterPlayer extends ActionBarActivity {
     }
 
     @Override
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
@@ -322,11 +331,11 @@ public class RegisterPlayer extends ActionBarActivity {
 
                 if (isCamera) {
                     profilePic.setImageURI(outputFileUri);
-
+                    fromCamera = true;
                 } else {
-                    picPath = data.getData().getPath();
-                    //picPath = FileUtils.getPath(this, data.getData());
-                    Log.i("test data",data.getData().toString());
+
+                    picPath = data.getData().toString();
+                    Log.i("test data",picPath);
                     Log.i("test output", outputFileUri.getPath());
                     profilePic.setImageURI(data.getData());
                 }
@@ -334,6 +343,21 @@ public class RegisterPlayer extends ActionBarActivity {
         }
     }
 
+    private String getRealPathFromURI(Uri uri) {
+        if (uri.getScheme().toString().compareTo("content")==0)
+        {
+            Cursor cursor =getContentResolver().query(uri, null, null, null, null);
+            if (cursor.moveToFirst())
+            {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);//Instead of "MediaStore.Images.Media.DATA" can be used "_data"
+                Uri filePathUri = Uri.parse(cursor.getString(column_index));
+                String file_name = filePathUri.getLastPathSegment().toString();
+                String file_path=filePathUri.getPath();
+                Toast.makeText(this, "File Name & PATH are:" + file_name + "\n" + file_path, Toast.LENGTH_LONG).show();
+            }
+        }
+        return" ";
+    }
 
     public void playerCreationAlert() {
         AlertDialog.Builder playerAlert = new AlertDialog.Builder(this);

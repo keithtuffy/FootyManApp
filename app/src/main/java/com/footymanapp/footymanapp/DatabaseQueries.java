@@ -1,6 +1,7 @@
 package com.footymanapp.footymanapp;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,8 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -208,7 +211,7 @@ public class DatabaseQueries extends Activity {
 
     }
 
-    public static void addProfilePic(final String filePath,final String imgName) {
+    public static void addPic(final String filePath,final String imgName, final boolean fromCamera,final Context content, final String picType) {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
@@ -222,19 +225,29 @@ public class DatabaseQueries extends Activity {
                     CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
                     // Retrieve reference to a previously created container.
-                    CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+                    CloudBlobContainer container = blobClient.getContainerReference(picType);
 
                     // Define the path to a local file.
                     Log.i("filepath", filePath);
 
                     // Create or overwrite the "myimage.jpg" blob with contents from a local file.
                     CloudBlockBlob blob = container.getBlockBlobReference(imgName);
+                    if(!fromCamera){
+                        Uri uri = Uri.parse(filePath);
+                        ContentResolver cr = content.getContentResolver();
+                       // File source = new File(filePath);
+                        InputStream fs = cr.openInputStream(uri);
+                        File source = new File(uri.getPath());
+                        blob.upload(fs,fs.available());
+                        done = "true";
+                    }
+                    else {
+                        File source = new File(filePath);
+                        blob.upload(new FileInputStream(filePath), source.length());
+                        done = "true";
+                    }
 
-                    File source = new File(filePath);
 
-                    blob.upload(new FileInputStream(filePath),source.length());
-                    //blob.upload(new FileInputStream("/storage/emulated/0/footyman/img_1429035461315.jpg"), source.length());
-                    done = "true";
                 } catch (Exception e) {
                     // Output the stack trace.
                     done = "false";
@@ -254,18 +267,4 @@ public class DatabaseQueries extends Activity {
     }
 
 }
-//final TextView position = (TextView) findViewById(R.id.position);
-//position.setOnClickListener(new View.OnClickListener() {
-//@Override
-//public void onClick(View v) {
-//final String[] pos = {"Goalkeeper", "Defender", "Midfield", "Forward"};
-//        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterPlayer.this);
-//        builder.setTitle("Choose Position")
-//        .setItems(pos, new DialogInterface.OnClickListener() {
-//public void onClick(DialogInterface dialog, int which) {
-//        position.setText(pos[which]);
-//        }
-//        });
-//        builder.show();
-//        }
-//        });
+

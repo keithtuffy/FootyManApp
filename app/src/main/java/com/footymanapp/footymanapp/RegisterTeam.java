@@ -1,8 +1,16 @@
 package com.footymanapp.footymanapp;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,16 +18,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RegisterTeam extends ActionBarActivity {
 
+    private ImageView teamPic;
+    private boolean fromCamera = false;
+    private final String picType = "teamPic";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_team);
+
+
+        // team crest pic
+        teamPic = (ImageView) findViewById(R.id.profilepic);
+        teamPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageIntent();
+
+
+            }
+
+        });
 
         // when the register team button is pressed
         Button regTeam = (Button) findViewById(R.id.registerTeam);
@@ -101,6 +130,9 @@ public class RegisterTeam extends ActionBarActivity {
                     mn.setText("");
                     ag.setText("");
                     teamCreationAlert(teamname);
+
+                    DatabaseQueries.setStorageConnecton();
+                    DatabaseQueries.addPic(picPath, teamname+".jpg", fromCamera, RegisterTeam.this, picType);
                 }
             }
         });
@@ -163,6 +195,66 @@ public class RegisterTeam extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getRealPathFromURI(Uri uri) {
+        if (uri.getScheme().toString().compareTo("content")==0)
+        {
+            Cursor cursor =getContentResolver().query(uri, null, null, null, null);
+            if (cursor.moveToFirst())
+            {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);//Instead of "MediaStore.Images.Media.DATA" can be used "_data"
+                Uri filePathUri = Uri.parse(cursor.getString(column_index));
+                String file_name = filePathUri.getLastPathSegment().toString();
+                String file_path=filePathUri.getPath();
+                Toast.makeText(this, "File Name & PATH are:" + file_name + "\n" + file_path, Toast.LENGTH_LONG).show();
+            }
+        }
+        return" ";
+    }
+
+    private Uri outputFileUri;
+    private String picPath;
+
+    private void openImageIntent() {
+
+// Determine Uri of camera image to save.
+
+        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "footyman" + File.separator);
+        root.mkdirs();
+        final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
+        final File sdImageMainDirectory = new File(root, fname);
+        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+        // outputFileUri = sdImageMainDirectory.getPath();
+        Log.i("testsd", sdImageMainDirectory.getPath());
+        picPath = Environment.getExternalStorageDirectory() + File.separator + "footyman" + File.separator + fname;
+
+
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for(ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            cameraIntents.add(intent);
+        }
+
+        // Filesystem.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source For Image");
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+        startActivityForResult(chooserIntent, 1);
     }
 }
 
