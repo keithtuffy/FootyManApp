@@ -258,7 +258,7 @@ public class RegisterPlayer extends ActionBarActivity {
                     pw.setText("");
 
                      // save picture in azure
-                    DatabaseQueries.setStorageConnecton();
+                    DatabaseQueries.setStorageConnecton(picType);
                     DatabaseQueries.addPic(picPath, username+".jpg", fromCamera, RegisterPlayer.this, picType);
                 }
             }

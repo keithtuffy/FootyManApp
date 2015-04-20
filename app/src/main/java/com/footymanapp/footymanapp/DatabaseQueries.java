@@ -179,7 +179,7 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    public static void setStorageConnecton(){
+    public static void setStorageConnecton(final String dir){
         // Define the connection-string with your values
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -195,7 +195,7 @@ public class DatabaseQueries extends Activity {
 
                     // Get a reference to a container.
                     // The container name must be lower case
-                    CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+                    CloudBlobContainer container = blobClient.getContainerReference(dir);
 
                     // Create the container if it does not exist.
                     container.createIfNotExists();
