@@ -89,6 +89,7 @@ public class EditDeletePlayer extends ActionBarActivity {
     public static int getResult() {
         return result;
     }
+
     public void getUser()
     {
         new AsyncTask<Void, Void, Void>() {

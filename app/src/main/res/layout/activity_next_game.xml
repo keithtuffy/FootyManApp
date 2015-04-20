@@ -27,7 +27,8 @@
         android:hint="Home Team"
         android:editable="true"
         android:layout_below="@+id/editTextDate"
-        android:layout_alignStart="@+id/awayTeamEditText" />
+        android:layout_alignStart="@+id/awayTeamEditText"
+        android:textAlignment="center" />
 
     <EditText
         android:layout_width="wrap_content"
