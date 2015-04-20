@@ -46,7 +46,7 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<NextGameData> nextGameTable;
     private static String storageConnectionString;
     public static boolean[] confirm = new boolean[1];
-
+    static Context t;
     public DatabaseQueries()
     {
         Log.i("database", "table worked");
@@ -97,8 +97,9 @@ public class DatabaseQueries extends Activity {
 //    }
 
 
-    public static void addUser(final User user) {
-
+    public static void addUser(final User user, final Context t) throws MalformedURLException {
+        mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
+        userTable = mClient.getTable(User.class);
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
@@ -125,7 +126,10 @@ public class DatabaseQueries extends Activity {
 
     }
 
-    public static void addTeam(final Team team) {
+    public static void addTeam(final Team team, Context t) throws MalformedURLException {
+        mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
+        Log.i("tag", "connection started ...woohoo");
+        teamTable = mClient.getTable(Team.class);
 
 
         new AsyncTask<Void, Void, String>() {
@@ -133,6 +137,13 @@ public class DatabaseQueries extends Activity {
             protected String doInBackground(Void... par) {
                 String done = "";
                 try {
+                    if(teamTable == null){
+                        Log.i("team", " table is null");
+                    }
+                    else if(team == null){
+                        Log.i("team", "team is null");
+                    }
+
                     teamTable.insert(team).get();
                     done = "true";
                 } catch (Exception e) {
@@ -179,7 +190,7 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    public static void setStorageConnecton(){
+    public static void setStorageConnecton(final String dir){
         // Define the connection-string with your values
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -195,7 +206,7 @@ public class DatabaseQueries extends Activity {
 
                     // Get a reference to a container.
                     // The container name must be lower case
-                    CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+                    CloudBlobContainer container = blobClient.getContainerReference(dir);
 
                     // Create the container if it does not exist.
                     container.createIfNotExists();

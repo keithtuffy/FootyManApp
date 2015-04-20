@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -234,7 +235,11 @@ public class RegisterPlayer extends ActionBarActivity {
                 else
                 {
                     User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname);
-                    DatabaseQueries.addUser(user);
+                    try {
+                        DatabaseQueries.addUser(user, RegisterPlayer.this);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                     playerCreationAlert();
 
                     un.setError(null);
@@ -258,8 +263,8 @@ public class RegisterPlayer extends ActionBarActivity {
                     pw.setText("");
 
                      // save picture in azure
-                    DatabaseQueries.setStorageConnecton();
-                    DatabaseQueries.addPic(picPath, username+".jpg", fromCamera, RegisterPlayer.this, picType);
+                    DatabaseQueries.setStorageConnecton(picType);
+                    DatabaseQueries.addPic(picPath, username + ".jpg", fromCamera, RegisterPlayer.this, picType);
                 }
             }
         });

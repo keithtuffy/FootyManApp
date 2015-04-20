@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class RegisterTeam extends ActionBarActivity {
 
     private ImageView teamPic;
     private boolean fromCamera = false;
-    private final String picType = "teamPics";
+    private final String picType = "teampics";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +116,13 @@ public class RegisterTeam extends ActionBarActivity {
 
                     Team team = new Team(teamname, email, phone, managername, agegroup, latitude, longitude);
                     Log.i("teamname", tn.getText().toString());
-                    DatabaseQueries.addTeam(team);
+
+
+                    try {
+                        DatabaseQueries.addTeam(team, RegisterTeam.this);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
 
                     tn.setError(null);
                     em.setError(null);
@@ -131,8 +138,8 @@ public class RegisterTeam extends ActionBarActivity {
                     ag.setText("");
                     teamCreationAlert(teamname);
 
-                    DatabaseQueries.setStorageConnecton();
-                    DatabaseQueries.addPic(picPath, teamname+".jpg", fromCamera, RegisterTeam.this, picType);
+                    DatabaseQueries.setStorageConnecton(picType);
+                    DatabaseQueries.addPic(picPath,teamname+".jpg", fromCamera, RegisterTeam.this, picType);
                 }
             }
         });
