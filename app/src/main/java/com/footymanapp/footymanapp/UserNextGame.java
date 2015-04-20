@@ -41,11 +41,11 @@ public class UserNextGame extends ActionBarActivity {
     private String homeTeam;
     String latitude;
     String longitude;
-
+    String id;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_next_game);
-
+        id = getIntent().getExtras().getString("teamName");
         mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
 
         // Initialize the progress bar
@@ -66,7 +66,7 @@ public class UserNextGame extends ActionBarActivity {
             protected Void doInBackground(Void... params) {
                 try {
 
-                    final MobileServiceList<NextGameData> result = nextGameTable.execute().get();
+                    final MobileServiceList<NextGameData> result = nextGameTable.where().field("id").eq(id).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override

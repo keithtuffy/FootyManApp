@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.net.MalformedURLException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class NextGame extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_game);
         final String id = getIntent().getExtras().getString("teamName");
+
+
         Button nextGamePitchLoc = (Button) findViewById(R.id.addNextGame);
         nextGamePitchLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +54,11 @@ public class NextGame extends ActionBarActivity
                 String kot = koTime.getText().toString();
 
                 NextGameData ngd = new NextGameData(id,d, ht, at, kot);
-                DatabaseQueries.addNextGame(ngd);
+                try {
+                    DatabaseQueries.addNextGame(ngd, NextGame.this);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 nextGameAddedAlert();
 
                 dateText.setText("");

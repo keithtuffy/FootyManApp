@@ -42,7 +42,7 @@ public class AdminHome extends ActionBarActivity {
         Button nextGame = (Button) findViewById(R.id.nextGame);
         nextGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(AdminHome.this, NextGame.class);
+                Intent intent = new Intent(AdminHome.this, UserNextGame.class);
                 intent.putExtra("teamName", teamId);
                 startActivity(intent);
             }
@@ -54,7 +54,19 @@ public class AdminHome extends ActionBarActivity {
             }
         });
 
+        Button addNextGame = (Button) findViewById(R.id.addNextGame);
+        addNextGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, NextGame.class);
+                intent.putExtra("teamName", teamId);
+                startActivity(intent);
+            }
+        });
+
     }
+
+
 
 
         @Override

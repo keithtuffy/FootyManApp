@@ -52,51 +52,6 @@ public class DatabaseQueries extends Activity {
         Log.i("database", "table worked");
     }
 
-    public static void setupConnection(Context t) {
-        try {
-            mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
-            Log.i("tag", "connection started ...woohoo");
-            teamTable = mClient.getTable(Team.class);
-            userTable = mClient.getTable(User.class);
-            nextGameTable = mClient.getTable("NextGame", NextGameData.class);
-        } catch (MalformedURLException e) {
-            Log.i("tag", "error with mobile service connection");
-            e.printStackTrace();
-        }
-    }
-
-//    public static boolean login(final String username, final String password) throws ExecutionException, InterruptedException
-//    {
-//        final boolean[] confirm = new boolean[1];
-//        new AsyncTask<Void, Void, Void>()
-//        {
-//            boolean confirmDetails;
-//            boolean[] confirm = new boolean[1];
-//            protected Void doInBackground(Void... params) {
-//                try {
-//                    MobileServiceList<User> result = userTable.where().field("id").eq(username).execute().get();
-//                    for (User item : result)
-//                    {
-//                        if (username.equals(item.getId()) && password.equals(item.getPassword())) {
-//                            confirm[0] = true;
-//                            Log.i("LOGIN WORKING", item.getId() + item.getPassword());
-//                        } else
-//                        {
-//                            confirm[0] = false;
-//                            Log.i("LOGIN NOT WORKING", item.getId() + item.getPassword());
-//                        }
-//                    }
-//                } catch (Exception exception) {
-//                    Log.i("TAG", "error - dam");
-//                    exception.printStackTrace();
-//                }
-//                return null;
-//            }
-//        }.execute();
-//        return confirm[0];
-//    }
-
-
     public static void addUser(final User user, final Context t) throws MalformedURLException {
         mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
         userTable = mClient.getTable(User.class);
@@ -163,8 +118,11 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
-    public static void addNextGame(final NextGameData ngd) {
+    public static void addNextGame(final NextGameData ngd, Context t) throws MalformedURLException {
+        mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
+        nextGameTable = mClient.getTable("NextGame", NextGameData.class);
 
+        //nextGameTable.remove();
 
         new AsyncTask<Void, Void, String>() {
             @Override
