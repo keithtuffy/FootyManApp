@@ -120,16 +120,21 @@ public class DatabaseQueries extends Activity {
 
     public static void addNextGame(final NextGameData ngd, Context t) throws MalformedURLException {
         mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
-        nextGameTable = mClient.getTable("NextGame", NextGameData.class);
+        nextGameTable = mClient.getTable("NextGame",NextGameData.class);
+        //final MobileServiceList<NextGameData> result = nextGameTable.where().field("id").eq(ngd.getTeamId()).execute().get();
 
-        //nextGameTable.remove();
-
+        // updates new game
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
                 String done = "";
                 try {
-                    nextGameTable.insert(ngd).get();
+                   // if(result == null){
+                        nextGameTable.insert(ngd).get();
+                    //}
+//                    else {
+//                        nextGameTable.update(ngd).get();
+//                    }
                     done = "true";
                 } catch (Exception e) {
                     done = "false";

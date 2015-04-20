@@ -6,13 +6,19 @@ package com.footymanapp.footymanapp;
 public class NextGameData {
     @com.google.gson.annotations.SerializedName("id")
     private String id;
+
+    public NextGameData(String id) {
+        this.id = id;
+    }
+
     private String date;
     private String hometeam;
     private String awayteam;
     private String time;
+    private String teamid;
 
-    public NextGameData(String id,String date, String hometeam, String awayteam, String time) {
-        this.id = id;
+    public NextGameData(String date, String hometeam, String awayteam, String time, String teamid) {
+        this.teamid = teamid;
         this.date = date;
         this.hometeam = hometeam;
         this.awayteam = awayteam;
@@ -51,4 +57,11 @@ public class NextGameData {
         this.time = time;
     }
 
+    public String getTeamid() {
+        return teamid;
+    }
+
+    public void setTeamid(String teamid) {
+        this.teamid = teamid;
+    }
 }

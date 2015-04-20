@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by prend_000 on 07/04/2015.
@@ -32,7 +33,7 @@ public class NextGame extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_game);
-        final String id = getIntent().getExtras().getString("teamName");
+        final String teamid = getIntent().getExtras().getString("teamName");
 
 
         Button nextGamePitchLoc = (Button) findViewById(R.id.addNextGame);
@@ -53,7 +54,7 @@ public class NextGame extends ActionBarActivity
                 TextView koTime = (TextView) findViewById(R.id.kickOffEditText);
                 String kot = koTime.getText().toString();
 
-                NextGameData ngd = new NextGameData(id,d, ht, at, kot);
+                NextGameData ngd = new NextGameData(d, ht, at, kot, teamid);
                 try {
                     DatabaseQueries.addNextGame(ngd, NextGame.this);
                 } catch (MalformedURLException e) {
