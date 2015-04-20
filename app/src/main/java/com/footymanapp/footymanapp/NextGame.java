@@ -31,6 +31,7 @@ public class NextGame extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_game);
+        final String id = getIntent().getExtras().getString("teamName");
         Button nextGamePitchLoc = (Button) findViewById(R.id.addNextGame);
         nextGamePitchLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +50,7 @@ public class NextGame extends ActionBarActivity
                 TextView koTime = (TextView) findViewById(R.id.kickOffEditText);
                 String kot = koTime.getText().toString();
 
-                NextGameData ngd = new NextGameData(d, ht, at, kot);
+                NextGameData ngd = new NextGameData(id,d, ht, at, kot);
                 DatabaseQueries.addNextGame(ngd);
                 nextGameAddedAlert();
 
@@ -115,7 +116,6 @@ public class NextGame extends ActionBarActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                startActivity(new Intent(NextGame.this, AdminHome.class));
                 finish();
 
             }

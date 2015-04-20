@@ -17,6 +17,7 @@ public class AdminHome extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
 
+        final String teamId = getIntent().getExtras().getString("teamName");
         Button addPlayer = (Button) findViewById(R.id.addPlayer);
         addPlayer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -41,7 +42,9 @@ public class AdminHome extends ActionBarActivity {
         Button nextGame = (Button) findViewById(R.id.nextGame);
         nextGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(AdminHome.this, UserNextGame.class));
+                Intent intent = new Intent(AdminHome.this, UserNextGame.class);
+                intent.putExtra("teamName", teamId);
+                startActivity(intent);
             }
         });
         Button addDelete = (Button) findViewById(R.id.editDeleteButton);

@@ -97,12 +97,16 @@ public class Login extends ActionBarActivity {
                             {
                                 if (logusername.equals(item.getId()) && logpassword.equals(item.getPassword()) && item.isIsmanager() == false)
                                 {
-                                    startActivity(new Intent(Login.this, UserHome.class));
+                                    Intent intent = new Intent(Login.this, UserHome.class);
+                                    intent.putExtra("teamName", item.getTeamid() );
+                                    startActivity(intent);
                                     Log.i("LOGIN WORKING", item.getId() + item.getPassword());
                                 }
                                 else if(logusername.equals(item.getId()) && logpassword.equals(item.getPassword()) && item.isIsmanager() == true)
                                 {
-                                    startActivity(new Intent(Login.this, AdminHome.class));
+                                    Intent intent = new Intent(Login.this, AdminHome.class);
+                                    intent.putExtra("teamName", item.getTeamid() );
+                                    startActivity(intent);
                                 }
                             }
                         } catch (Exception exception) {
