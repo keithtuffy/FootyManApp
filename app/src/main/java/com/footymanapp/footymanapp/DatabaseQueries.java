@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
@@ -25,8 +26,10 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -45,8 +48,9 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
     private static String storageConnectionString;
-    public static boolean[] confirm = new boolean[1];
-    static Context t;
+    private static MobileServiceList<NextGameData> result;
+    //public static boolean[] confirm = new boolean[1];
+    private static Context t;
     public DatabaseQueries()
     {
         Log.i("database", "table worked");
@@ -121,7 +125,12 @@ public class DatabaseQueries extends Activity {
     public static void addNextGame(final NextGameData ngd, Context t) throws MalformedURLException {
         mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
         nextGameTable = mClient.getTable("NextGame",NextGameData.class);
-        //final MobileServiceList<NextGameData> result = nextGameTable.where().field("id").eq(ngd.getTeamId()).execute().get();
+//        try{
+//            result = nextGameTable.where().field("id").eq(ngd.getTeamid()).execute().get();
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//        }
 
         // updates new game
         new AsyncTask<Void, Void, String>() {
@@ -129,12 +138,13 @@ public class DatabaseQueries extends Activity {
             protected String doInBackground(Void... par) {
                 String done = "";
                 try {
-                   // if(result == null){
-                        nextGameTable.insert(ngd).get();
-                    //}
-//                    else {
+//                   if(result == null){
 //                        nextGameTable.update(ngd).get();
 //                    }
+//                   else {
+                    nextGameTable.insert(ngd).get();
+
+                   //}
                     done = "true";
                 } catch (Exception e) {
                     done = "false";
@@ -151,6 +161,11 @@ public class DatabaseQueries extends Activity {
                 }
             }
         }.execute();
+    }
+
+    public static void setBlobString(){
+        storageConnectionString ="DefaultEndpointsProtocol=http;" + "AccountName=footymanapp;" + "AccountKey=dh3Mh8Yz3ue1St4sx4QMv8tBb4nzb8OiemxfBkbvtx7EeDeTqBxTSHREcGkwhIIuJUvpmklZxV0jvFFD13I7QA==";
+
     }
 
     public static void setStorageConnecton(final String dir){
@@ -249,5 +264,53 @@ public class DatabaseQueries extends Activity {
         }.execute();
     }
 
+    public static void downloadProfilePic(final String username) {
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                String done = "false";
+                try{
+                    // Retrieve storage account from connection-string.
+                    CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+
+                    // Create the blob client.
+                    CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+
+                    // Retrieve reference to a previously created container.
+                    CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+
+                    // Loop through each blob item in the container.
+                    for (ListBlobItem blobItem : container.listBlobs()) {
+                    // If the item is a blob, not a virtual directory.
+                        CloudBlob blob = (CloudBlob) blobItem;
+
+                        Log.i("blob",blob.getName() );
+                        Log.i("blob",username );
+                        if(blob.getName().equals(username+".jpg")){
+
+                            blob.download(new FileOutputStream("/storage/emulated/0/footyman/" + blob.getName()));
+                            done ="true";
+                        };
+                }
+
+
+                } catch (Exception e) {
+                    // Output the stack trace.
+                    done = "false";
+                    e.printStackTrace();
+                }
+                return done;
+            }
+            protected void onPostExecute(String done) {
+                if (done.equals("true")) {
+                    Log.i( "download pic", "success");
+                } else {
+                    Log.i("download pic", "failed");
+
+                }
+            }
+        }.execute();
+    }
 }
 

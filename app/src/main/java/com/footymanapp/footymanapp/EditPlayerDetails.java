@@ -20,6 +20,7 @@ public class EditPlayerDetails extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_details);
 
+
         updateUser = EditDeletePlayer.updateUser;
         result = EditDeletePlayer.getResult();
         userList = EditDeletePlayer.userList;
@@ -51,6 +52,8 @@ public class EditPlayerDetails extends ActionBarActivity {
         TextView pw = (TextView) findViewById(R.id.password);
         pw.setText(userList.get(result).getPassword());
 
+        DatabaseQueries.setBlobString();
+        DatabaseQueries.downloadProfilePic(updateUser.getId());
 
 //        Button update = (Button) findViewById(R.id.updatePlayer);
 //        update.setOnClickListener(new View.OnClickListener() {
