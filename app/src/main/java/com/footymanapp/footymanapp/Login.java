@@ -95,11 +95,13 @@ public class Login extends ActionBarActivity {
                             }
                             for (User item : result)
                             {
+                                //String
+                                //intent.putExtra("teamName", item.getTeamid());
                                 if (logusername.equals(item.getId()) && logpassword.equals(item.getPassword()) && item.isIsmanager() == false)
                                 {
                                     Intent intent = new Intent(Login.this, UserHome.class);
-                                    intent.putExtra("teamName", item.getTeamid() );
-                                    finish();
+                                    intent.putExtra("playerName", item.getId());
+                                    intent.putExtra("teamName", item.getTeamid());
                                     startActivity(intent);
                                     Log.i("LOGIN WORKING", item.getId() + item.getPassword());
                                 }
@@ -107,7 +109,7 @@ public class Login extends ActionBarActivity {
                                 {
                                     Intent intent = new Intent(Login.this, AdminHome.class);
                                     intent.putExtra("teamName", item.getTeamid() );
-                                    finish();
+                                    intent.putExtra("playerName", item.getId());
                                     startActivity(intent);
                                 }
                             }
