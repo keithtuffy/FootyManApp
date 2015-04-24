@@ -23,6 +23,7 @@ public class MessageActivity extends ActionBarActivity {
 
     public static final String SENDER_ID = "876142638198";
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
@@ -46,6 +47,8 @@ public class MessageActivity extends ActionBarActivity {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
+
+
             finish();
             }
         });
