@@ -53,19 +53,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pitch Location"
-        android:background="@drawable/custombutton"
-        android:id="@+id/nextGamePitchLocation"
-        android:layout_marginBottom="44dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/vsTextview"
-        android:layout_marginLeft="30dp" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +76,8 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:layout_marginRight="30dp"
-        android:layout_alignTop="@+id/nextGamePitchLocation"
-        android:layout_toEndOf="@+id/vsTextview" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/awayTeamEditText"
+        android:layout_marginBottom="50dp" />
 
 </RelativeLayout>

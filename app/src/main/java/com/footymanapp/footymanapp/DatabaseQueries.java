@@ -48,9 +48,8 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
     private static String storageConnectionString;
-    private static MobileServiceList<NextGameData> result;
     //public static boolean[] confirm = new boolean[1];
-    private static Context t;
+    //private static Context t;
     public DatabaseQueries()
     {
         Log.i("database", "table worked");
@@ -125,30 +124,38 @@ public class DatabaseQueries extends Activity {
     public static void addNextGame(final NextGameData ngd, Context t) throws MalformedURLException {
         mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
         nextGameTable = mClient.getTable("NextGame",NextGameData.class);
-//        try{
-//            result = nextGameTable.where().field("id").eq(ngd.getTeamid()).execute().get();
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//        }
 
-        // updates new game
+
+        // add new game
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
+                MobileServiceList<NextGameData> result= null;
                 String done = "";
                 try {
-//                   if(result == null){
-//                        nextGameTable.update(ngd).get();
-//                    }
-//                   else {
-                    nextGameTable.insert(ngd).get();
-
-                   //}
-                    done = "true";
-                } catch (Exception e) {
-                    done = "false";
+                    result = nextGameTable.where().field("id").eq(ngd.getTeamid()).execute().get();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                if(result.size() !=0) {
+                    try {
+                        nextGameTable.update(ngd).get();
+                        done = "true";
+                    } catch (Exception e) {
+                        done = "false";
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    try {
+                        nextGameTable.insert(ngd).get();
+                        done = "true";
+                    } catch (Exception e) {
+                        done = "false";
+                        e.printStackTrace();
+                    }
                 }
                 return done;
             }
@@ -162,6 +169,7 @@ public class DatabaseQueries extends Activity {
             }
         }.execute();
     }
+
 
     public static void setBlobString(){
         storageConnectionString ="DefaultEndpointsProtocol=http;" + "AccountName=footymanapp;" + "AccountKey=dh3Mh8Yz3ue1St4sx4QMv8tBb4nzb8OiemxfBkbvtx7EeDeTqBxTSHREcGkwhIIuJUvpmklZxV0jvFFD13I7QA==";
@@ -308,6 +316,39 @@ public class DatabaseQueries extends Activity {
                 } else {
                     Log.i("download pic", "failed");
 
+                }
+            }
+        }.execute();
+    }
+
+
+    public static void sendNewMessage(final MessageToSend m, Context t) throws MalformedURLException {
+        mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
+        final MobileServiceTable<MessageToSend> messageTable = mClient.getTable("messages",MessageToSend.class);
+
+
+        // add new game
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                MobileServiceList<NextGameData> result= null;
+                String done = "";
+                try {
+                      messageTable.insert(m).get();
+                      done = "true";
+                    } catch (Exception e) {
+                        done = "false";
+                        e.printStackTrace();
+                    }
+
+                return done;
+            }
+
+            protected void onPostExecute(String done) {
+                if (done.equals("true")) {
+                    Log.i("message sent", "Added");
+                } else {
+                    Log.i("message sent", "Failed");
                 }
             }
         }.execute();

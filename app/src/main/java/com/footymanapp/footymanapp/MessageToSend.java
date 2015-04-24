@@ -1,14 +1,19 @@
+package com.footymanapp.footymanapp;
+
 /**
  * Created by Keith on 22/04/2015.
  */
-public class Message {
+public class MessageToSend {
 
+    private String id;
     private String message;
     private String date;
+    private String teamid;
 
-    public Message(String message, String date){
+    public MessageToSend(String message){
         this.message = message;
-        this.date = date;
+        date = "10-10-10";
+        teamid = "Pats";
     }
 
     public String getMessage() {

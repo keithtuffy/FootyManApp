@@ -5,25 +5,30 @@ package com.footymanapp.footymanapp;
  */
 public class NextGameData {
     @com.google.gson.annotations.SerializedName("id")
+
     private String id;
-
-    public NextGameData(String id) {
-        this.id = id;
-    }
-
     private String date;
     private String hometeam;
     private String awayteam;
     private String time;
-    private String teamid;
 
-    public NextGameData(String date, String hometeam, String awayteam, String time, String teamid) {
-        this.teamid = teamid;
+
+    public NextGameData(String teamid,String date, String hometeam, String awayteam, String time ) {
+        this.id = teamid;
         this.date = date;
         this.hometeam = hometeam;
         this.awayteam = awayteam;
         this.time = time;
     }
+// use for update game
+//    public NextGameData(String id,String date, String hometeam, String awayteam, String time, String teamid) {
+//        this.id = id;
+//        this.teamid = teamid;
+//        this.date = date;
+//        this.hometeam = hometeam;
+//        this.awayteam = awayteam;
+//        this.time = time;
+//    }
 
     public String getHomeTeam() {
         return hometeam;
@@ -58,10 +63,11 @@ public class NextGameData {
     }
 
     public String getTeamid() {
-        return teamid;
+        return id;
     }
 
     public void setTeamid(String teamid) {
-        this.teamid = teamid;
+        this.id = teamid;
     }
+
 }

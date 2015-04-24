@@ -63,6 +63,15 @@ public class AdminHome extends ActionBarActivity {
             }
         });
 
+        Button sendMessege = (Button) findViewById(R.id.sendmessage);
+        sendMessege.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent (AdminHome.this, MessageActivity.class));
+            }
+        });
+
     }
 
 

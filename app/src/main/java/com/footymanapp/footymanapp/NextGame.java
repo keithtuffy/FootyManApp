@@ -54,7 +54,7 @@ public class NextGame extends ActionBarActivity
                 TextView koTime = (TextView) findViewById(R.id.kickOffEditText);
                 String kot = koTime.getText().toString();
 
-                NextGameData ngd = new NextGameData(d, ht, at, kot, teamid);
+                NextGameData ngd = new NextGameData(teamid,d, ht, at, kot);
                 try {
                     DatabaseQueries.addNextGame(ngd, NextGame.this);
                 } catch (MalformedURLException e) {

@@ -66,7 +66,7 @@ public class UserNextGame extends ActionBarActivity {
             protected Void doInBackground(Void... params) {
                 try {
 
-                    final MobileServiceList<NextGameData> result = nextGameTable.where().field("teamid").eq(teamid).execute().get();
+                    final MobileServiceList<NextGameData> result = nextGameTable.where().field("id").eq(teamid).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override
