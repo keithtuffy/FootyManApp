@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#4CC417"
+    android:gravity="bottom"
+    android:weightSum="1">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_weight="0.97">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="top">
+
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Player Details"
+                android:id="@+id/Header"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textSize="22sp" />
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/profilepic"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_below="@+id/Header"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/default_person_image"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textStyle="bold"
+                android:id="@+id/textView1"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:ems="10"
+                android:textSize="20sp"
+                android:editable="false"
+                android:id="@+id/username"
+                android:layout_above="@+id/firstname"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/firstname"
+                android:hint="Username" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="First Name"
+                android:textStyle="bold"
+                android:id="@+id/textView2"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:ems="10"
+                android:textSize="20sp"
+                android:editable="false"
+                android:id="@+id/firstname"
+                android:hint="First Name"
+                android:layout_above="@+id/lastname"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/lastname" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Last Name"
+                android:textStyle="bold"
+                android:id="@+id/textView3"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:ems="10"
+                android:textSize="20sp"
+                android:editable="false"
+                android:id="@+id/lastname"
+                android:hint="Last Name"
+                android:layout_above="@+id/phone"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/phone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textStyle="bold"
+                android:id="@+id/textView4"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:ems="10"
+                android:textSize="20sp"
+                android:editable="false"
+                android:autoLink="phone"
+                android:id="@+id/phone"
+                android:hint="Phone"
+                android:layout_above="@+id/email"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/email" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date of Birth"
+                android:textStyle="bold"
+                android:id="@+id/textView5"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/DOB"
+                android:textSize="20sp"
+                android:inputType="none"
+                android:editable="false"
+                android:clickable="false"
+                android:focusable="true"
+                android:hint="Click to add DOB"
+                android:layout_above="@+id/medicalcondition"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/medicalcondition" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textStyle="bold"
+                android:id="@+id/textView6"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:ems="10"
+                android:autoLink="email"
+                android:textSize="20sp"
+                android:editable="false"
+                android:id="@+id/email"
+                android:clickable="false"
+                android:hint="Email"
+                android:layout_above="@+id/DOB"
+                android:layout_alignEnd="@+id/DOB"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Medical Conditions"
+                android:textStyle="bold"
+                android:id="@+id/textView7"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/medicalcondition"
+                android:hint="Medical Condition"
+                android:textSize="20sp"
+                android:editable="false"
+                android:inputType="none"
+                android:layout_above="@+id/position"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/position" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Position"
+                android:textStyle="bold"
+                android:id="@+id/textView8"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textSize="20sp"
+                android:id="@+id/position"
+                android:editable="false"
+                android:clickable="false"
+                android:focusable="false"
+                android:hint="Click to select Position"
+                android:layout_above="@+id/password"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/password"
+                android:layout_marginBottom="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
