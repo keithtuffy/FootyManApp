@@ -54,3 +54,4 @@ public class NewsAdaptor extends ArrayAdapter<MessageToSend> {
         protected CheckBox checkbox;
     }
 }
+//
