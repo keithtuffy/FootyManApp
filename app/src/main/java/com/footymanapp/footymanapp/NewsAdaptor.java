@@ -21,7 +21,7 @@ public class NewsAdaptor extends ArrayAdapter<MessageToSend> {
         super(context, R.layout.listviewlayout, news);
         this.news = news;
     }
-
+//
 //    @Override
 //    public View getView(int position, View convertView, ViewGroup parent) {
 //        ViewHolder vh = null;
