@@ -1,7 +1,5 @@
 package com.footymanapp.footymanapp;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -60,9 +58,9 @@ public class UserEditProfile extends ActionBarActivity {
         setContentView(R.layout.activity_edit_user_details);
 
         playerLoggedIn = getIntent().getExtras().getString("playerName");
-        updateUser = EditDeletePlayer.updateUser;
-        result = EditDeletePlayer.getResult();
-        userList = EditDeletePlayer.userList;
+        updateUser = ViewDeletePlayer.updateUser;
+        result = ViewDeletePlayer.getResult();
+        userList = ViewDeletePlayer.userList;
 
         try {
             mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", this)

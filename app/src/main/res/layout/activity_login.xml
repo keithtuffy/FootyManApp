@@ -31,7 +31,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
             android:hint="Username"
             android:ems="10"
             android:id="@+id/username"

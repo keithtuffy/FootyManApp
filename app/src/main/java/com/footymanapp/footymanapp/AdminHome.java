@@ -24,7 +24,7 @@ public class AdminHome extends ActionBarActivity {
                 Intent addPlayer = new Intent(AdminHome.this, RegisterPlayer.class);
                 addPlayer.putExtra("ismanager", "false");
                 // will get team nme from screen - to be done
-                addPlayer.putExtra("teamname","Newbridge");
+                addPlayer.putExtra("teamname","Pats");
                 startActivity(addPlayer);
 
 
@@ -49,7 +49,7 @@ public class AdminHome extends ActionBarActivity {
         Button addDelete = (Button) findViewById(R.id.editDeleteButton);
         addDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(AdminHome.this, EditDeletePlayer.class));
+                startActivity(new Intent(AdminHome.this, ViewDeletePlayer.class));
             }
         });
 

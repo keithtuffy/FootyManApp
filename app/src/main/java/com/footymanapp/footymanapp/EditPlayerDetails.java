@@ -21,9 +21,9 @@ public class EditPlayerDetails extends ActionBarActivity {
         setContentView(R.layout.activity_edit_user_details);
 
 
-        updateUser = EditDeletePlayer.updateUser;
-        result = EditDeletePlayer.getResult();
-        userList = EditDeletePlayer.userList;
+        updateUser = ViewDeletePlayer.updateUser;
+        result = ViewDeletePlayer.getResult();
+        userList = ViewDeletePlayer.userList;
 
         TextView un = (TextView) findViewById(R.id.username);
         un.setText(updateUser.getId());
