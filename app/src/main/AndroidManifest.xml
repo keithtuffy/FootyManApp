@@ -52,11 +52,13 @@
         <activity android:name=".NextGame" android:screenOrientation="portrait" />
         <activity android:name=".UserNextGame" android:screenOrientation="portrait" />
         <activity android:name=".UserHome" android:screenOrientation="portrait" />
-        <activity android:name=".EditDeletePlayer" android:screenOrientation="portrait"/>
-        <activity android:name=".ManagerContact" android:screenOrientation="portrait"/>
+        <activity android:name=".ViewDeletePlayer" android:screenOrientation="portrait"/>
+        <activity android:name=".ManagerDetails" android:screenOrientation="portrait"/>
         <activity android:name=".EditPlayerDetails" android:screenOrientation="portrait"/>
         <activity android:name=".UserEditProfile" android:screenOrientation="portrait"/>
         <activity android:name=".MessageActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ViewPlayer" android:screenOrientation="portrait"/>
+
 
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

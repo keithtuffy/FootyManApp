@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by prend_000 on 15/04/2015.
  */
-public class ManagerContact extends ActionBarActivity
+public class ManagerDetails extends ActionBarActivity
 {
     ArrayList<User> managerDetails;
     protected void onCreate(Bundle savedInstanceState) {

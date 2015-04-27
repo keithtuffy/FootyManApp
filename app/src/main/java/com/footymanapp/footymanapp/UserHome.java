@@ -32,7 +32,7 @@ public class UserHome extends ActionBarActivity
         Button manDetails = (Button) findViewById(R.id.manDetails);
         manDetails.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(UserHome.this, ManagerContact.class));
+                startActivity(new Intent(UserHome.this, ManagerDetails.class));
             }
         });
 

@@ -44,6 +44,10 @@ public class RegisterPlayer extends ActionBarActivity {
     private ImageView profilePic;
     private boolean fromCamera = false;
     private final String picType = "profilepics";
+    private static String username;
+    public static String getUsername() {
+        return username;
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,33 +113,32 @@ public class RegisterPlayer extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
+                    TextView un = (TextView) findViewById(R.id.username);
+                    username = un.getText().toString();
 
-                TextView un = (TextView) findViewById(R.id.username);
-                String username = un.getText().toString();
+                    TextView fn = (TextView) findViewById(R.id.firstname);
+                    String firstname = fn.getText().toString();
 
-                TextView fn = (TextView) findViewById(R.id.firstname);
-                String firstname = fn.getText().toString();
+                    TextView ln = (TextView) findViewById(R.id.lastname);
+                    String lastname = ln.getText().toString();
 
-                TextView ln = (TextView) findViewById(R.id.lastname);
-                String lastname = ln.getText().toString();
+                    TextView ph = (TextView) findViewById(R.id.phone);
+                    String phone = ph.getText().toString();
 
-                TextView ph = (TextView) findViewById(R.id.phone);
-                String phone = ph.getText().toString();
+                    TextView date = (TextView) findViewById(R.id.DOB);
+                    String DOB = date.getText().toString();
 
-                TextView date = (TextView) findViewById(R.id.DOB);
-                String DOB = date.getText().toString();
+                    TextView em = (TextView) findViewById(R.id.email);
+                    String email = em.getText().toString();
 
-                TextView em = (TextView) findViewById(R.id.email);
-                String email = em.getText().toString();
+                    TextView mc = (TextView) findViewById(R.id.medicalcondition);
+                    String medicalcondition = mc.getText().toString();
 
-                TextView mc = (TextView) findViewById(R.id.medicalcondition);
-                String medicalcondition = mc.getText().toString();
+                    TextView pos = (TextView) findViewById(R.id.position);
+                    String position = pos.getText().toString();
 
-                TextView pos = (TextView) findViewById(R.id.position);
-                String position = pos.getText().toString();
-
-                TextView pw = (TextView) findViewById(R.id.password);
-                String password = pw.getText().toString();
+                    TextView pw = (TextView) findViewById(R.id.password);
+                    String password = pw.getText().toString();
 
 
                 final boolean ismanager = Boolean.valueOf(getIntent().getExtras().getString("ismanager"));
@@ -151,7 +154,18 @@ public class RegisterPlayer extends ActionBarActivity {
                     mc.setError(null);
                     pos.setError(null);
                     pw.setError(null);
-                } else if (firstname.length() == 0) {
+                }else if(DatabaseQueries.usernameInUse() == true)
+                {
+                    un.setError("Username already in use!");
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
+                }else if (firstname.length() == 0) {
                     fn.setError("Please enter a first name");
                     un.setError(null);
                     ln.setError(null);

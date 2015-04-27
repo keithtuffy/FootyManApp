@@ -36,10 +36,10 @@
         android:layout_marginRight="40dp" />
 
     <Button
-        android:id="@+id/editButton"
+        android:id="@+id/viewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Player"
+        android:text="View Player"
         android:background="@drawable/custombutton"
         android:padding="5dp"
         android:clickable="true"

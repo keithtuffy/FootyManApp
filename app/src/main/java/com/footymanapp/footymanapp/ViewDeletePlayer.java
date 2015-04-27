@@ -7,10 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by prend_000 on 10/04/2015.
  */
-public class EditDeletePlayer extends ActionBarActivity {
+public class ViewDeletePlayer extends ActionBarActivity {
     public static ArrayList<User> userList;
     private ArrayList<User> editList;
     private ProgressBar mProgressBar;
@@ -59,14 +57,14 @@ public class EditDeletePlayer extends ActionBarActivity {
         final ListView userListView = (ListView) findViewById(android.R.id.list);
         userListView.setAdapter(theAdapter);
 
-        Button editPlayer = (Button) findViewById(R.id.editButton);
-        editPlayer.setOnClickListener(new View.OnClickListener() {
+        Button viewPLayer = (Button) findViewById(R.id.viewButton);
+        viewPLayer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 for (int i = 0; i < userList.size(); i++) {
                     if (userList.get(i).isSelected()) {
                         result = i;
                         updateUser = userList.get(i);
-                        startActivity(new Intent(EditDeletePlayer.this, EditPlayerDetails.class));
+                        startActivity(new Intent(ViewDeletePlayer.this, ViewPlayer.class));
                     }
                 }
             }
@@ -142,10 +140,7 @@ public class EditDeletePlayer extends ActionBarActivity {
             }
         }.execute();
     }
-    public void setUserDetails()
-    {
 
-    }
     private void refreshItemsFromTable() {
 
         // Get the items that weren't marked as completed and add them in the
