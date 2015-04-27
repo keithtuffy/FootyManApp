@@ -46,6 +46,7 @@ public class MessageActivity extends ActionBarActivity {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
+                SmsSender.SendMessage();
             finish();
             }
         });
