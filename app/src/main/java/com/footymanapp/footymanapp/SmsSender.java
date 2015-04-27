@@ -39,7 +39,7 @@ public class SmsSender {
 
     public SmsSender() {}
 
-    public static void SendMessage(){
+    public static void SendMessage(final String msg){
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
@@ -61,7 +61,7 @@ public class SmsSender {
                         nameValuePairs.add(new BasicNameValuePair("To",
                                 "+353857176955"));
                         nameValuePairs.add(new BasicNameValuePair("Body",
-                                "You are a bender"));
+                                msg));
 
                         httppost.setEntity(new UrlEncodedFormEntity(
                                 nameValuePairs));
