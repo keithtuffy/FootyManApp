@@ -327,7 +327,6 @@ public class DatabaseQueries extends Activity {
                         Log.i("blob",blob.getName() );
                         Log.i("blob",username );
                         if(blob.getName().equals(username+".jpg")){
-
                             blob.download(new FileOutputStream("/storage/emulated/0/footyman/" + blob.getName()));
                             done ="true";
                         };
@@ -357,8 +356,6 @@ public class DatabaseQueries extends Activity {
         mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
         final MobileServiceTable<MessageToSend> messageTable = mClient.getTable("messages",MessageToSend.class);
 
-
-        // add new game
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
