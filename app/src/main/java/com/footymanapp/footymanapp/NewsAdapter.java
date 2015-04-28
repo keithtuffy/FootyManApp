@@ -1,6 +1,7 @@
 package com.footymanapp.footymanapp;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Keith on 27/04/2015.
@@ -32,7 +38,18 @@ public class NewsAdapter extends ArrayAdapter<MessageToSend> {
         vh.dateTextView = (TextView) rowView.findViewById(R.id.newsDate);
         vh.messageTextView = (TextView) rowView.findViewById(R.id.message);
 
-        // Put the next lastname into the TextView
+//        SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
+//        SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy @ hh:mm");
+//
+//
+//        String reformattedStr = null;
+//        try {
+//            reformattedStr = myFormat.format(fromUser.parse(currentUser.getDate()));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+        vh.dateTextView.setPaintFlags(vh.dateTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         vh.dateTextView.setText(currentUser.getDate());
         vh.messageTextView.setText(currentUser.getMessage());
 

@@ -57,7 +57,7 @@ public class MessageHandler  extends NotificationsHandler {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(ctx)
                         .setSmallIcon(R.drawable.footymansmallicon)
-                        .setContentTitle("Notification Test")
+                        .setContentTitle("Footy Man Messsage")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg);

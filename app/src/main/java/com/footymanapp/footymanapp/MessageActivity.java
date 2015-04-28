@@ -12,6 +12,9 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -39,8 +42,11 @@ public class MessageActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 EditText message = (EditText) findViewById(R.id.message);
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy @ HH:mm");
+                Date date = new Date();
+                String newDate = dateFormat.format(date);
                 String msg =  message.getText().toString();
-                MessageToSend m = new MessageToSend(msg, teamid);
+                MessageToSend m = new MessageToSend(msg, teamid, newDate);
                 try {
                     DatabaseQueries.sendNewMessage(m, MessageActivity.this);
                 } catch (MalformedURLException e) {

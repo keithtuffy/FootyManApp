@@ -61,7 +61,7 @@ public class News extends ActionBarActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<MessageToSend> result = newsTable.execute().get();
+                    final MobileServiceList<MessageToSend> result = newsTable.where().field("teamid").eq(teamid).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override
@@ -70,13 +70,7 @@ public class News extends ActionBarActivity {
                             theAdapter.clear();
                             for (MessageToSend item : result)
                             {
-
-                                if (item.getTeamid().equals(teamid))
-                                {
-                                    theAdapter.add(item);
-                                }
-//                                Log.i("TEST", "" + item.getTeamid());
-//                                Log.i("TEST 2","" + item.getMessage());
+                                theAdapter.add(item);
                             }
                         }
                     });
