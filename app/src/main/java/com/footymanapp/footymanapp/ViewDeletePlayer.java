@@ -35,6 +35,7 @@ public class ViewDeletePlayer extends ActionBarActivity {
     private static MobileServiceClient mClient;
     private static MobileServiceTable<User> userTable;
     public static User updateUser;
+    private String teamid;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class ViewDeletePlayer extends ActionBarActivity {
         editList = new ArrayList<>();
         theAdapter = new UserCustomAdapter(this, userList);
         mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
-
+        teamid = getIntent().getExtras().getString("teamName");
         // Initialize the progress bar
         mProgressBar.setVisibility(ProgressBar.GONE);
         getUser();
@@ -94,7 +95,8 @@ public class ViewDeletePlayer extends ActionBarActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<User> result = userTable.where().field("ismanager").eq(false).execute().get();
+                    final MobileServiceList<User> result = userTable.where().field("ismanager").eq(false).and()
+                            .field("teamid").eq(teamid).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override

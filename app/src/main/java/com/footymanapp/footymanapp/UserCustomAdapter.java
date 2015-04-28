@@ -59,4 +59,6 @@ class UserCustomAdapter extends ArrayAdapter<User> {
         protected TextView lastNameTextView;
         protected CheckBox checkbox;
     }
+
+
 }

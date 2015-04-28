@@ -10,10 +10,10 @@ public class MessageToSend {
     private String date;
     private String teamid;
 
-    public MessageToSend(String message){
+    public MessageToSend(String message, String teamid){
         this.message = message;
         date = "10-10-10";
-        teamid = "Pats";
+        this.teamid = teamid;
     }
 
     public String getMessage() {
@@ -30,5 +30,13 @@ public class MessageToSend {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTeamid() {
+        return teamid;
+    }
+
+    public void setTeamid(String teamid) {
+        this.teamid = teamid;
     }
 }

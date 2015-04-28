@@ -12,7 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
     <ListView
-        android:id="@android:id/newslayout"
+        android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.01"

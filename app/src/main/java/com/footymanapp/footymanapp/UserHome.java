@@ -17,6 +17,7 @@ public class UserHome extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
         playerLoggedIn = getIntent().getExtras().getString("playerName");
+        final String teamid = getIntent().getExtras().getString("teamName");
 
         Button nextGamePitchLoc = (Button) findViewById(R.id.userNextGameButton);
         nextGamePitchLoc.setOnClickListener(new View.OnClickListener()
@@ -41,6 +42,15 @@ public class UserHome extends ActionBarActivity
             public void onClick(View v) {
                 Intent intent = new Intent(UserHome.this, UserEditProfile.class);
                 intent.putExtra("playerName", playerLoggedIn);
+                startActivity(intent);
+            }
+        });
+
+        Button newsFeed = (Button) findViewById(R.id.newsFeed);
+        newsFeed.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(UserHome.this, News.class);
+                intent.putExtra("teamName", teamid);
                 startActivity(intent);
             }
         });

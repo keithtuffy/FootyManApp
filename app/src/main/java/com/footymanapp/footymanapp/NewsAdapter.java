@@ -14,10 +14,10 @@ import java.util.ArrayList;
 /**
  * Created by Keith on 27/04/2015.
  */
-public class NewsAdaptor extends ArrayAdapter<MessageToSend> {
+public class NewsAdapter extends ArrayAdapter<MessageToSend> {
     private ArrayList<MessageToSend> news;
 
-    public NewsAdaptor(Context context, ArrayList<MessageToSend> news) {
+    public NewsAdapter(Context context, ArrayList<MessageToSend> news) {
         super(context, R.layout.newslayout, news);
         this.news = news;
     }
@@ -26,25 +26,22 @@ public class NewsAdaptor extends ArrayAdapter<MessageToSend> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder vh = null;
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View rowView = inflater.inflate(R.layout.listviewlayout, parent, false);
+        View rowView = inflater.inflate(R.layout.newslayout, parent, false);
         vh = new ViewHolder();
-        //User currentUser = getItem(position);
-        vh.newsDate = (TextView) rowView.findViewById(R.id.newsDate);
-        vh.message = (TextView) rowView.findViewById(R.id.message);
-        vh.checkbox = (CheckBox) rowView.findViewById(R.id.checkBoxList);
-        // Put the next lastname into the TextView
-        vh.firstNameTextView.setText(currentUser.getFirstname());
-        vh.lastNameTextView.setText(currentUser.getLastname());
+        MessageToSend currentUser = getItem(position);
+        vh.dateTextView = (TextView) rowView.findViewById(R.id.newsDate);
+        vh.messageTextView = (TextView) rowView.findViewById(R.id.message);
 
-        vh.checkbox.setTag(position);
-        vh.checkbox.setChecked(names.get(position).isSelected());
+        // Put the next lastname into the TextView
+        vh.dateTextView.setText(currentUser.getDate());
+        vh.messageTextView.setText(currentUser.getMessage());
+
         return rowView;
     }
 
     static class ViewHolder {
-        protected TextView firstNameTextView;
-        protected TextView lastNameTextView;
-        protected CheckBox checkbox;
+        protected TextView dateTextView;
+        protected TextView messageTextView;
     }
 }
 //

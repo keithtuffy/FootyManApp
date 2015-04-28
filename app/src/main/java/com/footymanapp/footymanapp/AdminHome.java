@@ -49,7 +49,9 @@ public class AdminHome extends ActionBarActivity {
         Button addDelete = (Button) findViewById(R.id.editDeleteButton);
         addDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(AdminHome.this, ViewDeletePlayer.class));
+                Intent intent = new Intent(AdminHome.this, ViewDeletePlayer.class);
+                intent.putExtra("teamName", teamId);
+                startActivity(intent);
             }
         });
 
@@ -68,7 +70,9 @@ public class AdminHome extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent (AdminHome.this, MessageActivity.class));
+                Intent intent = new Intent(AdminHome.this, MessageActivity.class);
+                intent.putExtra("teamName", teamId);
+                startActivity(intent);
             }
         });
 

@@ -3,15 +3,13 @@ package com.footymanapp.footymanapp;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
@@ -26,21 +24,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Keith on 01/04/2015.
  */
 public class RegisterPlayer extends ActionBarActivity {
 
-
+    private static long inUse;
     private ImageView profilePic;
     private boolean fromCamera = false;
     private final String picType = "profilepics";
@@ -52,7 +50,7 @@ public class RegisterPlayer extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
-
+        inUse = 0;
        //image
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
@@ -107,14 +105,16 @@ public class RegisterPlayer extends ActionBarActivity {
                         });
                 builder.show();
             }
-        });//Keith is bent
+        });
         Button regPlayer = (Button) findViewById(R.id.registerPlayer);
         regPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                     TextView un = (TextView) findViewById(R.id.username);
                     username = un.getText().toString();
+                    usernameInUse();
 
                     TextView fn = (TextView) findViewById(R.id.firstname);
                     String firstname = fn.getText().toString();
@@ -154,7 +154,7 @@ public class RegisterPlayer extends ActionBarActivity {
                     mc.setError(null);
                     pos.setError(null);
                     pw.setError(null);
-                }else if(DatabaseQueries.usernameInUse() == true)
+                }else if(usernameInUse() == 1)
                 {
                     un.setError("Username already in use!");
                     fn.setError(null);
@@ -394,6 +394,41 @@ public class RegisterPlayer extends ActionBarActivity {
             }
         }).create();
         playerAlert.show();
+    }
+
+    public long usernameInUse()
+    {
+        long inUse = 0;
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    final MobileServiceList<User> result =
+                            DatabaseQueries.userTable.where().field("id").eq(username).execute().get();
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            for (User item : result) {
+                                if (item.getId().equals(username))
+                                {
+                                    Log.i("TEST 1", username);
+                                    Log.i("TEST 2", item.getId());
+                                    RegisterPlayer.inUse = 1;
+                                }
+                            }
+                        }
+                    });
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+        return inUse;
     }
 
 }

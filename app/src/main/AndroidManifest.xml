@@ -58,6 +58,7 @@
         <activity android:name=".UserEditProfile" android:screenOrientation="portrait"/>
         <activity android:name=".MessageActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ViewPlayer" android:screenOrientation="portrait"/>
+        <activity android:name=".News" android:screenOrientation="portrait"/>
 
 
         <meta-data android:name="com.google.android.gms.version"

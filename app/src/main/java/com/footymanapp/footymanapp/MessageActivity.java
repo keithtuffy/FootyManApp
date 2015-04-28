@@ -20,7 +20,7 @@ import java.net.MalformedURLException;
 public class MessageActivity extends ActionBarActivity {
     Context t = this;
     public static MobileServiceClient mClient;
-
+    private String teamid;
     public static final String SENDER_ID = "876142638198";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class MessageActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         NotificationsManager.handleNotifications(this, SENDER_ID, MessageHandler.class);
-
+        teamid = getIntent().getExtras().getString("teamName");
 
         Button sendMessage = (Button) findViewById(R.id.sendmessage);
         sendMessage.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +40,7 @@ public class MessageActivity extends ActionBarActivity {
             public void onClick(View v) {
                 EditText message = (EditText) findViewById(R.id.message);
                 String msg =  message.getText().toString();
-                MessageToSend m = new MessageToSend(msg);
+                MessageToSend m = new MessageToSend(msg, teamid);
                 try {
                     DatabaseQueries.sendNewMessage(m, MessageActivity.this);
                 } catch (MalformedURLException e) {

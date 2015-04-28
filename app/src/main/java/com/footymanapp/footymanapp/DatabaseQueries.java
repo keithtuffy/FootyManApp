@@ -48,9 +48,8 @@ public class DatabaseQueries extends Activity {
     private static MobileServiceTable<Team> teamTable;
     private static MobileServiceTable<NextGameData> nextGameTable;
     private static String storageConnectionString;
-    private static boolean inUse;
-    //public static boolean[] confirm = new boolean[1];
-    //private static Context t;
+
+    public static boolean inUse;
     public DatabaseQueries()
     {
         Log.i("database", "table worked");
@@ -83,36 +82,6 @@ public class DatabaseQueries extends Activity {
             }
         }.execute();
 
-    }
-
-    public static boolean usernameInUse()
-    {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    final MobileServiceList<User> result =
-                            userTable.where().field("username").eq(RegisterPlayer.getUsername()).execute().get();
-                    for(User item : result)
-                    {
-                        if(item.getId().equals(RegisterPlayer.getUsername()))
-                        {
-                            inUse = true;
-                        }
-                        else
-                        {
-                            inUse = false;
-                        }
-                    }
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
-
-        return inUse;
     }
 
     public static void addTeam(final Team team, Context t) throws MalformedURLException {
@@ -380,6 +349,12 @@ public class DatabaseQueries extends Activity {
                 }
             }
         }.execute();
+    }
+    public static void setInUse(boolean inUse) {
+       inUse = inUse;
+    }
+    public static boolean isInUse() {
+        return inUse;
     }
 }
 
