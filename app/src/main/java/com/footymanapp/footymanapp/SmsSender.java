@@ -59,7 +59,7 @@ public class SmsSender {
                         nameValuePairs.add(new BasicNameValuePair("From",
                                 "+12015618104"));
                         nameValuePairs.add(new BasicNameValuePair("To",
-                                "+353857176955"));
+                                "+353857399798"));
                         nameValuePairs.add(new BasicNameValuePair("Body",
                                 msg));
 

@@ -34,7 +34,8 @@ public class ViewPlayer extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_player);
-
+        DatabaseQueries.setBlobString();
+        DatabaseQueries.downloadProfilePic(updateUser.getId());
         updateUser = ViewDeletePlayer.updateUser;
         result = ViewDeletePlayer.getResult();
         userList = ViewDeletePlayer.userList;
@@ -66,8 +67,6 @@ public class ViewPlayer extends ActionBarActivity
         pos.setText(userList.get(result).getPosition());
 
         ImageView img = (ImageView) findViewById(R.id.profilepic);
-        DatabaseQueries.setBlobString();
-        DatabaseQueries.downloadProfilePic(updateUser.getId());
         img.setImageURI(Uri.parse(Environment.getExternalStorageDirectory() + "/download/" + updateUser.getId()+".jpg"));
 
     }

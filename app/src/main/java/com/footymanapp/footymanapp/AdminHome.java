@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 public class AdminHome extends ActionBarActivity {
@@ -23,7 +24,8 @@ public class AdminHome extends ActionBarActivity {
         final String teamId = getIntent().getExtras().getString("teamName");
         DatabaseQueries.downloadTeamPic(teamId);
         ImageView crest = (ImageView) findViewById(R.id.crest);
-
+        TextView teamNameField = (TextView) findViewById(R.id.teamNameField);
+        teamNameField.setText(teamId);
 
 
         Button addPlayer = (Button) findViewById(R.id.addPlayer);

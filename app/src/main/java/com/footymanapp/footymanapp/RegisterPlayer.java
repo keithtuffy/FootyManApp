@@ -254,7 +254,7 @@ public class RegisterPlayer extends ActionBarActivity {
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
-                    playerCreationAlert();
+                    playerCreationAlert(ismanager);
 
                     un.setError(null);
                     fn.setError(null);
@@ -378,17 +378,19 @@ public class RegisterPlayer extends ActionBarActivity {
         return" ";
     }
 
-    public void playerCreationAlert() {
+    public void playerCreationAlert(final boolean isManager) {
         AlertDialog.Builder playerAlert = new AlertDialog.Builder(this);
         playerAlert.setMessage("Congratulations,\nYour Profile has been created").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent addPlayer = new Intent(RegisterPlayer.this, AdminHome.class);
-                addPlayer.putExtra("ismanager", "false");
-                addPlayer.putExtra("teamname", "Newbridge");
-                startActivity(addPlayer);
 
+                if (isManager == true) {
+                    Intent home = new Intent(RegisterPlayer.this, AdminHome.class);
+                    home.putExtra("ismanager", "false");
+                    home.putExtra("teamname", "Newbridge");
+                    startActivity(home);
+                }
                 finish();
 
             }

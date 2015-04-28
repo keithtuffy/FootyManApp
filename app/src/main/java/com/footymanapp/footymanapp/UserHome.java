@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by prend_000 on 08/04/2015.
@@ -18,6 +19,9 @@ public class UserHome extends ActionBarActivity
         setContentView(R.layout.activity_user_home);
         playerLoggedIn = getIntent().getExtras().getString("playerName");
         final String teamid = getIntent().getExtras().getString("teamName");
+
+        TextView teamNameField = (TextView) findViewById(R.id.teamNameField);
+        teamNameField.setText(teamid);
 
         Button nextGamePitchLoc = (Button) findViewById(R.id.userNextGameButton);
         nextGamePitchLoc.setOnClickListener(new View.OnClickListener()
