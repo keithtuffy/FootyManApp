@@ -26,7 +26,7 @@ public class ManagerDetails extends ActionBarActivity
             protected Void doInBackground(Void... params) {
                 try {
 
-                    final MobileServiceList<User> result = DatabaseQueries.userTable.where().field("ismanager").execute().get();
+                    final MobileServiceList<User> result = DatabaseQueries.userTable.where().field("ismanager").eq(true).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override

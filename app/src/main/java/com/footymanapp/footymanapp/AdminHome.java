@@ -1,12 +1,15 @@
 package com.footymanapp.footymanapp;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 
 public class AdminHome extends ActionBarActivity {
@@ -18,6 +21,11 @@ public class AdminHome extends ActionBarActivity {
         setContentView(R.layout.activity_admin_home);
 
         final String teamId = getIntent().getExtras().getString("teamName");
+        DatabaseQueries.downloadTeamPic(teamId);
+        ImageView crest = (ImageView) findViewById(R.id.crest);
+
+
+
         Button addPlayer = (Button) findViewById(R.id.addPlayer);
         addPlayer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -75,6 +83,8 @@ public class AdminHome extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        crest.setImageURI(Uri.parse(Environment.getExternalStorageDirectory() + "/download/" + teamId + ".jpg"));
 
     }
 

@@ -57,8 +57,7 @@ public class Login extends ActionBarActivity {
         });
 
         try {
-            mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", this)
-                    .withFilter(new ProgressFilter());
+            mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", this).withFilter(new ProgressFilter());
             Log.i("tag", "connection started ...woohoo");
             userTable = mClient.getTable(User.class);
         } catch (MalformedURLException e) {
@@ -103,6 +102,7 @@ public class Login extends ActionBarActivity {
                                     intent.putExtra("playerName", item.getId());
                                     intent.putExtra("teamName", item.getTeamid());
                                     startActivity(intent);
+                                    finish();
                                     Log.i("LOGIN WORKING", item.getId() + item.getPassword());
                                 }
                                 else if(logusername.equals(item.getId()) && logpassword.equals(item.getPassword()) && item.isIsmanager() == true)
@@ -111,6 +111,7 @@ public class Login extends ActionBarActivity {
                                     intent.putExtra("teamName", item.getTeamid() );
                                     intent.putExtra("playerName", item.getId());
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         } catch (Exception exception) {

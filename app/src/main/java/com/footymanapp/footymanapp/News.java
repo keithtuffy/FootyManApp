@@ -70,6 +70,7 @@ public class News extends ActionBarActivity {
                             theAdapter.clear();
                             for (MessageToSend item : result)
                             {
+
                                 if (item.getTeamid().equals(teamid))
                                 {
                                     theAdapter.add(item);

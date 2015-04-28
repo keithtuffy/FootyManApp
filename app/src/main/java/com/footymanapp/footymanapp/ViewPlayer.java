@@ -2,8 +2,11 @@ package com.footymanapp.footymanapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,29 +39,7 @@ public class ViewPlayer extends ActionBarActivity
         result = ViewDeletePlayer.getResult();
         userList = ViewDeletePlayer.userList;
 
-        ImageView img = (ImageView) findViewById(R.id.profilepic);
-        try {
-            URL url = new URL("\"https://footymanapp.blob.core.windows.net/profilepics/Deam.jpg\"");
-            //try this url = "http://0.tqn.com/d/webclipart/1/0/5/l/4/floral-icon-5.jpg"
-            HttpGet httpRequest = null;
 
-            httpRequest = new HttpGet(url.toURI());
-
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = (HttpResponse) httpclient
-                    .execute(httpRequest);
-
-            HttpEntity entity = response.getEntity();
-            BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
-            InputStream input = b_entity.getContent();
-
-            Bitmap bitmap = BitmapFactory.decodeStream(input);
-
-            img.setImageBitmap(bitmap);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
 
         TextView un = (TextView) findViewById(R.id.username);
         un.setText(updateUser.getId());
@@ -83,6 +64,11 @@ public class ViewPlayer extends ActionBarActivity
 
         TextView pos = (TextView) findViewById(R.id.position);
         pos.setText(userList.get(result).getPosition());
+
+        ImageView img = (ImageView) findViewById(R.id.profilepic);
+        DatabaseQueries.setBlobString();
+        DatabaseQueries.downloadProfilePic(updateUser.getId());
+        img.setImageURI(Uri.parse(Environment.getExternalStorageDirectory() + "/download/" + updateUser.getId()+".jpg"));
 
     }
 }
