@@ -43,12 +43,12 @@ public class ViewPlayer extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_player);
-        downloadProfilePic(updateUser.getId());
         updateUser = ViewDeletePlayer.updateUser;
         result = ViewDeletePlayer.getResult();
         userList = ViewDeletePlayer.userList;
 
 
+        downloadProfilePic(userList.get(result).getId());
 
         TextView un = (TextView) findViewById(R.id.username);
         un.setText(updateUser.getId());

@@ -38,11 +38,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class RegisterPlayer extends ActionBarActivity {
 
-    private static long inUse;
     private ImageView profilePic;
     private boolean fromCamera = false;
     private final String picType = "profilepics";
     private static String username;
+    //private boolean userCheckFinished;
+    private boolean userExits;
     public static String getUsername() {
         return username;
     }
@@ -50,7 +51,6 @@ public class RegisterPlayer extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
-        inUse = 0;
        //image
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
@@ -144,19 +144,11 @@ public class RegisterPlayer extends ActionBarActivity {
                 final boolean ismanager = Boolean.valueOf(getIntent().getExtras().getString("ismanager"));
                 final String teamname = getIntent().getExtras().getString("teamname");
 
+
+
+                usernameInUse(); // check if user exists
                 if (username.length() == 0) {
                     un.setError("Please enter a username");
-                    fn.setError(null);
-                    ln.setError(null);
-                    ph.setError(null);
-                    date.setError(null);
-                    em.setError(null);
-                    mc.setError(null);
-                    pos.setError(null);
-                    pw.setError(null);
-                }else if(usernameInUse() == 1)
-                {
-                    un.setError("Username already in use!");
                     fn.setError(null);
                     ln.setError(null);
                     ph.setError(null);
@@ -246,15 +238,28 @@ public class RegisterPlayer extends ActionBarActivity {
                     mc.setError(null);
                     pos.setError(null);
                 }
+                else if(userExits == true){
+                    un.setError("Username already in use!");
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
+                }
                 else
                 {
                     User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname);
                     try {
                         DatabaseQueries.addUser(user, RegisterPlayer.this);
+                        playerCreationAlert(ismanager);
                     } catch (MalformedURLException e) {
+                        playerCreationErrorAlert();
                         e.printStackTrace();
                     }
-                    playerCreationAlert(ismanager);
+
 
                     un.setError(null);
                     fn.setError(null);
@@ -398,9 +403,21 @@ public class RegisterPlayer extends ActionBarActivity {
         playerAlert.show();
     }
 
-    public long usernameInUse()
+    public void playerCreationErrorAlert() {
+        AlertDialog.Builder playerAlert = new AlertDialog.Builder(this);
+        playerAlert.setMessage("Azure Error, Please try again").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        }).create();
+        playerAlert.show();
+    }
+
+    public void usernameInUse()
     {
-        long inUse = 0;
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -416,7 +433,8 @@ public class RegisterPlayer extends ActionBarActivity {
                                 {
                                     Log.i("TEST 1", username);
                                     Log.i("TEST 2", item.getId());
-                                    RegisterPlayer.inUse = 1;
+                                    setUsernameError();
+
                                 }
                             }
                         }
@@ -430,7 +448,12 @@ public class RegisterPlayer extends ActionBarActivity {
                 return null;
             }
         }.execute();
-        return inUse;
+        //userCheckFinished = true;
+    }
+
+    private void setUsernameError(){
+        userExits = false;
+
     }
 
 }
