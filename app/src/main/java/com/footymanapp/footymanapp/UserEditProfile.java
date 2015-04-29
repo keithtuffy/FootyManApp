@@ -1,16 +1,24 @@
 package com.footymanapp.footymanapp;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.CloudBlob;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.ListBlobItem;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.NextServiceFilterCallback;
@@ -19,6 +27,7 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
+import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
@@ -35,6 +44,7 @@ public class UserEditProfile extends ActionBarActivity {
     private static MobileServiceClient mClient;
     private static MobileServiceTable<User> userTable;
     private ProgressBar mProgressBar;
+    private ImageView img;
 
     public TextView getUn() {
         return un;
@@ -61,6 +71,9 @@ public class UserEditProfile extends ActionBarActivity {
         updateUser = ViewDeletePlayer.updateUser;
         result = ViewDeletePlayer.getResult();
         userList = ViewDeletePlayer.userList;
+
+        downloadProfilePic(playerLoggedIn);
+        img = (ImageView) findViewById(R.id.profilepic);
 
         try {
             mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", this)
@@ -224,5 +237,54 @@ public class UserEditProfile extends ActionBarActivity {
                 }
             });
         }
+    }
+
+
+    public void downloadProfilePic(final String username) {
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... par) {
+                String done = "false";
+                try{
+                    // Retrieve storage account from connection-string.
+                    CloudStorageAccount storageAccount = CloudStorageAccount.parse("DefaultEndpointsProtocol=http;" + "AccountName=footymanapp;" + "AccountKey=dh3Mh8Yz3ue1St4sx4QMv8tBb4nzb8OiemxfBkbvtx7EeDeTqBxTSHREcGkwhIIuJUvpmklZxV0jvFFD13I7QA==");
+
+                    // Create the blob client.
+                    CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+
+                    // Retrieve reference to a previously created container.
+                    CloudBlobContainer container = blobClient.getContainerReference("profilepics");
+
+                    // Loop through each blob item in the container.
+                    for (ListBlobItem blobItem : container.listBlobs()) {
+                        // If the item is a blob, not a virtual directory.
+                        CloudBlob blob = (CloudBlob) blobItem;
+                        Log.i("blob",blob.getName() );
+                        Log.i("blob",username );
+                        if(blob.getName().equals(username+".jpg")){
+                            blob.download(new FileOutputStream(Environment.getExternalStorageDirectory() + "/download/" + blob.getName())); // saved to downloads for access
+                            done ="true";
+                        }
+                    }
+
+
+                } catch (Exception e) {
+                    done = "false";
+                    e.printStackTrace();
+                }
+                return done;
+            }
+            protected void onPostExecute(String done) {
+                if (done.equals("true")) {
+                    Log.i( "download pic", "success");
+                    img.setImageURI(Uri.parse(Environment.getExternalStorageDirectory() + "/download/" + username + ".jpg"));
+                } else {
+                    Log.i("download pic", "failed");
+
+                }
+
+            }
+        }.execute();
     }
 }
