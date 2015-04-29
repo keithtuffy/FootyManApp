@@ -44,7 +44,6 @@ public class RegisterPlayer extends ActionBarActivity {
 
     private MobileServiceClient mClient;
     private MobileServiceTable<User> userTable;
-    private static long inUse;
     private ImageView profilePic;
     private boolean fromCamera = false;
     private final String picType = "profilepics";
@@ -59,12 +58,6 @@ public class RegisterPlayer extends ActionBarActivity {
     private TextView mc;
     private TextView pos;
     private TextView pw;
-
-    public void setUserExists(boolean userExists) {
-        this.userExists = userExists;
-    }
-
-    private boolean userExists = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +100,6 @@ public class RegisterPlayer extends ActionBarActivity {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         // TODO Auto-generated method stub
                         selectedmonth = selectedmonth + 1;
-                        //dateEdit.setText(String.format("%02d", selectedday) + "-" + String.format("%02d", selectedmonth) + "-" + selectedyear);
                         dateEdit.setText(selectedyear + "-" + String.format("%02d", selectedmonth) + "-" + String.format("%02d", selectedday));
                     }
                     public void onDateSelectedButtonClick()
