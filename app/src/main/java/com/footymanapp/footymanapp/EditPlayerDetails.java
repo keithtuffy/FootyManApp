@@ -1,4 +1,5 @@
 package com.footymanapp.footymanapp;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,15 +34,19 @@ public class EditPlayerDetails extends ActionBarActivity {
     private ArrayList<User> userList;
     int result;
     private User updateUser;
-    private ProgressBar mProgressBar;
+    private ImageView img;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_details);
-        mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
+
+
 
         updateUser = ViewDeletePlayer.updateUser;
         result = ViewDeletePlayer.getResult();
         userList = ViewDeletePlayer.userList;
+
+        downloadProfilePic(updateUser.getId());
+        img = (ImageView) findViewById(R.id.profilepic);
 
         TextView un = (TextView) findViewById(R.id.username);
         un.setText(updateUser.getId());
@@ -70,13 +75,12 @@ public class EditPlayerDetails extends ActionBarActivity {
         TextView pw = (TextView) findViewById(R.id.password);
         pw.setText(userList.get(result).getPassword());
 
-        DatabaseQueries.setBlobString();
-        DatabaseQueries.downloadProfilePic(updateUser.getId());
-        ImageView profiler = (ImageView) findViewById(R.id.profilepic);
 
     }
 
-    public void downloadTeamPic(final String teamname) {
+
+    public void downloadProfilePic(final String username) {
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
@@ -85,21 +89,20 @@ public class EditPlayerDetails extends ActionBarActivity {
                     // Retrieve storage account from connection-string.
                     CloudStorageAccount storageAccount = CloudStorageAccount.parse("DefaultEndpointsProtocol=http;" + "AccountName=footymanapp;" + "AccountKey=dh3Mh8Yz3ue1St4sx4QMv8tBb4nzb8OiemxfBkbvtx7EeDeTqBxTSHREcGkwhIIuJUvpmklZxV0jvFFD13I7QA==");
 
-
                     // Create the blob client.
-                    CloudBlobClient blobClient = (storageAccount.createCloudBlobClient());
+                    CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
                     // Retrieve reference to a previously created container.
                     CloudBlobContainer container = blobClient.getContainerReference("profilepics");
-                    // Loop through each blob item in the container.
 
+                    // Loop through each blob item in the container.
                     for (ListBlobItem blobItem : container.listBlobs()) {
                         // If the item is a blob, not a virtual directory.
                         CloudBlob blob = (CloudBlob) blobItem;
                         Log.i("blob",blob.getName() );
-                        Log.i("blob",teamname );
-                        if(blob.getName().equals(teamname+".jpg")){
-                            blob.download(new FileOutputStream(Environment.getDownloadCacheDirectory() + blob.getName())); // saved to downloads for access
+                        Log.i("blob",username );
+                        if(blob.getName().equals(username+".jpg")){
+                            blob.download(new FileOutputStream(Environment.getExternalStorageDirectory() + "/download/" + blob.getName())); // saved to downloads for access
                             done ="true";
                         }
                     }
@@ -118,44 +121,10 @@ public class EditPlayerDetails extends ActionBarActivity {
                     Log.i("download pic", "failed");
 
                 }
+                img.setImageURI(Uri.parse(Environment.getExternalStorageDirectory() + "/download/" + username + ".jpg"));
             }
         }.execute();
     }
 
-    private class ProgressFilter implements ServiceFilter {
 
-        @Override
-        public ListenableFuture<ServiceFilterResponse> handleRequest(
-                ServiceFilterRequest request, NextServiceFilterCallback next) {
-
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.VISIBLE);
-                }
-            });
-
-            SettableFuture<ServiceFilterResponse> result = SettableFuture.create();
-            try {
-                ServiceFilterResponse response = next.onNext(request).get();
-                result.set(response);
-            } catch (Exception exc) {
-                result.setException(exc);
-            }
-
-            dismissProgressBar();
-            return result;
-        }
-
-        private void dismissProgressBar() {
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.GONE);
-                }
-            });
-        }
-    }
 }
