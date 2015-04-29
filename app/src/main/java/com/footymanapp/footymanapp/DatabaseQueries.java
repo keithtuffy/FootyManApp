@@ -371,20 +371,20 @@ public class DatabaseQueries extends Activity {
 
     public static void sendNewMessage(final MessageToSend m, Context t) throws MalformedURLException {
         mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", t);
-        final MobileServiceTable<MessageToSend> messageTable = mClient.getTable("messages",MessageToSend.class);
+        final MobileServiceTable<MessageToSend> messageTable = mClient.getTable("messages", MessageToSend.class);
 
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
-                MobileServiceList<NextGameData> result= null;
+                MobileServiceList<NextGameData> result = null;
                 String done = "";
                 try {
-                      messageTable.insert(m).get();
-                      done = "true";
-                    } catch (Exception e) {
-                        done = "false";
-                        e.printStackTrace();
-                    }
+                    messageTable.insert(m).get();
+                    done = "true";
+                } catch (Exception e) {
+                    done = "false";
+                    e.printStackTrace();
+                }
 
                 return done;
             }
@@ -398,6 +398,7 @@ public class DatabaseQueries extends Activity {
             }
         }.execute();
     }
+
     public static void setInUse(boolean inUse) {
        inUse = inUse;
     }

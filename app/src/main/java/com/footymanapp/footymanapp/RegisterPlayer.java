@@ -19,12 +19,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -38,19 +42,41 @@ import java.util.concurrent.ExecutionException;
  */
 public class RegisterPlayer extends ActionBarActivity {
 
+    private MobileServiceClient mClient;
+    private MobileServiceTable<User> userTable;
     private static long inUse;
     private ImageView profilePic;
     private boolean fromCamera = false;
     private final String picType = "profilepics";
-    private static String username;
-    public static String getUsername() {
-        return username;
+    private ArrayList<String> aList;
+    private String username;
+    private EditText un;
+    private TextView fn;
+    private TextView ln;
+    private TextView ph;
+    private TextView date;
+    private TextView em;
+    private TextView mc;
+    private TextView pos;
+    private TextView pw;
+
+    public void setUserExists(boolean userExists) {
+        this.userExists = userExists;
     }
+
+    private boolean userExists = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
-        inUse = 0;
+        aList = new ArrayList<>();
+        usernameInUse();
+        try {
+            mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", RegisterPlayer.this);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        userTable = mClient.getTable(User.class);
        //image
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +88,8 @@ public class RegisterPlayer extends ActionBarActivity {
             }
 
         });
+
+
         final TextView dateEdit = (TextView) findViewById(R.id.DOB);
         dateEdit.setOnClickListener(new View.OnClickListener() {
 
@@ -112,38 +140,38 @@ public class RegisterPlayer extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                    TextView un = (TextView) findViewById(R.id.username);
+                    un = (EditText) findViewById(R.id.username);
                     username = un.getText().toString();
-                    usernameInUse();
 
-                    TextView fn = (TextView) findViewById(R.id.firstname);
+                    fn = (TextView) findViewById(R.id.firstname);
                     String firstname = fn.getText().toString();
 
-                    TextView ln = (TextView) findViewById(R.id.lastname);
+                    ln = (TextView) findViewById(R.id.lastname);
                     String lastname = ln.getText().toString();
 
-                    TextView ph = (TextView) findViewById(R.id.phone);
+                    ph = (TextView) findViewById(R.id.phone);
                     String phone = ph.getText().toString();
 
-                    TextView date = (TextView) findViewById(R.id.DOB);
+                    date = (TextView) findViewById(R.id.DOB);
                     String DOB = date.getText().toString();
 
-                    TextView em = (TextView) findViewById(R.id.email);
+                    em = (TextView) findViewById(R.id.email);
                     String email = em.getText().toString();
 
-                    TextView mc = (TextView) findViewById(R.id.medicalcondition);
+                    mc = (TextView) findViewById(R.id.medicalcondition);
                     String medicalcondition = mc.getText().toString();
 
-                    TextView pos = (TextView) findViewById(R.id.position);
+                    pos = (TextView) findViewById(R.id.position);
                     String position = pos.getText().toString();
 
-                    TextView pw = (TextView) findViewById(R.id.password);
+                    pw = (TextView) findViewById(R.id.password);
                     String password = pw.getText().toString();
 
 
                 final boolean ismanager = Boolean.valueOf(getIntent().getExtras().getString("ismanager"));
                 final String teamname = getIntent().getExtras().getString("teamname");
 
+                //usernameInUse();
                 if (username.length() == 0) {
                     un.setError("Please enter a username");
                     fn.setError(null);
@@ -154,18 +182,9 @@ public class RegisterPlayer extends ActionBarActivity {
                     mc.setError(null);
                     pos.setError(null);
                     pw.setError(null);
-                }else if(usernameInUse() == 1)
-                {
-                    un.setError("Username already in use!");
-                    fn.setError(null);
-                    ln.setError(null);
-                    ph.setError(null);
-                    date.setError(null);
-                    em.setError(null);
-                    mc.setError(null);
-                    pos.setError(null);
-                    pw.setError(null);
-                }else if (firstname.length() == 0) {
+                }
+
+                else if (firstname.length() == 0) {
                     fn.setError("Please enter a first name");
                     un.setError(null);
                     ln.setError(null);
@@ -245,16 +264,27 @@ public class RegisterPlayer extends ActionBarActivity {
                     em.setError(null);
                     mc.setError(null);
                     pos.setError(null);
+                }else if(userExists(username))
+                {
+                    un.setError("Username already in use!");
+                    fn.setError(null);
+                    ln.setError(null);
+                    ph.setError(null);
+                    date.setError(null);
+                    em.setError(null);
+                    mc.setError(null);
+                    pos.setError(null);
+                    pw.setError(null);
                 }
                 else
                 {
                     User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname);
                     try {
                         DatabaseQueries.addUser(user, RegisterPlayer.this);
+                        playerCreationAlert();
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
-                    playerCreationAlert();
 
                     un.setError(null);
                     fn.setError(null);
@@ -395,40 +425,45 @@ public class RegisterPlayer extends ActionBarActivity {
         }).create();
         playerAlert.show();
     }
-
-    public long usernameInUse()
+    public void usernameInUse()
     {
-        long inUse = 0;
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<User> result =
-                            DatabaseQueries.userTable.where().field("id").eq(username).execute().get();
-                    runOnUiThread(new Runnable() {
+                    final MobileServiceList<User> result = userTable.execute().get();
 
-                        @Override
-                        public void run() {
-                            for (User item : result) {
-                                if (item.getId().equals(username))
+                            for (User item : result)
+                            {
                                 {
-                                    Log.i("TEST 1", username);
-                                    Log.i("TEST 2", item.getId());
-                                    RegisterPlayer.inUse = 1;
+                                    aList.add(item.getId());
                                 }
                             }
-                        }
-                    });
-                }
-                catch (InterruptedException e) {
+
+                }catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (MobileServiceException e) {
                     e.printStackTrace();
                 }
                 return null;
             }
         }.execute();
-        return inUse;
     }
+
+    public boolean userExists(String username)
+    {
+        boolean exists = false;
+        for(int i = 0;i<aList.size();i++)
+        {
+            if(username.equals(aList.get(i)))
+            {
+                exists = true;
+            }
+        }
+        return exists;
+    }
+
 
 }
