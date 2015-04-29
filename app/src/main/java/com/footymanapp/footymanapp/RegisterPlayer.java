@@ -49,6 +49,7 @@ public class RegisterPlayer extends ActionBarActivity {
     private final String picType = "profilepics";
     private ArrayList<String> aList;
     private String username;
+    private String teamid;
     private EditText un;
     private TextView fn;
     private TextView ln;
@@ -63,13 +64,14 @@ public class RegisterPlayer extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_player);
         aList = new ArrayList<>();
-        usernameInUse();
+
         try {
             mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", RegisterPlayer.this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         userTable = mClient.getTable(User.class);
+        usernameInUse();
        //image
         profilePic = (ImageView) findViewById(R.id.profilepic);
         profilePic.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +164,7 @@ public class RegisterPlayer extends ActionBarActivity {
 
                 final boolean ismanager = Boolean.valueOf(getIntent().getExtras().getString("ismanager"));
                 final String teamname = getIntent().getExtras().getString("teamname");
+                teamid = teamname;
 
                 //usernameInUse();
                 if (username.length() == 0) {
@@ -273,7 +276,7 @@ public class RegisterPlayer extends ActionBarActivity {
                     User user = new User(username, firstname, lastname, password, DOB, medicalcondition, ismanager, phone, email, position, teamname);
                     try {
                         DatabaseQueries.addUser(user, RegisterPlayer.this);
-                        playerCreationAlert();
+                        playerCreationAlert(ismanager);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -400,16 +403,19 @@ public class RegisterPlayer extends ActionBarActivity {
         return" ";
     }
 
-    public void playerCreationAlert() {
+    public void playerCreationAlert(final boolean ismanager) {
         AlertDialog.Builder playerAlert = new AlertDialog.Builder(this);
         playerAlert.setMessage("Congratulations,\nYour Profile has been created").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent addPlayer = new Intent(RegisterPlayer.this, AdminHome.class);
-                addPlayer.putExtra("ismanager", "false");
-                addPlayer.putExtra("teamname", "Newbridge");
-                startActivity(addPlayer);
+                if(ismanager == true){
+                    Intent addPlayer = new Intent(RegisterPlayer.this, AdminHome.class);
+                    addPlayer.putExtra("ismanager", "true");
+                    addPlayer.putExtra("teamname", teamid);
+                    startActivity(addPlayer);
+                }
+
 
                 finish();
 

@@ -39,6 +39,7 @@ public class ViewPlayer extends ActionBarActivity
     int result;
     private User updateUser;
     private ImageView img;
+    private String username;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +47,14 @@ public class ViewPlayer extends ActionBarActivity
         updateUser = ViewDeletePlayer.updateUser;
         result = ViewDeletePlayer.getResult();
         userList = ViewDeletePlayer.userList;
+        img = (ImageView) findViewById(R.id.profilepic);
 
 
-        downloadProfilePic(userList.get(result).getId());
 
         TextView un = (TextView) findViewById(R.id.username);
         un.setText(updateUser.getId());
+        username = updateUser.getId();
+        downloadProfilePic(username);
 
         TextView fn = (TextView) findViewById(R.id.firstname);
         fn.setText(userList.get(result).getFirstname());
@@ -117,7 +120,7 @@ public class ViewPlayer extends ActionBarActivity
             protected void onPostExecute(String done) {
                 if (done.equals("true")) {
                     Log.i( "download pic", "success");
-                    img.setImageURI(Uri.parse(Environment.getExternalStorageDirectory() + "/download/" + updateUser.getId()+".jpg"));
+                    img.setImageURI(Uri.parse(Environment.getExternalStorageDirectory() + "/download/" + username+".jpg"));
                 } else {
                     Log.i("download pic", "failed");
 
