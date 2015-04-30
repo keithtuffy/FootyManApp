@@ -79,9 +79,8 @@ public class AdminHome extends ActionBarActivity {
 
                     }
                 }, mYear, mMonth, mDay);
-                mDatePicker.setTitle("Select Date");
+                mDatePicker.setTitle("Select Date For Subs");
                 mDatePicker.show();
-                //startActivity(new Intent(AdminHome.this, SubsPayment.class));
             }
         });
 
