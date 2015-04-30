@@ -1,12 +1,19 @@
 package com.footymanapp.footymanapp;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
@@ -18,25 +25,30 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
-public class SubsPayment extends ListActivity {
+public class SubsPayment extends ActionBarActivity {
     public ArrayList<User> userList;
+    private ArrayList<Stats> hasPaid;
     public UserCustomAdapter theAdapter;
     private static MobileServiceClient mClient;
     private static MobileServiceTable<User> userTable;
+    private MobileServiceTable<Stats> statsTable;
     private ProgressBar mProgressBar;
+    private String subsDate;
 
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subspayment);
-        showAlert();
-        mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
+        subsDate = getIntent().getExtras().getString("Date");
 
-        // Initialize the progress bar
+        mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
         mProgressBar.setVisibility(ProgressBar.GONE);
+
         try {
             mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", this)
                     .withFilter(new ProgressFilter());
@@ -44,26 +56,67 @@ public class SubsPayment extends ListActivity {
             e.printStackTrace();
         }
         userTable = mClient.getTable(User.class);
+        statsTable = mClient.getTable(Stats.class);
         userList = new ArrayList<>();
+        hasPaid = new ArrayList<>();
         theAdapter = new UserCustomAdapter(this, userList);
         getUser();
         ListView userListView = (ListView) findViewById(android.R.id.list);
         userListView.setAdapter(theAdapter);
-    }
-    public void showAlert()
-    {
-        AlertDialog.Builder mapAlert = new AlertDialog.Builder(this);
-        mapAlert.setMessage("Check box if player has payed.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+        Button save = (Button) findViewById(R.id.saveButton);
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            public void onClick(View v) {
+                for (int i = 0; i < userList.size(); i++) {
+                    if (userList.get(i).isSelected()) {
+                        final Stats s = new Stats(subsDate, 0, true, true, userList.get(i).getId());
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                            try {
+                                                statsTable.insert(s).get();
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            } catch (ExecutionException e) {
+                                                e.printStackTrace();
+                                            }
+                                return null;
+                            }
+                        }.execute();
+                    }
+                }
             }
-        }).create();
-        mapAlert.show();
+        });
     }
 
-    public void getUser()
-    {
+
+    public void addStat(final Stats s) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            try {
+                                statsTable.insert(s).get();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
+    public void getUser() {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -79,8 +132,7 @@ public class SubsPayment extends ListActivity {
                             }
                         }
                     });
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;

@@ -1,6 +1,7 @@
 package com.footymanapp.footymanapp;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,11 +25,13 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.ListBlobItem;
 
 import java.io.FileOutputStream;
+import java.util.Calendar;
 
 
 public class AdminHome extends ActionBarActivity {
     ImageView crest;
     String team;
+    String subsDate;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -59,7 +63,25 @@ public class AdminHome extends ActionBarActivity {
         Button subs = (Button) findViewById(R.id.subs);
         subs.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(AdminHome.this, SubsPayment.class));
+                Calendar mcurrentDate = Calendar.getInstance();
+                int mYear = mcurrentDate.get(Calendar.YEAR);
+                int mMonth = mcurrentDate.get(Calendar.MONTH);
+                int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog mDatePicker;
+                mDatePicker = new DatePickerDialog(AdminHome.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                        // TODO Auto-generated method stub
+                        selectedmonth = selectedmonth + 1;
+                        subsDate = selectedyear + "-" + String.format("%02d", selectedmonth) + "-" + String.format("%02d", selectedday);
+                        Intent intent = new Intent(AdminHome.this, SubsPayment.class);
+                        intent.putExtra("Date", subsDate);
+                        startActivity(intent);
+
+                    }
+                }, mYear, mMonth, mDay);
+                mDatePicker.setTitle("Select Date");
+                mDatePicker.show();
+                //startActivity(new Intent(AdminHome.this, SubsPayment.class));
             }
         });
 

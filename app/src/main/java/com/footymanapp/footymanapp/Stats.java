@@ -8,15 +8,14 @@ public class Stats {
     private String id;
     private String date;
     private int goals;
-    private int cleansheets;
+    private boolean cleansheet;
     private boolean subspaid;
     private String playerid;
 
-    public Stats(String id, String date, int goals, int cleansheets, boolean subspaid, String playerid){
-        this.id = id;
+    public Stats(String date, Integer goals, boolean cleansheet, boolean subspaid, String playerid){
         this.date = date;
         this.goals = goals;
-        this.cleansheets = cleansheets;
+        this.cleansheet = cleansheet;
         this.subspaid = subspaid;
         this.playerid = playerid;
     }
