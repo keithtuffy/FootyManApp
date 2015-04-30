@@ -36,7 +36,6 @@ public class MessageActivity extends ActionBarActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        NotificationsManager.handleNotifications(this, SENDER_ID, MessageHandler.class);
         teamid = getIntent().getExtras().getString("teamName");
 
         Button sendMessage = (Button) findViewById(R.id.sendmessage);
@@ -54,7 +53,7 @@ public class MessageActivity extends ActionBarActivity {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                SmsSender.SendMessage(msg);
+                SmsSender.SendMessage(msg); // send message to twilio
             finish();
             }
         });
