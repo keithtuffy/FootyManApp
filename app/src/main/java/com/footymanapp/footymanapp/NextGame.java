@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -16,6 +17,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import java.net.MalformedURLException;
 import java.sql.Date;
@@ -31,20 +36,55 @@ import java.util.concurrent.ExecutionException;
 public class NextGame extends ActionBarActivity
 
 {
-
+    private static MobileServiceClient mClient;
+    private static MobileServiceTable<Team> teamTable;
+    private ArrayList<Team> teamNames;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_game);
         final String teamid = getIntent().getExtras().getString("teamName");
 
 
-        Button nextGamePitchLoc = (Button) findViewById(R.id.addNextGame);
-        nextGamePitchLoc.setOnClickListener(new View.OnClickListener() {
+        try {
+            mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", this);
+            //        .withFilter(new ProgressFilter());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        teamTable = mClient.getTable(Team.class);
+        teamNames = new ArrayList<>();
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+
+                    final MobileServiceList<Team> result = teamTable.execute().get();
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            for (Team item : result) {
+                                teamNames.add(item);
+                            }
+
+                        }
+
+                    });
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+
+
+        Button addNextGame = (Button) findViewById(R.id.addNextGame);
+        addNextGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextView dateText = (TextView) findViewById(R.id.editTextDate);
-
-                //EditText date = (EditText) findViewById(R.id.editTextDate);
                 String d = dateText.getText().toString();
 
                 EditText homeTeam = (EditText) findViewById(R.id.homeTeamEditText);
@@ -96,7 +136,47 @@ public class NextGame extends ActionBarActivity
                     mDatePicker.show();
                 }
             });
+        final TextView homeTeam = (TextView) findViewById(R.id.homeTeamEditText);
+        homeTeam.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                final String[] pos = new String[teamNames.size()];
+                for(int i = 0;i<teamNames.size();i++)
+                {
+                    pos[i] = teamNames.get(i).getId();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(NextGame.this);
+                builder.setTitle("Choose Home Team")
+                        .setItems(pos, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                homeTeam.setText(pos[which]);
+                            }
+                        });
+                builder.show();
+            }
+        });
+
+        final TextView awayTeam = (TextView) findViewById(R.id.awayTeamEditText);
+        awayTeam.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final String[] pos = new String[teamNames.size()];
+                for(int i = 0;i<teamNames.size();i++)
+                {
+                    pos[i] = teamNames.get(i).getId();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(NextGame.this);
+                builder.setTitle("Choose Away Team")
+                        .setItems(pos, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                awayTeam.setText(pos[which]);
+                            }
+                        });
+                builder.show();
+            }
+        });
         final TextView timeEdit = (TextView) findViewById(R.id.kickOffEditText);
         timeEdit.setOnClickListener(new View.OnClickListener() {
 

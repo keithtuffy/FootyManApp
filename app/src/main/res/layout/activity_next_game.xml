@@ -28,7 +28,8 @@
         android:editable="true"
         android:layout_below="@+id/editTextDate"
         android:layout_alignStart="@+id/awayTeamEditText"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:gravity="center_vertical|center_horizontal" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -51,7 +52,8 @@
         android:hint="Away Team"
         android:editable="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal" />
 
     <EditText
         android:layout_width="wrap_content"
