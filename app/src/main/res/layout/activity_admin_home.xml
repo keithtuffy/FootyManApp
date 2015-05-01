@@ -10,22 +10,13 @@
     android:background="#4CC417"
     android:id="@+id/AdminHome">
 
-    <FrameLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/teamNameField">
-
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="300dp"
-            android:id="@+id/crest"
-            android:layout_gravity="center"
-            android:src="@drawable/noimage" />
-    </FrameLayout>
+        android:layout_height="300dp"
+        android:id="@+id/crest"
+        android:layout_gravity="center"
+        android:src="@drawable/noimage"
+        android:layout_above="@+id/teamNameField" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -65,30 +56,18 @@
             android:useDefaultMargins="true"
             android:minWidth="140dp"
             android:clickable="true">
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button1"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:clickable="true"
-                android:padding="10dp"
-                android:background="@drawable/custombutton"
-                android:layout_columnSpan="1"
-                android:elegantTextHeight="false" />
 
             3<Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Next Game"
-                android:id="@+id/addNextGame"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:clickable="true"
-                android:padding="10dp"
-                android:textSize="12sp"
-                android:background="@drawable/custombutton" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Next Game"
+            android:id="@+id/addNextGame"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:clickable="true"
+            android:padding="10dp"
+            android:textSize="12sp"
+            android:background="@drawable/custombutton" />
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -123,16 +102,7 @@
             android:layout_gravity="right"
             android:rowOrderPreserved="false"
             android:useDefaultMargins="true">
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                android:layout_column="0"
-                android:id="@+id/button2"
-                android:layout_row="0"
-                android:background="@drawable/custombutton"
-                android:clickable="true"
-                android:padding="10dp" />
+
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
