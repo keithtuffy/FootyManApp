@@ -69,7 +69,8 @@
                 android:layout_column="0"
                 android:background="@drawable/button"
                 android:clickable="true"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:layout_marginTop="10dp" />
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +81,8 @@
                 android:layout_column="0"
                 android:background="@drawable/button"
                 android:clickable="true"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:layout_marginTop="10dp" />
         </GridLayout>
         <GridLayout
             android:layout_width="140dp"
@@ -105,7 +107,8 @@
                 android:layout_column="0"
                 android:background="@drawable/button"
                 android:clickable="true"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:layout_marginTop="10dp" />
 
             <Button
                 android:layout_width="fill_parent"
@@ -117,7 +120,8 @@
                 android:layout_column="0"
                 android:clickable="true"
                 android:padding="10dp"
-                android:layout_columnWeight="0"/>
+                android:layout_columnWeight="0"
+                android:layout_marginTop="10dp" />
 
         </GridLayout>
     </FrameLayout>

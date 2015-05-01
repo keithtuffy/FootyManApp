@@ -23,7 +23,8 @@
                 android:textSize="22sp"
                 android:id="@+id/Header"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical|center_horizontal" />
 
             <ImageView
                 android:layout_width="200dp"
