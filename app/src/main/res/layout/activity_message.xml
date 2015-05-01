@@ -32,7 +32,7 @@
         android:layout_marginTop="15dp" />
 
     <EditText
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/message"
         android:hint="Enter message here!"
@@ -42,7 +42,7 @@
         android:layout_alignParentStart="true"
         android:gravity="top"
         android:layout_marginTop="72dp"
-        android:inputType="textCapSentences"
+        android:inputType="textMultiLine|textCapSentences"
         android:layout_above="@+id/sendmessage"
         android:layout_marginBottom="50dp" />
 
