@@ -119,7 +119,12 @@ public class UserEditProfile extends ActionBarActivity {
                                         ph.setText(userList.get(i).getPhonenumber());
 
                                         date = (TextView) findViewById(R.id.DOB);
-                                        date.setText(userList.get(i).getDob());
+                                        String s = userList.get(i).getDob();
+                                        s = s.substring(0, Math.min(s.length(), 10));
+                                        String original = s;
+                                        String[] sp = original.split("-");
+                                        String finalString = sp[2] + "-" + sp[1] + "-" + sp[0];
+                                        date.setText(finalString);
 
                                         em = (TextView) findViewById(R.id.email);
                                         em.setText(userList.get(i).getEmail());
