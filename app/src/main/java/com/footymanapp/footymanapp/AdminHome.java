@@ -16,15 +16,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.CloudBlob;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.ListBlobItem;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.http.NextServiceFilterCallback;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilter;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import java.io.FileOutputStream;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -32,15 +44,33 @@ public class AdminHome extends ActionBarActivity {
     ImageView crest;
     String team;
     String subsDate;
+    private static MobileServiceClient mClient;
+    private MobileServiceTable<Stats> statsTable;
+    private static MobileServiceTable<User> userTable;
+    public ArrayList<Stats> statsList;
+    public ArrayList<User> userList;
+    public UserCustomAdapter theAdapter;
+    private ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
 
+        try {
+            mClient = new MobileServiceClient("https://footymanapp.azure-mobile.net/", "sTbAnGoYQuyPjURPFYCgKKXSvugGfZ89", this)
+                    .withFilter(new ProgressFilter());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        statsTable = mClient.getTable(Stats.class);
+        userTable = mClient.getTable(User.class);
         final String teamId = getIntent().getExtras().getString("teamName");
         team = teamId;
-        //DatabaseQueries.downloadTeamPic(teamId);
+        statsList = new ArrayList<>();
+        userList = new ArrayList<>();
+        theAdapter = new UserCustomAdapter(this, userList);
+
         downloadTeamPic(teamId);
         crest = (ImageView) findViewById(R.id.crest);
         TextView teamNameField = (TextView) findViewById(R.id.teamNameField);
@@ -63,24 +93,9 @@ public class AdminHome extends ActionBarActivity {
         Button subs = (Button) findViewById(R.id.subs);
         subs.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Calendar mcurrentDate = Calendar.getInstance();
-                int mYear = mcurrentDate.get(Calendar.YEAR);
-                int mMonth = mcurrentDate.get(Calendar.MONTH);
-                int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog mDatePicker;
-                mDatePicker = new DatePickerDialog(AdminHome.this, new DatePickerDialog.OnDateSetListener() {
-                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        // TODO Auto-generated method stub
-                        selectedmonth = selectedmonth + 1;
-                        subsDate = selectedyear + "-" + String.format("%02d", selectedmonth) + "-" + String.format("%02d", selectedday);
                         Intent intent = new Intent(AdminHome.this, SubsPayment.class);
                         intent.putExtra("Date", subsDate);
                         startActivity(intent);
-
-                    }
-                }, mYear, mMonth, mDay);
-                mDatePicker.setTitle("Select Date For Subs");
-                mDatePicker.show();
             }
         });
 
@@ -177,7 +192,51 @@ public class AdminHome extends ActionBarActivity {
         }.execute();
 
     }
+    public void getStats() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    final MobileServiceList<Stats> result = statsTable.where().field("date").eq(subsDate).execute().get();
+                    runOnUiThread(new Runnable() {
 
+                        @Override
+                        public void run() {
+                            for (Stats item : result) {
+                                statsList.add(item);
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
+    public void getUser() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    final MobileServiceList<User> result = userTable.where().field("ismanager").eq(false).execute().get();
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            theAdapter.clear();
+                            for (User item : result) {
+                                theAdapter.add(item);
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -224,5 +283,41 @@ public class AdminHome extends ActionBarActivity {
 
         }).create();
         logout.show();
+    }
+    private class ProgressFilter implements ServiceFilter {
+
+        @Override
+        public ListenableFuture<ServiceFilterResponse> handleRequest(
+                ServiceFilterRequest request, NextServiceFilterCallback next) {
+
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.VISIBLE);
+                }
+            });
+
+            SettableFuture<ServiceFilterResponse> result = SettableFuture.create();
+            try {
+                ServiceFilterResponse response = next.onNext(request).get();
+                result.set(response);
+            } catch (Exception exc) {
+                result.setException(exc);
+            }
+
+            dismissProgressBar();
+            return result;
+        }
+
+        private void dismissProgressBar() {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.GONE);
+                }
+            });
+        }
     }
 }

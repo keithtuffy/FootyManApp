@@ -107,8 +107,6 @@ public class UserNextGame extends ActionBarActivity {
             protected Void doInBackground(Void... params) {
                 try {
                     final MobileServiceList<Team> result = teamTable.execute().get();
-//                    final MobileServiceList<Team> result = teamTable.select("latitude", "longitude").and()
-//                            .field("hometeam").eq(homeTeam).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override

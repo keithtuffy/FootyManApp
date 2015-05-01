@@ -1,5 +1,6 @@
 package com.footymanapp.footymanapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -26,8 +27,8 @@ import java.util.concurrent.ExecutionException;
 
 public class SubsPayment extends ActionBarActivity {
     public ArrayList<User> userList;
-    private ArrayList<Stats> hasPaid;
-    public UserCustomAdapter theAdapter;
+    public ArrayList<Stats> statsList;
+    public UserCustomAdapter custAdapter;
     private static MobileServiceClient mClient;
     private static MobileServiceTable<User> userTable;
     private MobileServiceTable<Stats> statsTable;
@@ -37,7 +38,7 @@ public class SubsPayment extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subspayment);
-        subsDate = getIntent().getExtras().getString("Date");
+        //subsDate = getIntent().getExtras().getString("Date");
 
         mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
         mProgressBar.setVisibility(ProgressBar.GONE);
@@ -51,11 +52,11 @@ public class SubsPayment extends ActionBarActivity {
         userTable = mClient.getTable(User.class);
         statsTable = mClient.getTable(Stats.class);
         userList = new ArrayList<>();
-        hasPaid = new ArrayList<>();
-        theAdapter = new UserCustomAdapter(this, userList);
+        custAdapter = new UserCustomAdapter(this, userList);
         getUser();
+        //getStats();
         ListView userListView = (ListView) findViewById(android.R.id.list);
-        userListView.setAdapter(theAdapter);
+        userListView.setAdapter(custAdapter);
 
         Button save = (Button) findViewById(R.id.saveButton);
         save.setOnClickListener(new View.OnClickListener() {
@@ -63,23 +64,55 @@ public class SubsPayment extends ActionBarActivity {
             public void onClick(View v) {
                 for (int i = 0; i < userList.size(); i++) {
                     if (userList.get(i).isSelected()) {
-                        final Stats s = new Stats(subsDate, 0, true, true, userList.get(i).getId());
+                        userList.get(i).setSubspaid(true);
+                        final int finalI = i;
                         new AsyncTask<Void, Void, Void>() {
                             @Override
                             protected Void doInBackground(Void... params) {
-                                            try {
-                                                statsTable.insert(s).get();
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            } catch (ExecutionException e) {
-                                                e.printStackTrace();
-                                            }
+                                try {
+                                    userTable.update(userList.get(finalI)).get();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
                                 return null;
                             }
                         }.execute();
                     }
                 }
+                finish();
             }
+        });
+
+        Button newGame = (Button) findViewById(R.id.newGame);
+        newGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < userList.size(); i++) {
+
+                        userList.get(i).setSubspaid(false);
+                        final int finalI = i;
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                try {
+                                    userTable.update(userList.get(finalI)).get();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
+                            }
+                        }.execute();
+
+                }
+                finish();
+                Intent intent = new Intent(SubsPayment.this, SubsPayment.class);
+                startActivity(intent);
+            }
+
         });
     }
 
@@ -143,9 +176,9 @@ public class SubsPayment extends ActionBarActivity {
 
                         @Override
                         public void run() {
-                            theAdapter.clear();
+                            //theAdapter.clear();
                             for (User item : result) {
-                                theAdapter.add(item);
+                                custAdapter.add(item);
                             }
                         }
                     });
@@ -156,6 +189,20 @@ public class SubsPayment extends ActionBarActivity {
             }
         }.execute();
     }
+    public void fillSelectedUsers()
+    {
+        for(int i = 0;i < userList.size();i++)
+        {
+            for(int j = 0;j < statsList.size();j++)
+            {
+                if(userList.get(i).getId() == statsList.get(j).getId())
+                {
+
+                }
+            }
+        }
+    }
+
     private class ProgressFilter implements ServiceFilter {
 
         @Override

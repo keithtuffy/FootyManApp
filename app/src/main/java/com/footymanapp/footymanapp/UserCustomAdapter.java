@@ -51,6 +51,10 @@ class UserCustomAdapter extends ArrayAdapter<User> {
         });
         vh.checkbox.setTag(position);
         vh.checkbox.setChecked(names.get(position).isSelected());
+        if(currentUser.isSubspaid() == false)
+        {
+            vh.checkbox.setChecked(false);
+        }
         return rowView;
     }
 

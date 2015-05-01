@@ -22,6 +22,7 @@ public class User {
     private String email;
     private String teamid;
     private boolean selected;
+    private boolean subspaid;
 
     public User (String id, String firstname, String lastname, String password, String DOB, String medicalCondition, boolean isManager, String phoneNumber, String email, String position, String teamid ){
         this.id = id;
@@ -36,6 +37,7 @@ public class User {
         this.email= email;
         this.teamid = teamid;
         selected = false;
+        subspaid = false;
     }
 
     public String getId() {
@@ -122,5 +124,12 @@ public class User {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+    public boolean isSubspaid() {
+        return subspaid;
+    }
+
+    public void setSubspaid(boolean subspaid) {
+        this.subspaid = subspaid;
     }
 }
