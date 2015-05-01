@@ -14,6 +14,9 @@ import android.util.Log;
 
 //import com.twilio.sdk.TwilioRestException;
 
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +40,11 @@ public class SmsSender {
     public static final String ACCOUNT_SID = "AC720676df0a9a027db406303d0aea7a8d";
     public static final String AUTH_TOKEN = "cb4e81b0934292397b329de6c9e94f44";
 
-    public SmsSender() {}
+    public SmsSender() {
+    }
 
-    public static void SendMessage(final String msg){
+    public static void SendMessage(final String msg, final ArrayList<String> numbers) {
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... par) {
@@ -49,34 +54,38 @@ public class SmsSender {
                     HttpClient httpclient = new DefaultHttpClient();
 
                     HttpPost httppost = new HttpPost("https://api.twilio.com/2010-04-01/Accounts/AC720676df0a9a027db406303d0aea7a8d/SMS/Messages");
-                    String base64EncodedCredentials = "Basic "+ Base64.encodeToString((ACCOUNT_SID + ":" + AUTH_TOKEN).getBytes(), Base64.NO_WRAP);
+                    String base64EncodedCredentials = "Basic " + Base64.encodeToString((ACCOUNT_SID + ":" + AUTH_TOKEN).getBytes(), Base64.NO_WRAP);
 
                     httppost.setHeader("Authorization",
                             base64EncodedCredentials);
-                    try {
 
-                        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                        nameValuePairs.add(new BasicNameValuePair("From",
-                                "+12015618104"));
-                        nameValuePairs.add(new BasicNameValuePair("To",
-                                "+353857399798"));
-                        nameValuePairs.add(new BasicNameValuePair("Body",
-                                msg));
+                    //String numbers[] = {"+353857176955", "+353857399798"};
+                    for (int i = 0; i < numbers.size(); i++) {
+                        try {
 
-                        httppost.setEntity(new UrlEncodedFormEntity(
-                                nameValuePairs));
+                            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                            nameValuePairs.add(new BasicNameValuePair("From",
+                                    "+12015618104"));
+                            nameValuePairs.add(new BasicNameValuePair("To",
+                                    numbers.get(i)));
+                            nameValuePairs.add(new BasicNameValuePair("Body",
+                                    msg));
 
-                        // Execute HTTP Post Request
-                        HttpResponse response = httpclient.execute(httppost);
-                        HttpEntity entity = response.getEntity();
-                        System.out.println("Entity post is: "
-                                + EntityUtils.toString(entity));
+                            httppost.setEntity(new UrlEncodedFormEntity(
+                                    nameValuePairs));
+
+                            // Execute HTTP Post Request
+                            HttpResponse response = httpclient.execute(httppost);
+                            HttpEntity entity = response.getEntity();
+                            System.out.println("Entity post is: "
+                                    + EntityUtils.toString(entity));
 
 
-                    } catch (ClientProtocolException e) {
+                        } catch (ClientProtocolException e) {
 
-                    } catch (IOException e) {
+                        } catch (IOException e) {
 
+                        }
                     }
 
                     done = "true";
@@ -98,6 +107,7 @@ public class SmsSender {
         }.execute();
 
     }
+
 }
 
 

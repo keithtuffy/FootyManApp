@@ -1,6 +1,7 @@
 package com.footymanapp.footymanapp;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -11,11 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -27,6 +31,8 @@ public class MessageActivity extends ActionBarActivity {
     public static MobileServiceClient mClient;
     private String teamid;
     public static final String SENDER_ID = "876142638198";
+    private static MobileServiceTable<User> userTable;
+    private ArrayList<String> numbers= new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +43,7 @@ public class MessageActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         teamid = getIntent().getExtras().getString("teamName");
-
+        getUser();
         Button sendMessage = (Button) findViewById(R.id.sendmessage);
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,11 +59,38 @@ public class MessageActivity extends ActionBarActivity {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                SmsSender.SendMessage(msg); // send message to twilio
+                SmsSender.SendMessage(msg, numbers); // send message to twilio
             finish();
             }
         });
 
+    }
+
+
+    public void getUser()
+    {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    userTable = mClient.getTable(User.class);
+                    final MobileServiceList<User> result = userTable.where().field("ismanager").eq(false).and().field("teamid").eq(teamid).execute().get();
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            for (User item : result) {
+                                numbers.add(item.getPhonenumber());
+                            }
+                        }
+                    });
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
     }
 
     @Override

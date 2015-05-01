@@ -412,7 +412,7 @@ public class RegisterPlayer extends ActionBarActivity {
                 if(ismanager == true){
                     Intent addPlayer = new Intent(RegisterPlayer.this, AdminHome.class);
                     addPlayer.putExtra("ismanager", "true");
-                    addPlayer.putExtra("teamname", teamid);
+                    addPlayer.putExtra("teamName", teamid);
                     startActivity(addPlayer);
                 }
 
