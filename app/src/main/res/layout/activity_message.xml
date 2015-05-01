@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Send Message To Team"
+        android:textColor="#000000"
         android:id="@+id/Header"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

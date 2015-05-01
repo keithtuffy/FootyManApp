@@ -30,7 +30,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by prend_000 on 22/04/2015.
@@ -68,7 +71,12 @@ public class ViewPlayer extends ActionBarActivity
         ph.setText(userList.get(result).getPhonenumber());
 
         TextView date = (TextView) findViewById(R.id.DOB);
-        date.setText(userList.get(result).getDob());
+        String s = userList.get(result).getDob();
+        s = s.substring(0, Math.min(s.length(), 10));
+        String original = s;
+        String[] sp = original.split("-");
+        String finalString = sp[2] + "-" + sp[1] + "-" + sp[0];
+        date.setText(finalString);
 
         TextView em = (TextView) findViewById(R.id.email);
         em.setText(userList.get(result).getEmail());

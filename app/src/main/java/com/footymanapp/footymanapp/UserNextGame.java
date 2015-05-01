@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
@@ -132,21 +133,28 @@ public class UserNextGame extends ActionBarActivity {
         Button pitchLocation = (Button) findViewById(R.id.userNextGamePitchLocation);
         pitchLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("TEST", "Test" + latitude + longitude);
-                String label = "Game is here!";
-                String uriBegin = "geo:" + latitude + "," + longitude;
-                String query = latitude + "," + longitude;
-                String encodedQuery = Uri.encode(query);
-                String uriString = uriBegin + "?q=" + encodedQuery + "&z=18";
-                Uri uri = Uri.parse(uriString);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                t.startActivity(intent);
-//                String uri = String.format(Locale.ENGLISH, "geo:%s,%s ?q= ?z=%d",latitude,longitude,14);
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//                t.startActivity(intent);
+                if(latitude == null) {
+                    showToast();
+                }
+                else {
+                    Log.i("TEST", "Test" + latitude + longitude);
+                    String label = "Game is here!";
+                    String uriBegin = "geo:" + latitude + "," + longitude;
+                    String query = latitude + "," + longitude;
+                    String encodedQuery = Uri.encode(query);
+                    String uriString = uriBegin + "?q=" + encodedQuery + "&z=18";
+                    Uri uri = Uri.parse(uriString);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    t.startActivity(intent);
+                }
             }
         });
 
+    }
+    public void showToast()
+    {
+        Toast toast = Toast.makeText(this, "No location available!", Toast.LENGTH_SHORT);
+        toast.show();
     }
     private class ProgressFilter implements ServiceFilter {
 
